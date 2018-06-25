@@ -3,8 +3,8 @@
 
 >Providing a simple frame out of MVC express without frameworks
 >> This is more a framing repo than an implementation where many of the goals will be explored with a good attempt to use best practices
->> Motivation: In these times of changing js paradigms I see many partial implementations between old and new. The idea here is to explore real es6+ patterns without frameworks / starter kits and the use of libraries that best meet our needs.
->>> Frameworks and Starter Kits definitely have there place, but once we start to architect true working implementations they also tend to get in the way, getting us stuck in places that can result in bad practices...  
+- Motivation: In these times of changing js paradigms I see many partial implementations between old and new. The idea here is to explore real es6+ patterns without frameworks / starter kits and the use of libraries that best meet our needs.
+ - Frameworks and Starter Kits definitely have there place, but once we start to architect true working implementations they also tend to get in the way, getting us stuck in places that can result in bad practices...  
 
 ## Some Goals ( all may change often as I am just framing out an idea here)
 - clean fully encapsulated instantiation of express

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "outDir": "dist/server",
+    "baseUrl": "server",
+    "jsx": "react",
+    "watch": true,
+    "allowJs": true,
+    "sourceMap": true
+  },
+  "files" : [
+    "server/server.ts",
+  ],
+  "filesGlob":[
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "lib":[
+    "es6",
+    "dom",
+    "dom.iterable"
+  ],
+  "exclude":[
+    "vendor",
+  ],
+  "include" : [
+    "client/**/*",
+    "server/**/*",
+  ]
+}

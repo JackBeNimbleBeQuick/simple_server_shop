@@ -1,0 +1,71 @@
+{
+  "name": "simple_shop_server",
+  "version": "0.0.1",
+  "description": "Simple Shop with Server Implementation",
+  "main": "server/index.ts",
+  "scripts": {
+    "dev": "tsc & nodemon dist/server/server.ts",
+    "tsc": "tsc"
+  },
+  "directories": {
+    "client": "client",
+    "server": "server"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/test-shim.js",
+      "<rootDir>/test-setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/__tests__/*.(ts|tsx|js)"
+    ]
+  },
+  "keywords": [
+    "react",
+    "express",
+    "typescript",
+    "jest",
+    "node-ts"
+  ],
+  "author": "Jack Harrison",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "formage": "^2.8.2",
+    "mongoose": "^5.1.6",
+    "node-sass": "^4.9.0",
+    "node-ts": "^2.1.2",
+    "nodemon": "^1.17.5",
+    "pug": "^2.0.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "sass-loader": "^7.0.3",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.21.0",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.12.0"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.1.10",
+    "@types/jest": "^23.1.1",
+    "cpx": "^1.5.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^23.1.0",
+    "react-test-renderer": "^16.4.1",
+    "ts-jest": "^22.4.6"
+  }
+}

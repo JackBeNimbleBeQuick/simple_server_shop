@@ -9,7 +9,6 @@ export class Forms{
   private formate:Formage;
 
   construtor(){
-
   }
 
   public loginForm = () => {

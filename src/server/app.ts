@@ -2,7 +2,14 @@
 import * as express from 'express';
 import * as body from 'body-parser';
 import {Routes} from './route/routes';
+//setup sessions env
+import * as session from 'express-session';
+import * as helmet from 'helmet';
+//setup db
+import * as connect from 'connect-mongo';
 import * as mongoose from 'mongoose';
+import * as crypt from 'crypto';
+import cnf from './config/connect.cnf';
 
 /**
  * Application configurations and set up class
@@ -12,18 +19,23 @@ import * as mongoose from 'mongoose';
 class App{
   private app: express.Application;
   private router:Routes;
-  private mongoUrl = '';
+  private storage:any;
+  private httpServer:any;
+  private httpsServer:any;
 
+  //@NOTE tieing the mongoose connection to start up
   constructor(){
     this.app = express();
-    this.config();
-    this.router = new Routes(this.app);
-    this.router.routes();
-    // this.mongoSetup();
+    this.router = new Routes(this);
+    this.mongoSetup();
+    this.start();
   }
 
-  private config = ():void => {
+  private start = ():void => {
+    this.router.routes();
     this.app
+      .use(helmet())
+      .use(session(this.sessionCnf()))
       .use(body.json())
       .use(body.urlencoded({extended: false}))
       //** @TODO changes for react to come
@@ -31,8 +43,29 @@ class App{
   }
 
   private mongoSetup = ():void => {
-    mongoose.Promise = global.Promise;
-    mongoose.connect(this.mongoUrl);
+    // console.log(connect);
+
+    mongoose.connect(cnf.mongoUrl, {}, (err)=>{
+      if(err){
+        console.log(`mongoose did not connect ${err}`);
+        process.exit;
+      }
+    });
+  }
+
+  //Session configuration
+  private sessionCnf = ():sessionConnect => {
+
+    this.storage = connect(session);
+    // console.log(this.storage);
+
+    return {
+      store: new this.storage(cnf.session),
+      secret: cnf.key,
+      maxAge: new Date(Date.now() + 60*60*1000*cnf.duration),
+      saveUninitialized: true,
+      resave: false,
+    }
   }
 
   public init = ():express.Application => {
@@ -45,8 +78,21 @@ class App{
    *  ?? really not too clear on this yet 8^)
    * @return {express.Application}
    */
-  public get = () =>{
+  public get = () => {
     return this.app;
+  }
+
+  public setServers = (httpServer:any, httpsServer:any):void => {
+    this.httpServer = httpServer;
+    this.httpsServer = httpsServer;
+  }
+
+  public getHttpServer = () => {
+    return this.httpServer;
+  }
+
+  public getHttpsServer = () => {
+    return this.httpsServer;
   }
 
 

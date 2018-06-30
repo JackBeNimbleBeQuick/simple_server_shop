@@ -10,14 +10,14 @@ export class CmsController{
 
   private app: any;
 
-  constructor(app){
+  constructor(app:shopApp){
 
-    this.app = app;
+    this.app = app.get();
 
     //@NOTE Pug templates
     this.basePath = path.join(__dirname, '../templates');
-    app.set('view engine','pug');
-    app.set('views', this.basePath);
+    this.app.set('view engine','pug');
+    this.app.set('views', this.basePath);
 
     //@NOTE provides simplistic rendering scheme using pug
     this.parts = {

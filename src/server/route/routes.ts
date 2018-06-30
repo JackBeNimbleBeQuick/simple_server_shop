@@ -1,16 +1,21 @@
 
 import {Request , Response, NextFunction} from 'express';
-import {CmsController} from '../controllers/CmsController';
+import {CmsController} from '../controllers/cmsController';
+import {AppController} from '../controllers/appController';
 import * as path from 'path';
 
 export class Routes{
 
   cms:CmsController;
+  apps: AppController;
   app: any;
+  expressApp: any;
 
-  constructor(app){
-    this.app = app;
-    this.cms = new CmsController(app);
+  constructor(expressApp:shopApp){
+    this.app = expressApp.get();
+    this.expressApp = expressApp;
+    this.cms = new CmsController(expressApp);
+    this.apps = new AppController(expressApp);
   }
 
   /**
@@ -32,6 +37,15 @@ export class Routes{
 
     this.app.route('/login')
       .get(this.cms.login)
+
+    this.app.route('/app')
+      .get(this.apps.getApp)
+
+    //all none existing routes
+    this.app.route('*')
+      .get(this.cms.main)
+
+
   }
 
 }

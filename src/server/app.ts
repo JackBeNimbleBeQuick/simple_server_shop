@@ -35,11 +35,14 @@ class App{
     this.router.routes();
     this.app
       .use(helmet())
+      // .use(helmet.hidePoweredBy())
+      .use('/public',express.static(__dirname + '/public'))
       .use(session(this.sessionCnf()))
       .use(body.json())
       .use(body.urlencoded({extended: false}))
       //** @TODO changes for react to come
-      .use(express.static('public'));
+      ;
+
   }
 
   private mongoSetup = ():void => {
@@ -57,7 +60,6 @@ class App{
   private sessionCnf = ():sessionConnect => {
 
     this.storage = connect(session);
-    // console.log(this.storage);
 
     return {
       store: new this.storage(cnf.session),
@@ -83,6 +85,7 @@ class App{
   }
 
   public setServers = (httpServer:any, httpsServer:any):void => {
+    // console.log(httpsServer);
     this.httpServer = httpServer;
     this.httpsServer = httpsServer;
   }

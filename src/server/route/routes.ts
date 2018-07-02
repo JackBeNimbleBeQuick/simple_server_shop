@@ -12,6 +12,7 @@ export class Routes{
   expressApp: any;
 
   constructor(expressApp:shopApp){
+    // console.log(expressApp.getHttpServer());
     this.app = expressApp.get();
     this.expressApp = expressApp;
     this.cms = new CmsController(expressApp);
@@ -24,7 +25,6 @@ export class Routes{
    * @return {void} routes to permitted parts of app
    */
   public routes = () =>{
-    // console.log(this.app);
 
     this.app.route('')
       .get(this.cms.main)
@@ -41,9 +41,14 @@ export class Routes{
     this.app.route('/app')
       .get(this.apps.getApp)
 
-    //all none existing routes
-    this.app.route('*')
-      .get(this.cms.main)
+    this.app.route('/socket.io')
+      .get(this.apps.getApp)
+
+    //@TODO create fallback / 404 and Error Routes
+    // this.app.route('*')
+    //   .get((req:Request, res:Response)=>{
+    //     console.log(req)
+    //   });
 
 
   }

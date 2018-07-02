@@ -11,6 +11,7 @@ import * as mongoose from 'mongoose';
 import * as crypt from 'crypto';
 import cnf from './config/connect.cnf';
 
+
 /**
  * Application configurations and set up class
   . Routes are instataited with this app as it is created

@@ -12,12 +12,9 @@ module.exports = {
       { test: /\.tsx?$/, loader: "ts-loader" }
     ]
   },
-  plugins:[
-    new GenerateSW()
-  ],
   resolve: {
     modules:[
-      path.resolve('./ts'),
+      // path.resolve('./ts'),
       path.resolve('./node_modules'),
     ],
     extensions: [ '.tsx','.ts','.js'],
@@ -30,5 +27,11 @@ module.exports = {
     // devtoolLineToLine: true,
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist/server/public/js')
-  }
+  },
+  plugins:[
+    new GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+    })
+  ],
 };

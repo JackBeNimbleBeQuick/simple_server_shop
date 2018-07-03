@@ -1,6 +1,6 @@
 ///<reference path="../server.interface.d.ts" />
-import {createServer, Server} from 'http';
-// import * as express from 'express';
+import {createServer, Server} from 'https';
+import * as express from 'express';
 import * as ioSocket from 'socket.io';
 import cnf from '../config/connect.cnf';
 import {AppController} from '../controllers/appController'
@@ -14,6 +14,8 @@ export class Socket{
 
   private server:Server;
 
+  private app: express.Application;
+
   private port: string | number;
 
   /**
@@ -21,11 +23,11 @@ export class Socket{
    * @param {shopApp} app
    */
   constructor(ac:AppController){
-    
-    // this.app = express();
+
+    this.app = express();
     // this.server = createServer(this.app);
 
-    this.server = createServer();
+    this.server = createServer(cnf.ssl);
     this.port = cnf.ioPort;
     this.io = ioSocket(this.server, cnf.ioOptions);
 
@@ -48,7 +50,9 @@ export class Socket{
 
   public tap = (evt:string, result:ioConnect):void => {
     this.io.on('connect', (socket: any )=>{
+      console.log(evt);
       socket.on(evt, (m: message)=>{
+        console.log(m);
         return result( socket, m);
       });
     });

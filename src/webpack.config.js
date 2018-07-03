@@ -12,6 +12,9 @@ module.exports = {
       { test: /\.tsx?$/, loader: "ts-loader" }
     ]
   },
+  plugins:[
+    new GenerateSW()
+  ],
   resolve: {
     modules:[
       path.resolve('./ts'),

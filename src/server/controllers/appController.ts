@@ -26,15 +26,16 @@ export class AppController{
 
   public update = (socket, data) => {
     console.log('AppController.update: response');
+    console.log(`data type: ${data.type}`);
     console.log(data);
 
     switch(data.type){
       //send update based on version / response
-      case 'handshake':
-        socket.emit('server',JSON.stringify({type: 'news', data: 'Hello from server'}));
+      case 'get_updates':
+        socket.emit('updates',JSON.stringify({type: 'start_update', data: {} }));
         break;
-      case 'clientState':
-        console.log('Client state returned');
+      case 'get_news':
+        console.log('Client requesting news');
         break;
     }
   }

@@ -12,22 +12,21 @@ export class SocketClient{
 
   public connect = (options?:any) => {
     this.optionsSetup(options);
+    console.log('service worker')
     console.log(options);
+
+    //start client connection
     this.socket = io.connect('https://localhost:4050');
-    console.log(this.socket);
+
     this.socket.on('connect', (data)=>{
       console.log('Connect with Server');
-      console.log(data);
+      this.socket.emit('client', { type:'get_updates', data: 'version (?)' });
     });
-    this.socket.on('server', function (data) {
+
+    this.socket.on('updates', function (data) {
+      console.log('receiving updates');
       let d_ = JSON.parse(data);
-      console.log(d_);
-      switch(d_.type){
-        case 'news':
-          this.socket.emit('client', { type:'clientState', data: 'news received' });
-        break;
-        default:
-      }
+      console.log(data);
     });
   }
 

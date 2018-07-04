@@ -24,14 +24,9 @@ export class Socket{
    */
   constructor(appController:AppController){
     console.log('Starting io socket');
-    // console.log(shopApp.get());
 
-    // this.app = (shopApp.get());
-
-    // this.server = shopApp.getHttpsServer();
     this.server = createServer(cnf.ssl);
     this.port = cnf.ioPort;
-
     this.io = ioSocket(this.server, cnf.ioOptions);
 
     this.server.listen(this.port,() =>{
@@ -53,11 +48,10 @@ export class Socket{
   }
 
   public tap = (evt:string, result:ioConnect):void => {
-    console.log(evt);
     this.io.on('connect', (socket: any )=>{
-      console.log(evt);
+      // console.log(`receiving ${evt}`);
       socket.on(evt, (m: message)=>{
-        console.log(m);
+        // console.log(m);
         return result( socket, m);
       });
     });

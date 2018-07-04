@@ -17,8 +17,10 @@ export class AppController{
   constructor(shopApp?: shopApp){
     // console.log(app);
     this.server = shopApp.getHttpsServer();
-    this.io = new Socket(shopApp)
-    // this.app = app.get();
+    this.io = new Socket(this)
+  }
+
+  public startIO = () => {
     this.io.tap('client', this.update);
   }
 

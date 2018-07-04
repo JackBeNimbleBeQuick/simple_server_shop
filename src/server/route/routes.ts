@@ -45,7 +45,7 @@ export class Routes{
       .get(this.apps.getApp)
 
     this.app.route('/socket.io')
-      .get(this.apps.update)
+      .get(this.apps.getApp)
 
     //@TODO create fallback / 404 and Error Routes
     // this.app.route('*')

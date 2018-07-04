@@ -12,7 +12,13 @@ export class SocketClient{
 
   public connect = (options?:any) => {
     this.optionsSetup(options);
-    this.socket = io.connect('http://localhost:9010');
+    console.log(options);
+    this.socket = io.connect('https://localhost:4050');
+    console.log(this.socket);
+    this.socket.on('connect', (data)=>{
+      console.log('Connect with Server');
+      console.log(data);
+    });
     this.socket.on('server', function (data) {
       let d_ = JSON.parse(data);
       console.log(d_);

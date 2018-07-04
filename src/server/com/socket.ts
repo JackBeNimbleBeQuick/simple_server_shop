@@ -14,7 +14,7 @@ export class Socket{
 
   private server:Server;
 
-  private app: express.Application;
+  // private app: express.Application;
 
   private port: string | number;
 
@@ -22,18 +22,21 @@ export class Socket{
    * Construtor instantiates WS and sets listeners
    * @param {shopApp} app
    */
-  constructor(shopApp:shopApp){
+  constructor(appController:AppController){
     console.log('Starting io socket');
     // console.log(shopApp.get());
 
-    this.app = (shopApp.get());
-    this.server = shopApp.getHttpsServer();
+    // this.app = (shopApp.get());
+
+    // this.server = shopApp.getHttpsServer();
+    this.server = createServer(cnf.ssl);
     this.port = cnf.ioPort;
 
     this.io = ioSocket(this.server, cnf.ioOptions);
 
     this.server.listen(this.port,() =>{
       console.log(`ioSocket starting on: ${this.port}`);
+      appController.startIO();
     });
 
     return this;
@@ -50,6 +53,7 @@ export class Socket{
   }
 
   public tap = (evt:string, result:ioConnect):void => {
+    console.log(evt);
     this.io.on('connect', (socket: any )=>{
       console.log(evt);
       socket.on(evt, (m: message)=>{

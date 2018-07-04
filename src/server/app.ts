@@ -1,6 +1,7 @@
 
 import * as express from 'express';
 import * as body from 'body-parser';
+import {Server} from 'https';
 import {Routes} from './route/routes';
 //setup sessions env
 import * as session from 'express-session';
@@ -17,19 +18,16 @@ import cnf from './config/connect.cnf';
   . Routes are instataited with this app as it is created
   .. this way app is never imported again from fs after instantiation
  */
-class App{
+class App implements shopApp{
   private app: express.Application;
   private router:Routes;
   private storage:any;
-  private httpServer:any;
-  private httpsServer:any;
+  public httpsServer:any;
 
   //@NOTE tieing the mongoose connection to start up
   constructor(){
     this.app = express();
-    this.router = new Routes(this);
     this.mongoSetup();
-    this.start();
   }
 
   private start = ():void => {
@@ -75,6 +73,11 @@ class App{
     return this.app;
   }
 
+  public buildRoutes = () => {
+    this.router = new Routes(this);
+    this.start();
+  }
+
   /**
    * Providing separate method from init to support possible
    * differences from the initial startup of app and accessing the running instance
@@ -83,16 +86,6 @@ class App{
    */
   public get = () => {
     return this.app;
-  }
-
-  public setServers = (httpServer:any, httpsServer:any):void => {
-    // console.log(httpsServer);
-    this.httpServer = httpServer;
-    this.httpsServer = httpsServer;
-  }
-
-  public getHttpServer = () => {
-    return this.httpServer;
   }
 
   public getHttpsServer = () => {

@@ -22,13 +22,14 @@ export class Socket{
    * Construtor instantiates WS and sets listeners
    * @param {shopApp} app
    */
-  constructor(ac:AppController){
+  constructor(shopApp:shopApp){
+    console.log('Starting io socket');
+    // console.log(shopApp.get());
 
-    this.app = express();
-    // this.server = createServer(this.app);
-
-    this.server = createServer(cnf.ssl);
+    this.app = (shopApp.get());
+    this.server = shopApp.getHttpsServer();
     this.port = cnf.ioPort;
+
     this.io = ioSocket(this.server, cnf.ioOptions);
 
     this.server.listen(this.port,() =>{

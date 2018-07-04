@@ -8,10 +8,11 @@ interface sessionConnect{
 }
 
 interface shopApp{
-  get():Function,
+  //may need type of express.Application
+  get(): any,
   init():Function,
-  getHttpServer():Function,
-  getHttpsServer():Function,
+  //may nee type of https.Server
+  getHttpsServer(): any,
 }
 
 interface message{

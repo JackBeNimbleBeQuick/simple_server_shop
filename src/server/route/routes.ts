@@ -1,5 +1,6 @@
 
-import {Request , Response, NextFunction} from 'express';
+import {Request , Response, NextFunction, Application} from 'express';
+import {Server} from 'https';
 import {CmsController} from '../controllers/cmsController';
 import {AppController} from '../controllers/appController';
 import * as path from 'path';
@@ -7,16 +8,18 @@ import * as path from 'path';
 export class Routes{
 
   cms:CmsController;
+  app: Application;
   apps: AppController;
-  app: any;
+  server: any;
   expressApp: any;
 
-  constructor(expressApp:shopApp){
+  constructor(shopApp:shopApp){
     // console.log(expressApp.getHttpServer());
-    this.app = expressApp.get();
-    this.expressApp = expressApp;
-    this.cms = new CmsController(expressApp);
-    this.apps = new AppController(expressApp);
+    this.app = shopApp.get();
+    // this.expressApp = expressApp;
+    this.server =  shopApp.getHttpsServer();
+    this.cms = new CmsController(shopApp);
+    this.apps = new AppController(shopApp);
   }
 
   /**
@@ -42,7 +45,7 @@ export class Routes{
       .get(this.apps.getApp)
 
     this.app.route('/socket.io')
-      .get(this.apps.getApp)
+      .get(this.apps.update)
 
     //@TODO create fallback / 404 and Error Routes
     // this.app.route('*')

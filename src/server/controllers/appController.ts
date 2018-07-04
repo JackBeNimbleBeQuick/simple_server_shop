@@ -1,5 +1,6 @@
 import * as  mongoose from 'mongoose';
 import {Response, Request} from 'express';
+import {Server} from 'https';
 import {Socket} from '../com/socket';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -10,13 +11,14 @@ export class AppController{
    . provide initial pages of app as server rendered
    */
 
-  private app: any;
+  private server: Server;
   private io: any;
 
-  constructor(app: shopApp){
+  constructor(shopApp?: shopApp){
     // console.log(app);
-    this.io = new Socket(this)
-    this.app = app.get();
+    this.server = shopApp.getHttpsServer();
+    this.io = new Socket(shopApp)
+    // this.app = app.get();
     this.io.tap('client', this.update);
   }
 
@@ -34,8 +36,9 @@ export class AppController{
         break;
     }
   }
-  
+
   public getApp = (req: Request, res:Response) => {
+    console.log(req);
   }
 
 }

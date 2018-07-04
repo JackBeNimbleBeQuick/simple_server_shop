@@ -17,11 +17,11 @@ export class Register{
         // where catch just then falls back to standard page loade from the site
         navigator.serviceWorker.register('public/js/service-worker.js')
           .then( (registration) => {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          comLayer(registration);
-        }, (err) => {
-          //@TODO add logging to server on next connect
-          console.log('ServiceWorker registration failed: ', err);
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            comLayer(registration);
+          }, (err) => {
+            //@TODO add logging to server on next connect
+            console.log('ServiceWorker registration failed: ', err);
         });
       });
     }

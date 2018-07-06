@@ -18,7 +18,7 @@ export class Routes{
     this.app = shopApp.get();
     // this.expressApp = expressApp;
     this.server =  shopApp.getHttpsServer();
-    this.cms = new CmsController(shopApp);
+    this.cms  = new CmsController(shopApp);
     this.apps = new AppController(shopApp);
   }
 

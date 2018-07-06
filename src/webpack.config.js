@@ -1,6 +1,6 @@
 const path    = require('path');
 const webpack = require('webpack');
-const {GenerateSW}= require('workbox-webpack-plugin');
+const {GenerateSW, InjectManifest}= require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './client/app.ts',
@@ -27,11 +27,11 @@ module.exports = {
     // devtoolLineToLine: true,
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist/server/public/js')
-  },
-  plugins:[
-    new GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-    })
-  ],
+  }//,
+  // plugins:[
+  //   new GenerateSW({
+  //     clientsClaim: true,
+  //     skipWaiting: true,
+  //   })
+  // ],
 };

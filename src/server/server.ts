@@ -1,6 +1,5 @@
 import App from './app';
 import * as https from 'https';
-import * as http from 'http';
 import cnf from './config/connect.cnf';
 
 //@NOTE just to prove it can be done for now

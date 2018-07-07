@@ -47,3 +47,18 @@
 - Reiterate through those parts that need to accommodate RDBMS support
 
   - Review progress and revise goals from the discoveries from above initial steps
+
+
+Workbox configuration: 
+
+Link followed: https://codelabs.developers.google.com/codelabs/workbox-lab/#5
+1. Install workbox-cli gobally 
+2. give command - workbox wizard --injectManifest
+? What is the root of your web app (i.e. which directory do you deploy)? Manually enter path
+? Please enter the path to the root of your web app: dist/server/public/js
+? Which file types would you like to precache? js
+? Where's your existing service worker file? To be used with injectManifest, it should include a call to 'workbox.precaching.precacheAndRoute([])' client/sw.js
+? Where would you like your service worker file to be saved? dist/server/public/js/sw.js
+? Where would you like to save these configuration options? client/workbox-config.js
+To build your service worker, run workbox injectManifest client/workbox-config.js
+3. workbox injectManifest client/workbox-config.js

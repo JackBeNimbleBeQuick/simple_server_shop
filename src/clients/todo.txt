@@ -1,0 +1,12 @@
+
+create service call interface for io socket and ajax
+
+build in support for multiple service workers
+
+  public/js/shop
+  public/js/shop/app.js
+  public/js/shop/sw.js
+  public/js/shop/styles*
+  public/js/shop/media*
+
+  public/js/${whatever}...

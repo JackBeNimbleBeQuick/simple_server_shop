@@ -29,7 +29,7 @@ export class Routes{
    */
   public routes = () =>{
 
-    this.app.route('')
+    this.app.route('/')
       .get(this.cms.main)
 
     this.app.route('/main')

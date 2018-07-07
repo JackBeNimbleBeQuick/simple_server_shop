@@ -1,12 +1,16 @@
 html
   head
     title= title
-    include head
+    include includes/head
   body
+  
     header
-      header= header
+      heading= heading 
+      
     div.main
       body= body
+      
     footer
       footer= footer
-    include script
+      
+    block scripts

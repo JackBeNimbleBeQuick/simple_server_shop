@@ -1,9 +1,9 @@
 const path    = require('path');
 const webpack = require('webpack');
-const {GenerateSW, InjectManifest}= require('workbox-webpack-plugin');
+// const {GenerateSW, InjectManifest}= require('workbox-webpack-plugin');
 
 module.exports = {
-  entry: './client/app.ts',
+  entry: './clients/shop/app.ts',
   mode: 'development',
   devtool: 'inline-source-map',
   watch: true,
@@ -26,7 +26,7 @@ module.exports = {
   output: {
     // devtoolLineToLine: true,
     filename: 'app.js',
-    path: path.resolve(__dirname, 'dist/server/public/js')
+    path: path.resolve(__dirname, 'dist/server/public/js/shop')
   }//,
   // plugins:[
   //   new GenerateSW({

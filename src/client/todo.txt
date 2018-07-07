@@ -1,2 +1,0 @@
-
-create service call interface for io socket and ajax

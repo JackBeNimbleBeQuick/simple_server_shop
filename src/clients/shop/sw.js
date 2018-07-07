@@ -24,6 +24,7 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
+  clientsClaim();
   console.log('activate - now ready to fetch');
   // event.respondWith( preCache() )
 });

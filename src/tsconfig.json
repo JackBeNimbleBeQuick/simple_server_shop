@@ -7,7 +7,7 @@
     "outDir": "dist",
     "baseUrl": "server",
     "jsx": "react",
-    "watch": true,
+    "watch": false,
     "allowJs": true,
     "sourceMap": true
   },

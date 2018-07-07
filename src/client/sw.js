@@ -1,3 +1,17 @@
+
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+
+if (workbox) {
+  console.log(`Yay! Workbox is loaded 🎉`);
+
+  workbox.precaching.precacheAndRoute([]);
+
+} else {
+  console.log(`Boo! Workbox didn't load 😬`);
+}
+
+
+
 //Array of versioned app components
 let cacheVersion = {
   version: 'appShop.0001',
@@ -9,10 +23,10 @@ self.addEventListener('install', event => {
   event.waitUntil( preCache() )
 });
 
-// self.addEventListener('activate', event => {
-//   console.log(event);
-//   // event.respondWith( preCache() )
-// });
+self.addEventListener('activate', event => {
+  console.log('activate - now ready to fetch');
+  // event.respondWith( preCache() )
+});
 
 self.addEventListener('fetch', event => {
   event.respondWith( fromCache() )

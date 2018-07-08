@@ -1,14 +1,14 @@
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+// importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 
-if (workbox) {
-  console.log(`Yay! Workbox is loaded 🎉`);
-
-  workbox.precaching.precacheAndRoute([]);
-
-} else {
-  console.log(`Boo! Workbox didn't load 😬`);
-}
+// if (workbox) {
+//   console.log(`Yay! Workbox is loaded 🎉`);
+//
+//   workbox.precaching.precacheAndRoute([]);
+//
+// } else {
+//   console.log(`Boo! Workbox didn't load 😬`);
+// }
 
 let version = 'v1::';
 
@@ -17,7 +17,8 @@ let version = 'v1::';
    then the service worker won't be installed either.
 */
 var offlineFundamentals = [
-  '/shop/js/app.js'
+  '/shop',
+  '/shop/app.js'
 ];
 self.addEventListener("install", function (event) {
   console.log('WORKER: install event in progress.');

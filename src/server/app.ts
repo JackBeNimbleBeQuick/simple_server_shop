@@ -33,10 +33,9 @@ class App implements shopApp{
   private start = ():void => {
     this.router.routes();
     this.app
-      .use(helmet())
+      // .use(helmet())
       // .use(helmet.hidePoweredBy())
       .use('/public',express.static(__dirname + '/public'))
-      .use('/shop/js',express.static(__dirname + '/public/js/shop'))
       .use(session(this.sessionCnf()))
       .use(body.json())
       .use(body.urlencoded({extended: false}))

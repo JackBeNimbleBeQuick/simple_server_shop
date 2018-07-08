@@ -35,7 +35,7 @@ export class Routes{
     this.app.route('/main')
       .get(this.cms.main)
 
-    this.app.route('/shop')
+    this.app.route('/shop*')
       .get(this.cms.shop)
 
     this.app.route('/login')

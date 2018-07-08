@@ -13,10 +13,10 @@ export class Register{
   public check = (ioSocket: any, path: string) => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register(path, {scope: path})
+        navigator.serviceWorker.register(path)
           .then( (registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            ioSocket(registration);
+            // ioSocket(registration);
           }, (err) => {
             //@TODO add logging to server on next connect
             console.log('ServiceWorker registration failed: ', err);

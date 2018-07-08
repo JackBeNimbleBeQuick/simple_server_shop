@@ -2,6 +2,8 @@ import * as  mongoose from 'mongoose';
 import {Response, Request} from 'express';
 import * as path from 'path';
 import * as pug from 'pug';
+import * as fs from 'fs';
+import * as url from 'url';
 
 export class CmsController{
 
@@ -11,9 +13,13 @@ export class CmsController{
 
   private app: any;
 
+  private template_path: string;
+
   constructor(app:shopApp){
 
     this.app = app.get();
+    this.template_path = path.join(__dirname, '../templates');
+
 
     //@NOTE Pug templates
     //@TODO evaluate client functions versus cached html .. et al.
@@ -39,11 +45,40 @@ export class CmsController{
   }
 
   public shop = (req: Request, res:Response) => {
-    this.parts['title'] = 'Shopping';
-    this.parts['heading'] = 'Time to shop!! 8^)"';
-    this.parts['body'] = 'Shopping page';
-    // res.writeHead(200, {'Service-Worker-Allowed':'/public/js/shop', 'Content-Type':'application/javascript'});
-    res.render('shop',this.parts);
+    let pathName = url.parse(req.url).pathname;
+    let files    = path.join(__dirname, '../public/js' + pathName);
+    let template = this.template_path+pathName + '.pug';
+    console.log(pathName);
+    if(pathName === '/shop'){
+
+      this.parts['title'] = 'Shopping';
+      this.parts['heading'] = 'Time to shop!! 8^)"';
+      this.parts['body'] = 'Shopping page';
+
+      let data = pug.renderFile(template, this.parts);
+      res.set('Content-Type', 'text/html');
+      res.set('Service-Worker-Allowed', '/shop');
+      res.write(data);
+      return res.end();
+
+    }
+    fs.readFile(files, (err, data) => {
+        if(err){
+            res.writeHead(404, {'Content-type':'text/plan'});
+            res.write('File Not Found');
+            res.end();
+        }
+        else{
+
+            if(pathName.endsWith(".js")){
+                res.writeHead(200, {'Service-Worker-Allowed':'/shop', 'Content-Type':'application/javascript'});
+                res.write(data);
+                return res.end();
+            }
+
+        }
+    })
+
   }
 
   public login = (req: Request, res:Response) => {

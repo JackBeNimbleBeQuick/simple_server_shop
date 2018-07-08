@@ -4,7 +4,7 @@
     "target": "es6",
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "outDir": "dist",
+    "outDir": "dist/server",
     "baseUrl": "server",
     "jsx": "react",
     "watch": false,

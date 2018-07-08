@@ -6,7 +6,7 @@ module.exports = {
   entry: './clients/shop/app.ts',
   mode: 'development',
   devtool: 'inline-source-map',
-  watch: true,
+  watch: false,
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "ts-loader" }

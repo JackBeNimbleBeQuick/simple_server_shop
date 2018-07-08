@@ -13,10 +13,7 @@ export class Register{
   public check = (ioSocket: any, path: string) => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        // could maybe use a try .catch wrapper to prevent ugly first connect errors
-        // where catch just then falls back to standard page loade from the site
-        // navigator.serviceWorker.register('public/js/service-worker.js')
-        navigator.serviceWorker.register(path)
+        navigator.serviceWorker.register(path, {scope: path})
           .then( (registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
             ioSocket(registration);

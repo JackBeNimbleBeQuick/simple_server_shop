@@ -42,6 +42,7 @@ export class CmsController{
     this.parts['title'] = 'Shopping';
     this.parts['heading'] = 'Time to shop!! 8^)"';
     this.parts['body'] = 'Shopping page';
+    res.writeHead(200, {'Service-Worker-Allowed':'/public/js/shop', 'Content-Type':'application/javascript'});
     res.render('shop',this.parts);
   }
 

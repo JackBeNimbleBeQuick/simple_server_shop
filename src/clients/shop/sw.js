@@ -17,7 +17,7 @@ let version = 'v1::';
    then the service worker won't be installed either.
 */
 var offlineFundamentals = [
-  '/public/js/shop/app.js'
+  '/shop/js/app.js'
 ];
 self.addEventListener("install", function (event) {
   console.log('WORKER: install event in progress.');

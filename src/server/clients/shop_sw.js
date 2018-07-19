@@ -1,8 +1,10 @@
 let version = 'v1::';
 
-var offlineFundamentals = [
+var appCache= [
   '/',
   '/shop',
+  '/shop/index.html',
+  '/shop/css/main.css',
   '/shop/app.js'
 ];
 self.addEventListener("install", function (event) {
@@ -10,9 +12,11 @@ self.addEventListener("install", function (event) {
 
   event.waitUntil(
     caches
-      .open(version + 'fundamentals')
+      .open(version + 'allCache')
       .then(function (cache) {
-        return cache.addAll(offlineFundamentals);
+        console.log('cache');
+        console.log(appCache);
+        return cache.addAll(appCache);
       })
       .then(function () {
         console.log('WORKER: install completed');

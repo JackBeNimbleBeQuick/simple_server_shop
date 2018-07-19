@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
 
-Register.check(SocketClient.connect,'/shop/sw.js');
+Register.check(SocketClient.connect,'shop_sw.js');
 
 ReactDOM.render(
   <App/>,

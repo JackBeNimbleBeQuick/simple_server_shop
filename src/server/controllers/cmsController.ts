@@ -1,3 +1,4 @@
+///<reference path="../server.interface.d.ts" />
 import * as  mongoose from 'mongoose';
 import {Response, Request} from 'express';
 import * as path from 'path';
@@ -46,8 +47,9 @@ export class CmsController{
 
   public shop = (req: Request, res:Response) => {
     let pathName = url.parse(req.url).pathname;
-    let files    = path.join(__dirname, '../public/js' + pathName);
+    let files    = path.join(__dirname, '../clients' + pathName);
     let template = this.template_path+pathName + '.pug';
+    console.log(files);
     console.log(pathName);
 
     if(pathName === '/shop'){
@@ -73,11 +75,11 @@ export class CmsController{
         }
         else{
 
-            if(pathName && pathName.endsWith(".js")){
-                res.writeHead(200, {'Service-Worker-Allowed':'/shop', 'Content-Type':'application/javascript'});
+            // if(pathName && pathName.endsWith(".js")){
+                res.writeHead(200, {'Service-Worker-Allowed':'/', 'Content-Type':'application/javascript'});
                 res.write(data);
                 return res.end();
-            }
+            // }
 
         }
     })

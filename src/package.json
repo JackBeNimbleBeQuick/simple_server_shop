@@ -2,11 +2,13 @@
   "description": "Simple Shop with Server Implementation",
   "main": "server/index.ts",
   "scripts": {
-    "build": "killall node & webpack -w & ts-node-dev --respawn server/server.ts &",
+    "clean": "killall node node-sass",
+    "build": "webpack -w && ts-node-dev --respawn server/server.ts",
+    "server_dev": "ts-node-dev --respawn server/server.ts &",
     "launch": "open -a Google\\ Chrome\\ Canary https://localhost:4040 --args --disable-web-security -user-data-dir --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost:4040",
-    "copy_client": "cpx 'clients/**/{index.html,sw.js}' server/public/js",
-    "copy_server": "cpx 'server/**/*.{pug,html,png,pem}' dist/server/",
-    "shop_css": "node-sass bin/shop/sass/main.scss -o server/public/css/"
+    "copy_client": "cpx -w 'clients/shop/index.html' server/clients/shop",
+    "copy_sw": "cpx -w 'clients/shop_sw.js' server/clients",
+    "shop_css": "node-sass bin/shop/sass/main.scss -o server/clients/shop/css"
   },
   "directories": {
     "lib": "clients/lib/",
@@ -95,6 +97,7 @@
     "ts-loader": "^4.4.2",
     "ts-node-dev": "^1.0.0-pre.26",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "webpack": "^4.16.1"
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
   }
 }

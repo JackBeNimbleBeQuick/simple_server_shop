@@ -21,7 +21,7 @@ interface message{
 }
 
 interface ioConnect{
-  (string, Function):ioResult
+  (value:string, app:any):ioResult
 }
 
 interface ioResult{

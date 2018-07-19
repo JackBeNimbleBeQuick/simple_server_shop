@@ -23,12 +23,12 @@ module.exports = {
     }
   },
   devServer: {
-    contentBase: path.join(__dirname, '../public/'),
+    contentBase: path.join(__dirname, '../clients/'),
     port: 8093
   },
   output: {
     devtoolLineToLine: true,
     filename: 'app.js',
-    path: path.resolve(__dirname, 'server/public/js/shop')
+    path: path.resolve(__dirname, 'server/clients/shop')
   }
 };

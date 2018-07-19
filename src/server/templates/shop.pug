@@ -1,7 +1,13 @@
 extends layout.pug
 
+block headings
+  meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1' )
+  title= title
+  link(rel='stylesheet', href='shop/css/main.css')
+  
 block main 
   div#root.container
+  
 block scripts
  script(src="shop/app.js")
- script(src="shop/sw.js")
+ script(src="shop_sw.js")

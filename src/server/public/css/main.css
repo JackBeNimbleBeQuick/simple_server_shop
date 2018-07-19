@@ -465,6 +465,8 @@ each component to maintain full component architecture
     padding: 10pt 0 10pt 10pt;
     position: relative;
     top: 0.5em; }
+    .sidepanel .view .history .list .row {
+      white-space: nowrap; }
   .sidepanel .view .history button,
   .sidepanel .view .history h4 {
     color: #fff;

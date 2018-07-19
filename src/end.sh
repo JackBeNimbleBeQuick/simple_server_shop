@@ -1,2 +1,2 @@
-killall node
-killall node-sass
+killall node node-sass
+

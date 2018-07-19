@@ -27,6 +27,7 @@ class App implements shopApp{
   //@NOTE tieing the mongoose connection to start up
   constructor(){
     this.app = express();
+    this.router = new Routes(this);
     this.mongoSetup();
   }
 
@@ -36,7 +37,7 @@ class App implements shopApp{
       // .use(helmet())
       // .use(helmet.hidePoweredBy())
       .use('/public',express.static(__dirname + '/public'))
-      .use(session(this.sessionCnf()))
+      .use(session( this.sessionCnf() ))
       .use(body.json())
       .use(body.urlencoded({extended: false}))
       //** @TODO changes for react to come
@@ -56,7 +57,7 @@ class App implements shopApp{
   }
 
   //Session configuration
-  private sessionCnf = ():sessionConnect => {
+  private sessionCnf = ():any => {
 
     this.storage = connect(session);
 
@@ -74,7 +75,6 @@ class App implements shopApp{
   }
 
   public buildRoutes = () => {
-    this.router = new Routes(this);
     this.start();
   }
 

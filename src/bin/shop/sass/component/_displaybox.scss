@@ -1,0 +1,118 @@
+
+/** expander component part styles
+@TODO provide build reference tagging for packageing compile styles into
+each component to maintain full component architecture
+**/
+.bg-block{
+  @include fadedBG(0, .8);
+  animation-name: fader;
+  animation-duration: 0.5s;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: 1s all ease-in-out;
+  width: 100%;
+  z-index: 100;
+
+  .closer{
+    background-color: transparent;
+    border: 0;
+    font-size: 2em;
+    font-weight: 200;
+    outline: 0;
+    position: absolute;
+    text-align: center;
+    top: 5pt;
+    right: 5pt;
+
+    .icon{
+      color: $red;
+      padding: 3pt;
+      &:before{
+        content: '';
+      }
+      &:after{
+        content: 'x';
+      }
+    }
+    &.open{
+      .icon{
+        color: $green;
+      }
+    }
+  }
+  .presentation-box{
+    // height: 75%;
+    margin: 0 8%;
+    overflow: visible;
+    position: relative;
+    top: 12.5%;
+    width: 75%;
+    z-index: 1;
+    .image-wrap{
+      animation-name: scaler;
+      animation-duration: 1s;
+    }
+    .view{
+      position: relative;
+      .clickbar{
+        @include fadedBG(255, 0.1);
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 2em;
+        z-index: 2;
+        &.right{
+          right: 0;
+        }
+        &.left{
+          left: 0;
+        }
+        .indicate{
+          &:after{
+            bottom: 2pt;
+            color: #fff;
+            font-size: 1.3em;
+            margin: 5pt;
+            position: absolute;
+            opacity: .8;
+          }
+          &.right:after {
+            content: '->';
+          }
+          &.left:after{
+            content: '<-';
+          }
+        }
+      }
+    }
+    .slides{
+      @include fadedBG(0,0.8);
+      position: absolute;
+      right: 1pt;
+      top: 1pt;
+      text-align: center;
+      z-index:1;
+      ul{
+        border: 1pt solid $grey;
+        border-radius: 3pt;
+        margin: 0 4pt;
+        position: fixed;
+        li{
+          border: transparent 1pt solid;
+          margin: 2pt;
+          &.selected{
+            border: #fff 1pt solid;
+          }
+          .image-wrap{
+            width: 25pt;
+            img{
+              left:0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

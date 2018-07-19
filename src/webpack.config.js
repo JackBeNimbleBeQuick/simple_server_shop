@@ -1,9 +1,8 @@
 const path    = require('path');
 const webpack = require('webpack');
-// const {GenerateSW, InjectManifest}= require('workbox-webpack-plugin');
-
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
-  entry: './clients/shop/app.ts',
+  entry: './clients/shop/main.tsx',
   mode: 'development',
   devtool: 'inline-source-map',
   watch: false,
@@ -13,25 +12,23 @@ module.exports = {
     ]
   },
   resolve: {
+    // plugins: [new TsconfigPathsPlugin({configFile:'./tsconfig.json'})],
     modules:[
-      // path.resolve('./ts'),
+      path.resolve('./clients'),
       path.resolve('./node_modules'),
     ],
     extensions: [ '.tsx','.ts','.js'],
+    alias: {
+      'clients': path.resolve(__dirname,'clients/'),
+    }
   },
   devServer: {
     contentBase: path.join(__dirname, '../public/'),
     port: 8093
   },
   output: {
-    // devtoolLineToLine: true,
+    devtoolLineToLine: true,
     filename: 'app.js',
-    path: path.resolve(__dirname, 'dist/server/public/js/shop')
-  }//,
-  // plugins:[
-  //   new GenerateSW({
-  //     clientsClaim: true,
-  //     skipWaiting: true,
-  //   })
-  // ],
+    path: path.resolve(__dirname, 'server/public/js/shop')
+  }
 };

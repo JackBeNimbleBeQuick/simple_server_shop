@@ -1,0 +1,78 @@
+/** shopping component view styles
+@TODO provide build reference tagging for packageing compile styles into
+each component to maintain full component architecture
+**/
+.sidepanel,
+.shopping{
+  padding: 1em;
+  .frame{
+    transition: 0.5s all ease-in-out;
+    .panel{
+      font-size: 0.6em;
+      float: left;
+      width: 50%;
+      h2{
+        font-size: 0.8em;
+        padding: 0 3pt 3pt 0;
+      }
+      &.left{
+        float:left;
+        .image-wrap{
+          width: 80%;
+        }
+      }
+      .price{
+        color: $dark;
+        font-size: 0.75em;
+        .currency{
+          font-size: 0.75em;
+          padding: 0 1pt 0 0;
+          position: relative;
+          top: -3pt;
+        }
+      }
+    }
+  }
+}
+@media(max-width: 480px){
+  .shopping{
+    .frame{
+      .panel{
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+@media(min-width: 768px){
+  .shopping{
+    .frame{
+      .panel{
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+@media(min-width: 1024px){
+  .shopping{
+    .frame{
+      .panel{
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+@media(min-width: 1366px){
+  .shopping{
+    .frame{
+      .panel{
+        font-size: 1.2em;
+        .flags{
+          font-size: 8pt;
+        }
+        .price{
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}

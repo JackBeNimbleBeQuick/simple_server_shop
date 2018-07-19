@@ -4,17 +4,24 @@
     "target": "es6",
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "outDir": "dist/server",
-    "baseUrl": "server",
+    "outDir": "dist",
     "jsx": "react",
     "watch": false,
+    "strict": true,
     "allowJs": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": "",
+    "paths":{
+      "clients/*": ["clients/*"],
+      "server/*": ["server/*"]
+    },
   },
   "files" : [
+    "clients/shop/main.tsx",
     "server/server.ts",
   ],
   "filesGlob":[
+    "**/*.js",
     "**/*.ts",
     "**/*.tsx"
   ],
@@ -24,10 +31,10 @@
     "dom.iterable"
   ],
   "exclude":[
-    "vendor",
+    "./node_modules"
   ],
   "include" : [
-    "client/**/*",
+    "clients/**/*",
     "server/**/*",
   ]
 }

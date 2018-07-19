@@ -15,8 +15,8 @@ export class Register{
       window.addEventListener('load', () => {
         navigator.serviceWorker.register(path)
           .then( (registration) => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            // ioSocket(registration);
+            console.log('ServiceWorker registration successful with scope: %s', registration.scope);
+            ioSocket(registration);
           }, (err) => {
             //@TODO add logging to server on next connect
             console.log('ServiceWorker registration failed: ', err);

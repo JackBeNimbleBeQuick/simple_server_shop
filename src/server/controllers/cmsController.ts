@@ -9,7 +9,7 @@ export class CmsController{
 
   private basePath: string;
 
-  private parts: Object;
+  private parts: any;
 
   private app: any;
 
@@ -49,6 +49,7 @@ export class CmsController{
     let files    = path.join(__dirname, '../public/js' + pathName);
     let template = this.template_path+pathName + '.pug';
     console.log(pathName);
+
     if(pathName === '/shop'){
 
       this.parts['title'] = 'Shopping';
@@ -62,7 +63,9 @@ export class CmsController{
       return res.end();
 
     }
+
     fs.readFile(files, (err, data) => {
+
         if(err){
             res.writeHead(404, {'Content-type':'text/plan'});
             res.write('File Not Found');
@@ -70,7 +73,7 @@ export class CmsController{
         }
         else{
 
-            if(pathName.endsWith(".js")){
+            if(pathName && pathName.endsWith(".js")){
                 res.writeHead(200, {'Service-Worker-Allowed':'/shop', 'Content-Type':'application/javascript'});
                 res.write(data);
                 return res.end();

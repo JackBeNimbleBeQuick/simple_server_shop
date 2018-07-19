@@ -1,0 +1,55 @@
+@mixin shadow($px){
+	-moz-box-shadow: $px $px $px rgba(68,68,68,0.6);
+	-webkit-box-shadow: $px $px $px rgba(68,68,68,0.6);
+	box-shadow: $px $px $px rgba(68,68,68,0.6);
+}
+@mixin no_shadow(){
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+@mixin rotate($angle){
+	transform: rotate($angle);
+	-webkit-transform: rotate($angle);
+	-o-transform: rotate($angle);
+	-ms-transform: rotate($angle);
+}
+@mixin rotateTitle($angle){
+	transform: rotate($angle) translate(-10px,10px);
+	-webkit-transform: rotate($angle) translate(-10px,10px);
+	-o-transform: rotate($angle) translate(-10px,10px);
+	-ms-transform: rotate($angle) translate(-10px,10px);
+}
+@mixin quote(){
+  font-size: 1.5em;
+  position: relative;
+  top: 5px;
+}
+@mixin fadedBG($color,$opacity){
+	background-color: rgba($color,$color,$color,$opacity);
+}
+
+@mixin transforms($type,$x,$y) {
+	transform: $type($x, $y);
+	-webkit-transform: $type($x, $y); /* Safari */
+	-ms-transform: $type($x, $y); /* IE 9 */
+}
+
+@mixin binaryAnimation($s_attrib,$s_value,$e_attrib,$e_value){
+	@-webkit-keyframes binaryAnimation{
+	 $s_attrib:$s_value;
+	 $e_attrib:$e_value;
+	}
+	@-moz-keyframes binaryAnimation {
+	 $s_attrib:$s_value;
+	 $e_attrib:$e_value;
+	}
+	@-o-keyframes binaryAnimation{
+	 $s_attrib:$s_value;
+	 $e_attrib:$e_value;
+	}
+	@keyframes binaryAnimation {
+	 $s_attrib:$s_value;
+	 $e_attrib:$e_value;
+	}
+}

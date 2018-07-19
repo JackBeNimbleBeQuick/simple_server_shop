@@ -1,0 +1,49 @@
+
+body{
+  font-family: "GT-Eesti 5r",Arial,sans-serif;
+}
+.container {
+  margin: 0 auto;
+  overflow: hidden;
+}
+ul{
+  &.row{
+    li{
+      display: inline-table;
+    }
+  }
+}
+input{
+  background-color:transparent;
+  border: none;
+  outline: none; 
+}
+.image-wrap{
+  animation-name: fader;
+  animation-duration: 2s;
+  clear: both;
+  display: block;
+  height: 0;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 100%;
+  z-index: 1;
+  img{
+    cursor: pointer;
+    height: auto;
+    position: absolute;
+    width: 100%;
+  }
+}
+.flags{
+  font-size: 6pt;
+  font-style: normal;
+  display: inline-block;
+  margin-bottom: 0.5em;
+  padding: 0 0 4pt 0;
+  white-space: nowrap;
+  span{
+    display: inline-block;
+    margin: 0 3pt 0 0;
+  }
+}

@@ -1,0 +1,33 @@
+
+.symbol{
+  &.dash{
+    text-align: right;
+    display: inline-block;
+    width: 5pt;
+    &:before{
+      content:'';
+    }
+    &:after{
+      content:'-';
+      font-size: 1em;
+    }
+  }
+}
+[class^=flag-]{
+  background-repeat: no-repeat;
+  background-size: 1em;
+  height: 1em;
+  outline: none;
+}
+.flag-newcore{
+  color: $green;
+  font-size: 1.1em;
+}
+.flag-organic{
+  background-image: url(https://www.westelm.com/weimgs/rk/images/i/201824/0005/images/svg/flags/we-icon__organic.svg);
+  text-indent: 1em;
+}
+.flag-fairTrade{
+  background-image: url(https://www.westelm.com/weimgs/rk/images/i/201824/0005/images/svg/flags/we-icon__fair-trade.svg);
+  text-indent: 1em;
+}

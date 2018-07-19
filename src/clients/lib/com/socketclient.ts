@@ -1,13 +1,14 @@
-import * as io from '../../vendor/socket.io';
+import * as io from 'clients/vendor/socket.io';
 
 /**
  * Socket Class provides the connection layer to Server
  * @TODO provide ajax as fallback com layer
  */
 export class SocketClient{
-  private socket;
+  private socket:any;
 
   constructor(){
+    this.socket = null;
   }
 
   public connect = (options?:any) => {
@@ -18,12 +19,12 @@ export class SocketClient{
     //start client connection
     this.socket = io.connect('https://localhost:4050');
 
-    this.socket.on('connect', (data)=>{
+    this.socket.on('connect', (data:any)=>{
       console.log('Connect with Server');
       this.socket.emit('client', { type:'get_updates', data: 'version (?)' });
     });
 
-    this.socket.on('updates', function (data) {
+    this.socket.on('updates', function (data:any) {
       console.log('receiving updates');
       let d_ = JSON.parse(data);
       console.log(data);

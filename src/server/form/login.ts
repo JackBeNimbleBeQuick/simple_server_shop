@@ -1,5 +1,5 @@
 
-import {Forms} from 'form/forms';
+import {Forms} from '../form/forms';
 
 export class Login{
 

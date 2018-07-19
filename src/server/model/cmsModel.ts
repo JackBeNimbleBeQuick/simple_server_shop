@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-let Schema = mongoose.schema;
+let Schema = mongoose.Schema;
 
 export default {
   login: new Schema ({

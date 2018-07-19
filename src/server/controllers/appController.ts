@@ -16,7 +16,7 @@ export class AppController{
 
   constructor(shopApp?: shopApp){
     // console.log(app);
-    this.server = shopApp.getHttpsServer();
+    this.server = shopApp ? shopApp.getHttpsServer() : null;
     this.io = new Socket(this)
   }
 
@@ -24,7 +24,7 @@ export class AppController{
     this.io.tap('client', this.update);
   }
 
-  public update = (socket, data) => {
+  public update = (socket:any, data:any) => {
     console.log('AppController.update: response');
     console.log(`data type: ${data.type}`);
     console.log(data);

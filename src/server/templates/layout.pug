@@ -1,5 +1,6 @@
 html
   head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1' )
     title= title
     include includes/head
   body
@@ -7,7 +8,7 @@ html
     header
       heading= heading 
       
-    div.main
+    block main
       body= body
       
     footer

@@ -1,6 +1,6 @@
 import App from '../app';
 import * as express from 'express';
-import CMSModel from 'model/cmsModel';
+import CMSModel from 'server/model/cmsModel';
 
 export class Forms{
 

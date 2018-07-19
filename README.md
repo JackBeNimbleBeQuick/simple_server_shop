@@ -25,17 +25,22 @@
 
 ## Assuming
 - node 8.9.4 (+)
-- express 4+
+- mongo installed, configured locally, and running with mogod
 
 ### Get started
 - git clone simple_server_shop
 - cd simple_server_shop/src
 - npm install
-- npm dev
+- chmod 755 start.sh install_globals.sh end.sh
+- tsc & webpack ** get base things in place for dist/server
+- cd server/config & ./pemmer.sh
+- in server/config/connect.cnf.ts ssl.passphrase = "your_passphrase"
+
+  - install globals ** we are not using gulp :. the npm scripts needs these
+    - npm install -g webpack node-sass typescript jest cpx nodemon
 
 ### This is a work in process and does not offer any real implementations as of yet !!! |8^)
 #### And it is hardly complete ....
-
 
 #### TODO
 
@@ -49,10 +54,10 @@
   - Review progress and revise goals from the discoveries from above initial steps
 
 
-Workbox configuration: 
+Workbox configuration (* not currently used ):
 
 Link followed: https://codelabs.developers.google.com/codelabs/workbox-lab/#5
-1. Install workbox-cli gobally 
+1. Install workbox-cli gobally
 2. give command - workbox wizard --injectManifest
 ? What is the root of your web app (i.e. which directory do you deploy)? Manually enter path
 ? Please enter the path to the root of your web app: dist/server/public/js

@@ -28,7 +28,7 @@ export class Store{
   //@TODO mapping of states and props is still needed
   public subscribe = (func:Function) => {
     console.log('subscribe');
-    console.log(this.getState());
+    // console.log(this.getState());
     this.store.subscribe(()=>{
       console.log('subscribe called');
       return func(this.getState())
@@ -38,8 +38,7 @@ export class Store{
   //@TODO mapping of states and props is still needed
   public unsubscribe = (func:Function) => {
     console.log('unsubscribe');
-    console.log(this.store.getState());
-    this.store.unsubscribe(func);
+    // this.store.unsubscribe(func);
   }
 
   public setVisibility = (type:string) => {
@@ -53,13 +52,15 @@ export class Store{
   }
 
   public dispatchAction = (action:Function, state:any):void => {
+    console.log('dispatchAction');
+    // console.log(state);
     this.store.dispatch(action(state));
   }
 
   public dispatch = (action:any):void => {
     console.log('dispatch');
     console.log(action);
-    this.store.dispatch(action);
+    return this.store.dispatch(action);
   }
 
   /**

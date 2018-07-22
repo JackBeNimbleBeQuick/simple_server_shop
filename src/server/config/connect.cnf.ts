@@ -6,6 +6,9 @@ export default {
     adapter: 'connect-mongo',
     collection: 'session',
     url: 'mongodb://127.0.0.1:27017/simpleStore',
+    options: {
+      useNewUrlParser: true
+    },
     // username: 'admints',
     // password: 'eafb0424376b45769ccc4ffeacbd8f48',
   },
@@ -23,7 +26,8 @@ export default {
   port: 8095,
   sslPort: 4040,
   wsPort: 40510,
-  ioPort: 4050,
+  io_Port: 40510,
+  io_sslPort: 4050,
   duration: 24, //hours
   mongoUrl: 'mongodb://127.0.0.1:27017/simpleStore',
   key: 'bf6987742b9c56b947f9c02baa6930dc',

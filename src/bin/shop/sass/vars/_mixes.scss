@@ -3,6 +3,13 @@
 	-webkit-box-shadow: $px $px $px rgba(68,68,68,0.6);
 	box-shadow: $px $px $px rgba(68,68,68,0.6);
 }
+
+@mixin vertical($place,$offset){
+	top: $place;
+	-webkit-transform: translateY($offset);
+	-ms-transform: translateY($offset);
+	transform: translateY($offset);
+}
 @mixin no_shadow(){
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -52,4 +59,8 @@
 	 $s_attrib:$s_value;
 	 $e_attrib:$e_value;
 	}
+}
+
+@function diff($x, $y){
+	@return $x - $y
 }

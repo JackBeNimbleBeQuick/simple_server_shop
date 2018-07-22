@@ -2,63 +2,33 @@
 
 import * as React from 'react';
 import Tracker from 'clients/shop/data/tracker';
+import Loading from 'clients/lib/component/loading';
 import DomUtils from 'clients/lib/util/dom';
 import Store from 'clients/shop/data/store';
-import Types from 'clients/shop/data/types';
 import Session from 'clients/lib/com/session';
-import Comservices from 'clients/lib/com/Comservices';
 import Actions from 'clients/shop/data/actions';
 
 import ShopperFrame from 'clients/shop/composits/parts/shopperframe';
 
 export default class Shopping extends React.Component<any, any>{
 
+  // defaultProps = {
+  //   didLoad: false,
+  //   list: {}
+  // }
+
   constructor(props:any){
     super(props);
+    console.log('Shopping constructor');
     console.log(props);
     this.state = {
-      setList: this.setList.bind(this),
-      list:this.props.shoppingProps ? this.props.shoppingProps.groups: {},
+      list: {},
       didLoad: false,
-      storeEvents: {}
-    }
-  }
-
-  /**
-   * By using listener on store, this component becomes stateful
-   */
-  componentDidMount () {
-
-    console.log('shopping did mount');
-
-    Store.subscribe(this.setList);
-
-    console.log('shopping get data call made');
-
-    Comservices.action({
-      type: 'GET',
-      action: Actions.getData,
-      uri: 'shop/new/all-new',
-    });
-  }
-
-  setList = (data:any) => {
-    console.log('shopping setList');
-    console.log(data);
-    if(data.shopping && data.shopping.all){
-
-      Tracker.buildProductList(data.shopping.all);
-
-      this.setState({
-        didLoad: true,
-        list: data.shopping.all
-      });
-
     }
   }
 
   componentWillUnmount () {
-    Store.unsubscribe(this.setList);
+    // Store.unsubscribe(this.setList);
   }
 
   select = (e:any) => {
@@ -77,7 +47,7 @@ export default class Shopping extends React.Component<any, any>{
    * @return {void}
    */
   expand = (product:product):void => {
-    console.log(product);
+    // console.log(product);
     DomUtils.lockScroll();
     Tracker.viewedItem(product);
     Store.dispatchAction(Actions.setViewed, product);
@@ -90,9 +60,8 @@ export default class Shopping extends React.Component<any, any>{
    */
   renderList = ():ReactElement | string =>{
     let list = '';
-    // console.log(this.state);
-    if(this.state.list && this.state.didLoad){
-      list = this.state.list.groups.map((product:product,i:any)=>{
+    if(this.props.list && this.props.didLoad===true){
+      list = this.props.list.groups.map((product:product,i:any)=>{
         return(
           <ShopperFrame
             key= {i}
@@ -106,12 +75,22 @@ export default class Shopping extends React.Component<any, any>{
   }
 
   render(){
-    return(
-      <div className="shopping">
-        {this.renderList()}
-      </div>
-    );
+    if(this.props.didLoad){
+      return(
+        <div className="shopping">
+          {this.renderList()}
+        </div>
+      );
+    }else{
+      return (
+        <Loading />
+      );
+    }
   }
 }
+
+
+
+
 
 // export default Shopping;

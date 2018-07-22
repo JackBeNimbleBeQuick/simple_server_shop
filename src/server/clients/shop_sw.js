@@ -3,7 +3,6 @@ let version = 'v1::';
 var appCache= [
   '/',
   '/shop',
-  '/shop/index.html',
   '/shop/css/main.css',
   '/shop/app.js'
 ];

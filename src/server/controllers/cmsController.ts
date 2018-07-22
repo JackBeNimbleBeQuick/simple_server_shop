@@ -46,11 +46,11 @@ export class CmsController{
   }
 
   public shop = (req: Request, res:Response) => {
-    let pathName = url.parse(req.url).pathname;
+    let pathName:string|undefined = url.parse(req.url).pathname;
     let files    = path.join(__dirname, '../clients' + pathName);
     let template = this.template_path+pathName + '.pug';
-    console.log(files);
-    console.log(pathName);
+    // console.log(files);
+    // console.log(pathName);
 
     if(pathName === '/shop'){
 
@@ -74,12 +74,28 @@ export class CmsController{
             res.end();
         }
         else{
+          let filter = /[\.](js|css|png|svg|gif|jpeg)/;
+          let image = /(png|svg|gif|jpeg)/;
+          let types = pathName ? pathName.match(filter): [];
+          let type = types && types.length > 0 ? types[0].replace(/[\.]/,'') : '';
+          let typed  = 'application/javascript';
+          console.log(pathName);
+          console.log(type);
 
-            // if(pathName && pathName.endsWith(".js")){
-                res.writeHead(200, {'Service-Worker-Allowed':'/', 'Content-Type':'application/javascript'});
-                res.write(data);
-                return res.end();
-            // }
+          switch(type){
+            case 'css':
+              typed  = 'text/css';
+            break;
+            default:
+            if(image.test(type)){
+              typed =  'image/' + 'type';
+            }
+          }
+          console.log(typed);
+
+          res.writeHead(200, {'Service-Worker-Allowed':'/', 'Content-Type': typed});
+          res.write(data);
+          return res.end();
 
         }
     })

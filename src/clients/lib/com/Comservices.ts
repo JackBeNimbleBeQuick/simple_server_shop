@@ -14,6 +14,10 @@ interface Actions{
   emitter: EventEmitter
 }
 
+/*
+ * @TODO provide ajax / io fallbacks
+ *  => mitigate connection types as we evaluate best use cases for each
+ */
 export class Comservices{
 
   private services:services;
@@ -35,7 +39,7 @@ export class Comservices{
   }
 
   /**
-   * Flux wrapper for Comservices
+   * Flux / Redux wrapper for Comservices
    * using local com.interace
    * @param  {req: request}
    * @return {void}
@@ -56,10 +60,9 @@ export class Comservices{
   }
 
 
-  //POST @NOTE Build out others as needed
+  //POST | PUT | DELETE @NOTE Build out others as needed
   /**
-   * @TODO Move this to somewhere that makes better sense
-   * Get Appointments History
+   * Get
    * @param {Function} success
    * @param  {Function} error
    * @return {void} Connected:sends passes results to the passed in functions
@@ -77,13 +80,12 @@ export class Comservices{
 
   //GET
   /**
-   * @TODO Move this to somewhere that makes better sense
    * Get Appointments History
    * @param {Function} success
    * @param  {Function} error
    * @return {void} Connected:sends passes results to the passed in functions
    */
-  public get= (success:Function, error:Function ) =>{
+  public get = (success:Function, error:Function ) =>{
     let params = this.services.params;
     this.forward = success;
     this.connect.send({
@@ -96,8 +98,8 @@ export class Comservices{
 
   //PACKAGE
   /**
-   * To handle hydration and any other needs that may be needed
-   * as the app layer evolves so as to provide
+   * To handle hydration and any other needs
+   * as the app layer evolves provide:
    * . single simple call signatures at app level
    * . offload and communication details from the app layer
    * . maintain reusability with other communication types

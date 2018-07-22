@@ -1,11 +1,14 @@
 
+///<reference path="./server.interface.d.ts" />
 import * as express from 'express';
 import * as body from 'body-parser';
 import {Server} from 'https';
 import {Routes} from './route/routes';
+
 //setup sessions env
 import * as session from 'express-session';
 import * as helmet from 'helmet';
+
 //setup db
 import * as connect from 'connect-mongo';
 import * as mongoose from 'mongoose';
@@ -34,21 +37,20 @@ class App implements shopApp{
   private start = ():void => {
     this.router.routes();
     this.app
-      // .use(helmet())
-      // .use(helmet.hidePoweredBy())
+      .use(helmet())
+      .use(helmet.hidePoweredBy())
       .use('/public',express.static(__dirname + '/public'))
       .use(session( this.sessionCnf() ))
       .use(body.json())
       .use(body.urlencoded({extended: false}))
       //** @TODO changes for react to come
       ;
-
   }
 
   private mongoSetup = ():void => {
     // console.log(connect);
 
-    mongoose.connect(cnf.mongoUrl, {}, (err)=>{
+    mongoose.connect(cnf.mongoUrl, cnf.session.options, (err)=>{
       if(err){
         console.log(`mongoose did not connect ${err}`);
         process.exit;

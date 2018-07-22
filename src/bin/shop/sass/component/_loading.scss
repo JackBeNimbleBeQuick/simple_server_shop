@@ -1,0 +1,21 @@
+.loading{
+  background-color: rgba(255,255,255, 0.5);
+  height: 100%;
+  position: absolute;
+  transition: all 0.5s ease-in-out;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  p{
+    color: $white-smoke;
+    font-size: 3em;
+    text-align: center;
+    margin: auto;
+    position: relative;
+    width: 250pt;
+    @include vertical(50%,-50%);
+    &::after{
+      content: '...';
+    }
+  }
+}

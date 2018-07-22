@@ -29,6 +29,10 @@ interface ioResult{
   data: any,
 }
 
+interface ConnectionOptions{
+  useNewUrlParser?: boolean
+}
+
 interface ioOptions{
   //path (String): name of the path to capture (/socket.io)
   path?: string,

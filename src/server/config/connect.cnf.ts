@@ -37,13 +37,15 @@ export default {
     product_image: path.resolve(`${__dirname}/../public/imgs/products/`)
   },
   cache: {
-    client: './clients/shop_sw.js',
-    server: './server/clients/shop_sw.js',
-    products:[
-      '/',
-      '/shop',
-      '/shop/css/main.css',
-      '/shop/app.js'
-    ],
+    shop:{
+      client: './clients/shop_sw.js',
+      server: './server/clients/shop_sw.js',
+      products:[
+        '/',
+        '/shop',
+        '/shop/css/main.css',
+        '/shop/app.js'
+      ],
+    }
   }
 }

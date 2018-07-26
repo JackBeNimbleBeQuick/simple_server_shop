@@ -45,6 +45,8 @@
 - almost there ....
 - ./start.sh **once all is setup up this should be all you need to do work**
 
+- `https://localhost:6040/shop` to see first service worker for react / redux / io.socket implementation
+
 #### Once you get things working
 - we are not using gulp for this project so you will see shell scripts and global installs for the base runtime command line operations
 - use `ps` to make sure processes are clean between sets
@@ -71,6 +73,7 @@
 
 - √ Provide Service Worker Support
 - √ Provide Mongo DB Support for first React / Redux client
+- √ io.socket server/client implementation for ajax alt / push services .. chat
 - Implement simple login services **this will be part Form / Schema Implementations**
 - Finish initial Mongo Form / Schema frame-out
 - Provide Session / Login Support **session support built in: sessions/local though in first example client**
@@ -81,3 +84,4 @@
   - Review progress and revise goals from the discoveries from above initial steps
 
 - **Workbox has now been kicked out of build**
+- **react-flux has now been kicked out of build**

@@ -4,14 +4,12 @@ import CMSModel from 'server/model/cmsModel';
 
 export class Forms{
 
-  //@NOTE will start with Formage and work out from there
   private formate:any;
 
-  construtor(){
+  constructor(){
   }
 
   public loginForm = () => {
-    // return Formage.init(App.get(), express, CMSModel.login );
   }
 
 }

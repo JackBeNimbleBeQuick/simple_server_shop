@@ -201,14 +201,14 @@ export class DBRunner{
   public createCacheFile = () => {
     DBConnect.sessionStart();
     CMSModel.cacheable('products', (cacheable:Array<string>)=>{
-      let cache = cnf.cache.products.concat(cacheable);
+      let cache = cnf.cache.shop.products.concat(cacheable);
 
-      fs.readFile(cnf.cache.client, 'utf8' ,(err:any, file:any)=>{
+      fs.readFile(cnf.cache.shop.client, 'utf8' ,(err:any, file:any)=>{
         if(err === null){
           let content = file.replace('___CACHE_INSERT___', JSON.stringify(cache));
 
           // console.log(content);
-          fs.writeFile(cnf.cache.server, content , (err)=>{
+          fs.writeFile(cnf.cache.shop.server, content , (err)=>{
             if(err !==null){
               return console.log('File saved');
             }

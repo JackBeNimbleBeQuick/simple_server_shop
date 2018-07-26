@@ -38,7 +38,7 @@
 - ./install_globals.sh **we are not using Gulp here** some packages may be missed you will know when they do not work. (we will do clean installs to catch the misses as well... but may miss in between things 8^)
 - cd server/config & ./pemmer.sh **you need to have your own .pem files**
 - in server/config/connect.cnf.ts ssl.passphrase = "your_passphrase"
-- ./build_local_db_image_support.sh **we have many async things here so run it a few times** you can
+- ./build_local_db_image_support.sh **we have many async things here so run it a few times**
 - open server/clients/shop_sw.js to make sure the cacheObject is attached and do not remove '___CACHE_INSERT___' from clients/show_sw.js
   - run `ts-node create_cache.ts` to get that build to work
 
@@ -52,7 +52,7 @@
 - once everything is setup ./start.sh should provide all that you need with auto builds for sass webpack and servers
 - if you are adding things to be cached run `ts-node create_cache.ts` to update cache object in service worker: show_sw.js is first implementation of that.
 
-### To see things in mongo and check on things
+### To see things in mongo and to check on things
 >> A word on use case for mongo:
    at this point I view mongo as useful for distributing RDBMS results and collection of distributed lite weight computing... my view may change on this as this is my first deep dive into its use... 8^)
 
@@ -60,9 +60,9 @@
 - : mongo
 - > show dbs
 - > use simpleStore
-- > show collections **you should see session and products collections**
-- > db.products.find() **you will see this db stuff from the initial json setup**
--> db.session.find() **you will see results once login services are implemented**
+- > show collections (**you should see session and products collections**)
+- > db.products.find() (**you will see this db stuff from the initial json setup**)
+- > db.session.find() (**you will see results once login services are implemented**)
 
 ### This is a work in process and does not offer any real implementations as of yet !!! |8^)
 #### And it is hardly complete ....

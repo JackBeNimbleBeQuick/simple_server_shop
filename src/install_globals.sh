@@ -1,1 +1,1 @@
-npm install -g ts-node ts-node-dev node-sass cpx webpack
+npm install -g ts-node ts-node-dev node-sass cpx webpack webpack-cli

@@ -20,8 +20,6 @@ interface Actions{
  */
 export class Comservices{
 
-  private services:services;
-
   private session:Session;
 
   private connect:Connected;
@@ -31,9 +29,8 @@ export class Comservices{
   private env:string;
 
   constructor(){
-    this.env      = Config.getServices().env
+    this.env      = Config.env
     this.session  = new Session();
-    this.services = this.session.serviceConfig();
     this.connect  = new Connected();
     this.forward  = ()=>{};
   }
@@ -46,19 +43,26 @@ export class Comservices{
    */
   public action = (req:request): void=> {
     let act:Function = req.action;
+    let postage = this.postage(req);
 
-    if(this.env === 'dev') return Store.dispatch(act(new Mock()));
+    // if(this.env === 'dev') return Store.dispatch(act(new Mock()));
 
     let success = (response:any) =>{
       Store.dispatch(act(response));
     }
 
-    this.post(
-      this.postage(req), success, this.errors
-    );
+    if(req.type.toLowerCase() == 'post'){
+      this.post(
+        this.postage(req), success, this.errors
+      );
+    }else{
+      this.get(
+        postage.url, success, this.errors
+      );
+
+    }
 
   }
-
 
   //POST | PUT | DELETE @NOTE Build out others as needed
   /**
@@ -68,10 +72,10 @@ export class Comservices{
    * @return {void} Connected:sends passes results to the passed in functions
    */
   public post = (post:postage ,success:Function, error:Function ) => {
-    let params = this.services.params;
+    let url = post.url ? post.url : Config.services.url +Config.services.uri;
     this.forward = success;
     this.connect.send({
-      url: params.base + params.uri,
+      url: url,
       type: 'POST',
       data: JSON.stringify(post),
       header_type: 'form',
@@ -85,11 +89,10 @@ export class Comservices{
    * @param  {Function} error
    * @return {void} Connected:sends passes results to the passed in functions
    */
-  public get = (success:Function, error:Function ) =>{
-    let params = this.services.params;
+  public get = (url:string, success:Function, error:Function ) =>{
     this.forward = success;
     this.connect.send({
-      url: params.base + params.uri,
+      url: url,
       type: 'GET',
       data: null, // 8^) looking into this
       header_type: 'form_ac'
@@ -113,10 +116,8 @@ export class Comservices{
   }
 
   private postage(req:request):postage{
-    let params = Config.getServices().params;
-
     return {
-      url: params.base + req.uri,
+      url: Config.services.url + req.uri,
       data: req.data,
       type: req.type
     }

@@ -4,8 +4,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
 import Store from 'clients/shop/data/store'
+import Config from 'clients/lib/com/Coms.config'
 
-SocketClient.setServer('https://localhost:4050'),
+SocketClient.setServer(`https://localhost:${Config.ports.iosocket}`),
 Register.check(SocketClient.setup,'shop_sw.js');
 
 ReactDOM.render(

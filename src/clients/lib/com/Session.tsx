@@ -32,7 +32,7 @@ export class Session implements Session{
     let succeeds = (response:any) => {
       //@TODO work this into to validator
       let s_resp =  JSON.parse(response);
-      let compare:any  = this.serviceConfig().params.login_success;
+      let compare:any  = Config.services.login_success;
       if(s_resp.status && compare.status && s_resp.status === compare.status ){
         //@NOTE stub out for a client Object interface that should get
         // . created to meet your needs
@@ -179,17 +179,7 @@ export class Session implements Session{
   public loggedIn = ():boolean => {
     return this.logged(this.retrieve('login'));
   }
-
-  /**
-   * Hydrate the service config object lazy boy style
-   * @return {any}
-   */
-  public serviceConfig  = ():services=> {
-    if(this.config) return this.config;
-    this.config = Config.getServices();
-    return this.config;
-  }
-
+  
   /**
    * always returns the object stored or empty object;
    * @type {Object}
@@ -214,10 +204,8 @@ export class Session implements Session{
    * @return {postage}
    */
   private loginPostage = (data:Object) => {
-    if( ! this.config) this.config = Config.getServices();
-    let service = this.serviceConfig().params;
     return {
-        url: service.base + service.login,
+        url: Config.services.url + Config.services.login,
         type: 'POST',
         data: JSON.stringify(data),
         header_type: 'form'

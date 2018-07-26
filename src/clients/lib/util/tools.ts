@@ -16,5 +16,6 @@ export class Tools{
     return false;
   }
 
+
 }
 export default new Tools();

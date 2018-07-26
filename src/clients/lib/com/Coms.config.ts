@@ -1,44 +1,29 @@
 /// <reference path="../../lib/interfaces/com.interface.d.ts"/>
 
-export class Config {
+let env = document && document.location.hostname =='localhost' ? 'dev': 'prod';
 
-  public static getServices = ():services => {
-
-    let s_port = 8092;
-    let c_port = 8091;
-    let d_port = 3050;
-
-    let prodService:service = {
-      base: `https://loginservice.com:${d_port}/`,
-      login: 'login',
-      login_success: {"status":"ok"},
-      uri: 'shop/new/all-new',
-    }
-
-    let devService:service =  {
-      base: `http://localhost:${s_port}/`,
-      login: 'login',
-      login_success: {"status":"ok"},
-      uri: 'shop/new/all-new',
-    };
-
-    let env:string = 'prod';
-
-    if(document && document.location){
-      let host = document.location.host;
-      if(/(localhost)/.test(host)){
-        env= 'dev';
-      }
-    }
-
-    let state:services = {
-      server_port: env == 'prod' ? d_port : c_port,
-      env: env,
-      params: env === 'prod' ? prodService : devService
-    }
-
-    return state;
-  }
+let ports = {
+  dev:{
+    server: 6040,
+    iosocket: 6050,
+  },
+  prod:{
+    server: 6040,
+    iosocket: 6050,
+  },
 }
 
-export default Config;
+export default {
+  env: env,
+  ports:{
+    server: env==='dev' ? ports.dev.server : ports.prod.server,
+    iosocket: env==='dev' ? ports.dev.iosocket : ports.prod.iosocket,
+  },
+  services:{
+    url: env==='dev' ? `https://localhost:${ports.dev.server}/` : `https://sockets.daisyranch.org:${ports.prod.server}/`,
+    login: 'login',
+    login_success: {"status":"ok"},
+    uri: 'shop/data',
+  }
+
+}

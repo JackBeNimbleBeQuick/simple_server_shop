@@ -22,7 +22,7 @@ interface groups{
 }
 
 interface products{
-  [Identifier:string]: product
+  [Identifier:number]: product
 }
 
 interface product{

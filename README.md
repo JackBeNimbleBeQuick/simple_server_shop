@@ -1,5 +1,5 @@
 
-# Simple Server Shop
+# Simple Server Shop ~8^] (maybe this is a misnomer)
 
 >Providing a simple frame out of MVC express without frameworks
 >> This is more a framing repo than an implementation where many of the goals will be explored with a good attempt to use best practices
@@ -21,49 +21,63 @@
   - BL: business logic as reusable components
 
   - Client deployment support
-    - where something like react can get server side fast template renders, and webworker updates can be pushed without interruption within an Agile / Release based process
+    - where something like react can get server side fast template renders, and service-worker updates can be pushed without interruption within an Agile / Release based process
+    - **explorations into how to best provide service workers for multiple clients using any number of libraries and frameworks**
 
 ## Assuming
 - node 8.9.4 (+)
-- mongo installed, configured locally, and running with mogod
+- mongo installed, configured locally, and running with mogod started
+- we use Google Canary so we can have separate Chrome instance for insecure runtime support ... **not using Chrome Canary** will require change to start.sh where you need remove the \ Canary part of that call
+
 
 ### Get started
 - git clone simple_server_shop
 - cd simple_server_shop/src
 - npm install
-- chmod 755 start.sh install_globals.sh end.sh
-- tsc & webpack ** get base things in place for dist/server
-- cd server/config & ./pemmer.sh
+- chmod 755 \*.sh   
+- ./install_globals.sh **we are not using Gulp here** some packages may be missed you will know when they do not work. (we will do clean installs to catch the misses as well... but may miss in between things 8^)
+- cd server/config & ./pemmer.sh **you need to have your own .pem files**
 - in server/config/connect.cnf.ts ssl.passphrase = "your_passphrase"
+- ./build_local_db_image_support.sh **we have many async things here so run it a few times** you can
+- open server/clients/shop_sw.js to make sure the cacheObject is attached and do not remove '___CACHE_INSERT___' from clients/show_sw.js
+  - run `ts-node create_cache.ts` to get that build to work
 
-  - install globals ** we are not using gulp :. the npm scripts needs these
-    - npm install -g webpack node-sass typescript jest cpx nodemon
+- almost there ....
+- ./start.sh **once all is setup up this should be all you need to do work**
+
+#### Once you get things working
+- we are not using gulp for this project so you will see shell scripts and global installs for the base runtime command line operations
+- use `ps` to make sure processes are clean between sets
+- use `killall node node-sass` to clean most things up
+- once everything is setup ./start.sh should provide all that you need with auto builds for sass webpack and servers
+- if you are adding things to be cached run `ts-node create_cache.ts` to update cache object in service worker: show_sw.js is first implementation of that.
+
+### To see things in mongo and check on things
+>> A word on use case for mongo:
+   at this point I view mongo as useful for distributing RDBMS results and collection of distributed lite weight computing... my view may change on this as this is my first deep dive into its use... 8^)
+
+• to access the db do the following
+- : mongo
+- > show dbs
+- > use simpleStore
+- > show collections **you should see session and products collections**
+- > db.products.find() **you will see this db stuff from the initial json setup**
+-> db.session.find() **you will see results once login services are implemented**
 
 ### This is a work in process and does not offer any real implementations as of yet !!! |8^)
 #### And it is hardly complete ....
 
 #### TODO
 
+- √ Provide Service Worker Support
+- √ Provide Mongo DB Support for first React / Redux client
+- Implement simple login services **this will be part Form / Schema Implementations**
 - Finish initial Mongo Form / Schema frame-out
-- Provide Session / Login Support
+- Provide Session / Login Support **session support built in: sessions/local though in first example client**
 - Create simple permission based access
 - Provide route error handling and ensure single channel of access
-- Provide client delivery / web-worker support
-- Reiterate through those parts that need to accommodate RDBMS support
+- Implement RDBMS  
 
   - Review progress and revise goals from the discoveries from above initial steps
 
-
-Workbox configuration (* not currently used ):
-
-Link followed: https://codelabs.developers.google.com/codelabs/workbox-lab/#5
-1. Install workbox-cli gobally
-2. give command - workbox wizard --injectManifest
-? What is the root of your web app (i.e. which directory do you deploy)? Manually enter path
-? Please enter the path to the root of your web app: dist/server/public/js
-? Which file types would you like to precache? js
-? Where's your existing service worker file? To be used with injectManifest, it should include a call to 'workbox.precaching.precacheAndRoute([])' client/sw.js
-? Where would you like your service worker file to be saved? dist/server/public/js/sw.js
-? Where would you like to save these configuration options? client/workbox-config.js
-To build your service worker, run workbox injectManifest client/workbox-config.js
-3. workbox injectManifest client/workbox-config.js
+- **Workbox has now been kicked out of build**

@@ -61,6 +61,8 @@ class ShopperFrame extends React.Component<any, any>{
 
   renderFlags = () => {
 
+    console.log('ShoppingFrame');
+    console.log(this.props);
     let flags =  this.props.product.flags.map((flag:flag,i:any)=>{
       let tag   = `flag-${flag.id} rank-${flag.rank}`;
       let label = this.props.icons[flag.id] ? this.props.icons[flag.id].label : '';

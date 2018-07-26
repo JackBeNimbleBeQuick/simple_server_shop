@@ -32,15 +32,19 @@ export class Tracker{
    * @return {void}
    * @TODO Create Actions.products wthif PRODUCTS type and move this into Reduce/Store
    */
-  public buildProductList = ( list: shoppingProps):void => {
+  public buildProductList = ( list: Array<products>):void => {
 
-    let prodArray = list.groups ? list.groups : null;
+    console.log('buildProductList');
+    console.log(list);
+
+    let prodArray = list.length ? list : null;
     if(prodArray){
       let products:any = {};
       prodArray.map( (prod:any, i:any)=>{
         let key = Store.productKey(prod);
-        if(key && prod) products[key] = prod;
+        if(key) products[key] = prod;
       });
+      console.log(products);
       Session.store(Types.PRODUCTS, products);
       this.hasProducts = true;
     }
@@ -62,7 +66,7 @@ export class Tracker{
    * @return {product:null}
    * @TODO Create Actions.findProduct with FIND_PRODUCT type and move this into Reduce/Store
    */
-  public findProduct = (id:string):products | null => {
+  public findProduct = (id:string):product | null => {
     let products = Session.retrieve(Types.PRODUCTS);
     // console.log(products);
     if( products && products[id] ){

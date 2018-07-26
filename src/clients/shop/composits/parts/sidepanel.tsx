@@ -2,6 +2,7 @@
 ///<reference path="../../../lib/interfaces/shop.interface.d.ts" />
 
 import * as React from 'react';
+import {connect} from 'react-redux';
 import ShopperFrame from 'clients/shop/composits/parts/shopperframe';
 import Image from 'clients/lib/component/image';
 import Store from 'clients/shop/data/store';
@@ -38,17 +39,11 @@ export class SidePanel extends React.Component<any,any>{
    */
   componentDidMount(){
     console.log('SidePanel did mount with history:');
-    console.log(this.props.history);
-    console.log(this.props.last_seen);
-
-    Store.subscribe(this.setHistory);
+    console.log('SidePanel getting initial state');
 
     window.addEventListener('resize', (e) => {
       this.setState({aspect: window.outerWidth/window.outerHeight});
     });
-
-    console.log('SidePanel getting initial state');
-
   }
 
   componentWillUnmount(){
@@ -56,19 +51,8 @@ export class SidePanel extends React.Component<any,any>{
     // Store.releaseStoreChange('sp_last_viewed');
   }
 
-  setHistory = (state:any) => {
-    let shopping = state.shopping ? state.shopping : null;
-
-    if(shopping){
-      //@product
-      if(shopping.viewing){
-        console.log(shopping.viewing);
-        this.setState({
-          last_seen: shopping.viewing,
-          history: Tracker.getByKey(Types.SESSION_TRACKING)
-        });
-      }
-    }
+  componentWillReceiveProps(data:any){
+    this.setState(data);
   }
 
   /**
@@ -192,4 +176,16 @@ export class SidePanel extends React.Component<any,any>{
   }
 }
 
-export default SidePanel;
+let mapper = (state:any) => {
+  let shopping = state.shopping && state.shopping.viewing
+    ? {
+        last_seen: state.shopping.viewing,
+        history: Tracker.getByKey(Types.SESSION_TRACKING)
+      }
+    : {};
+
+  return shopping;
+}
+
+
+export default connect(mapper,{})(SidePanel);

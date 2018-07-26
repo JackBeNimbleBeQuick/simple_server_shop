@@ -40,14 +40,14 @@ class App extends React.Component<any, any>{
     Comservices.action({
       type: 'GET',
       action: Actions.getData,
-      uri: 'shop/new/all-new',
+      uri: 'shop/data',
     });
   }
 
   componentWillReceiveProps (next:any){
     console.log('componentWillReceiveProps');
     console.log(next);
-    if(next.list && next.list.groups){
+    if(next.list && next.list.length){
       Tracker.buildProductList(next.list);
       this.setState({
         didLoad: true,
@@ -64,29 +64,30 @@ class App extends React.Component<any, any>{
   render () {
 
     return (
-        <Provider store={this.state.store}>
-          <div className="page">
-            <Shopping
-              didLoad={this.state.didLoad}
-              list={this.state.list}
-            />
-            <SidePanel
-              history={Tracker.getByKey(Types.SESSION_TRACKING)}
-              last_seen={Tracker.getLastProduct()}
-            />
-            <DisplayBox/>
-          </div>
-        </Provider>
+      <Provider store={this.state.store}>
+        <div className="page">
+          <Shopping
+            didLoad={this.state.didLoad}
+            list={this.state.list}
+          />
+          <SidePanel
+            history={Tracker.getByKey(Types.SESSION_TRACKING)}
+            last_seen={Tracker.getLastProduct()}
+          />
+          <DisplayBox/>
+        </div>
+      </Provider>
     );
 
   }
 }
 
 let mapStateToProps = (data:any) => {
+  console.log('APP Mapping Data');
+  console.log(data);
   let list = data.shopping && data.shopping.all
     ? data.shopping.all : {};
   return {list: list};
 }
 
 export default connect(mapStateToProps,{})(App);
-// export default new AppContainer({});

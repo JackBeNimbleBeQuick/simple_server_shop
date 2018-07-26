@@ -4,6 +4,8 @@ import {Server} from 'https';
 import {Socket} from '../com/socket';
 import * as path from 'path';
 import * as fs from 'fs';
+import CMSModel from '../model/cmsModel';
+import DBConnect from '../db/db_connect';
 
 export class AppController{
   /**
@@ -42,6 +44,13 @@ export class AppController{
 
   public getApp = (req: Request, res:Response) => {
     console.log(req);
+  }
+
+  public getShopData = (req: Request, res:Response) => {
+    DBConnect.sessionStart();
+    let repo = CMSModel.repo('products');
+
+
   }
 
 }

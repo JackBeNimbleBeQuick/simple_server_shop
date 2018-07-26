@@ -1,5 +1,5 @@
 
-import {Request , Response, NextFunction, Application} from 'express';
+import {Request, Response, NextFunction, Application} from 'express';
 import {Server} from 'https';
 import {CmsController} from '../controllers/cmsController';
 import {AppController} from '../controllers/appController';

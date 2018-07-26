@@ -1,10 +1,12 @@
 ///<reference path="../server.interface.d.ts" />
 import * as  mongoose from 'mongoose';
-import {Response, Request} from 'express';
+import {Response, Request, NextFunction} from 'express';
 import * as path from 'path';
 import * as pug from 'pug';
 import * as fs from 'fs';
 import * as url from 'url';
+import CMSModel from '../model/cmsModel';
+import DBConnect from '../db/db_connect';
 
 export class CmsController{
 
@@ -45,13 +47,21 @@ export class CmsController{
     res.render('layout',this.parts);
   }
 
+
+  public login = (req: Request, res:Response) => {
+    this.parts['title'] = 'Login please';
+    this.parts['heading'] = 'Login page:';
+    this.parts['body'] = 'Login form';
+    res.render('layout',this.parts);
+  }
+
   public shop = (req: Request, res:Response) => {
     let pathName:string|undefined = url.parse(req.url).pathname;
-    let files    = path.join(__dirname, '../clients' + pathName);
     let template = this.template_path+pathName + '.pug';
-    // console.log(files);
-    // console.log(pathName);
 
+    /*
+      filter for path only /path/** attempts to read file as ServiceWorker
+     */
     if(pathName === '/shop'){
 
       this.parts['title'] = 'Shopping';
@@ -64,22 +74,47 @@ export class CmsController{
       res.write(data);
       return res.end();
 
+    }else if(pathName === '/shop/data'){
+      let repo = CMSModel.repo('products');
+      DBConnect.sessionStart();
+      console.log('Getting shop data')
+      repo.retrieve((err:any, data:any)=>{
+        if(err===null){
+          res.set('Content-Type', 'application/json');
+          res.set('Service-Worker-Allowed', '/shop');
+          res.write(JSON.stringify(data));
+          return res.end();
+        }
+        return this.notFound(res);
+      });
+    }else{
+      return pathName ? this.serveServiceWorker(pathName,res) : this.notFound(res);
     }
+
+
+  }
+
+  private notFound = (res:Response) => {
+    res.writeHead(404, {'Content-type':'text/plan'});
+    res.write('File Not Found');
+    res.end();
+  }
+
+  private serveServiceWorker = (_path:string, res:Response) => {
+    let files    = path.join(__dirname, '../clients' + _path);
 
     fs.readFile(files, (err, data) => {
 
         if(err){
-            res.writeHead(404, {'Content-type':'text/plan'});
-            res.write('File Not Found');
-            res.end();
-        }
-        else{
+          return this.notFound(res);
+        }else{
+
           let filter = /[\.](js|css|png|svg|gif|jpeg)/;
           let image = /(png|svg|gif|jpeg)/;
-          let types = pathName ? pathName.match(filter): [];
+          let types = _path ? _path.match(filter): [];
           let type = types && types.length > 0 ? types[0].replace(/[\.]/,'') : '';
           let typed  = 'application/javascript';
-          console.log(pathName);
+          console.log(_path);
           console.log(type);
 
           switch(type){
@@ -98,14 +133,7 @@ export class CmsController{
           return res.end();
 
         }
-    })
+    });
 
-  }
-
-  public login = (req: Request, res:Response) => {
-    this.parts['title'] = 'Login please';
-    this.parts['heading'] = 'Login page:';
-    this.parts['body'] = 'Login form';
-    res.render('layout',this.parts);
   }
 }

@@ -1,5 +1,6 @@
 
 import * as fs from 'fs';
+import * as path from 'path';
 
 export default {
   session:{
@@ -23,12 +24,26 @@ export default {
     pingTimeout: 2500,
     cookie: true
   },
-  port: 8095,
-  sslPort: 4040,
-  wsPort: 40510,
-  io_Port: 40510,
-  io_sslPort: 4050,
+  // port: 8095,
+  sslPort: 6040,
+  // wsPort: 40510,
+  io_Port: 4051,
+  io_sslPort: 6050,
   duration: 24, //hours
   mongoUrl: 'mongodb://127.0.0.1:27017/simpleStore',
   key: 'bf6987742b9c56b947f9c02baa6930dc',
+  paths:{
+    shop_image_path: '/public/imgs/products/',
+    product_image: path.resolve(`${__dirname}/../public/imgs/products/`)
+  },
+  cache: {
+    client: './clients/shop_sw.js',
+    server: './server/clients/shop_sw.js',
+    products:[
+      '/',
+      '/shop',
+      '/shop/css/main.css',
+      '/shop/app.js'
+    ],
+  }
 }

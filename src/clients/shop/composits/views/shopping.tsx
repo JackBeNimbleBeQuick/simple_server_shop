@@ -60,8 +60,8 @@ export default class Shopping extends React.Component<any, any>{
    */
   renderList = ():ReactElement | string =>{
     let list = '';
-    if(this.props.list && this.props.didLoad===true){
-      list = this.props.list.groups.map((product:product,i:any)=>{
+    if(this.props.list.length && this.props.didLoad===true){
+      list = this.props.list.map((product:product,i:any)=>{
         return(
           <ShopperFrame
             key= {i}
@@ -75,6 +75,8 @@ export default class Shopping extends React.Component<any, any>{
   }
 
   render(){
+    console.log(this.props);
+
     if(this.props.didLoad){
       return(
         <div className="shopping">

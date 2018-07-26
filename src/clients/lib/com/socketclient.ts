@@ -1,4 +1,5 @@
 import * as io from 'clients/vendor/socket.io';
+import Config from 'clients/lib/com/Coms.config';
 
 /**
  * Socket Class provides the connection layer to Server
@@ -11,7 +12,7 @@ export class SocketClient{
 
   private socket:any;
 
-  private server = 'https://localhost:4050';
+  private server = `https://localhost:${Config.ports.iosocket}`;
 
   private connectOptions: any;
 

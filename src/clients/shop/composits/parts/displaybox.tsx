@@ -1,5 +1,6 @@
 ///<reference path="../../../lib/interfaces/shop.interface.d.ts" />
 import * as React from 'react';
+import {connect} from 'react-redux';
 import Closer from 'clients/lib/component/closer';
 import Image from 'clients/lib/component/image';
 import DomUtils from 'clients/lib/util/dom';
@@ -18,12 +19,11 @@ class DisplayBox extends React.Component <any, any > {
 
   constructor(props:any){
     super(props);
-    this.windowSnoop = this.changeDisplay;
     this.state = {
       // store: new Store(),
       aspect: window.outerWidth / window.outerHeight,
       product: this.props.product,
-      images: this.props.images,
+      images: [],
       alt: this.props.alt,
       pointer: 0,
       expanded: false
@@ -34,36 +34,21 @@ class DisplayBox extends React.Component <any, any > {
    * By using listener on store, this component becomes stateful
    */
   componentDidMount(){
-    Store.subscribe(this.changeDisplay);
-    window.addEventListener('resize',this.windowSnoop);
+    window.addEventListener('resize',this.changeDisplay);
   }
 
   componentWillUnmount(){
-    window.removeEventListener('resize',this.windowSnoop);
-    Store.unsubscribe(this.changeDisplay);
+    window.removeEventListener('resize',this.changeDisplay);
   }
 
-  aspectChange = () => {
-    this.setState({aspect: window.outerWidth/window.outerHeight});
+  componentWillReceiveProps(state:any){
+    this.setState(state);
   }
 
-  changeDisplay = (data:any) => {
-    console.log('DisplayBox changeDisplay')
-    console.log(data);
-    if(data.shopping && data.shopping.viewing){
-      let prod = data.shopping.viewing;
-
-      this.setState({
-        pointer: 0,
-        expanded: true,
-        product: prod,
-        images: this.images(prod),
-      });
-    }else{
-      this.setState({
-        aspect: window.outerWidth / window.outerHeight,
-      });
-    }
+  changeDisplay = () => {
+    this.setState({
+      aspect: window.outerWidth / window.outerHeight,
+    });
   }
 
   /**
@@ -116,29 +101,13 @@ class DisplayBox extends React.Component <any, any > {
   }
 
   /**
-   * we need to put hero image on top of marque
-   * safest way to do this is to provide new array with it on top
-   * @return {[type]} [description]
-   */
-  images = (prod:product) => {
-    //product images we create new Array so as to avoid
-    // this.product.images.unshift will polute data that should stay immutable
-    let images:Array<image> = [];
-    prod.images.map( (image,key)=>{
-      images.push(image);
-    });
-    images.unshift(prod.hero);
-    return images;
-  }
-
-  /**
    * Render Marque of all images for easy selection
    * @return {[type]} [description]
    */
   renderImagePanel = () =>{
     let list = this.state.images.map((image:image,i:any)=>{
 
-      let classes = ['sidebar', i==this.state.pointer ? 'selected' : ''];
+    let classes = ['sidebar', i==this.state.pointer ? 'selected' : ''];
 
       return(
         <li className={classes.join(' ')} key={i}>
@@ -165,6 +134,7 @@ class DisplayBox extends React.Component <any, any > {
    * @return {HTMLElement|null}
    */
   render() {
+    console.log(this.state);
 
     if(! this.state.expanded) return null;
 
@@ -204,4 +174,24 @@ class DisplayBox extends React.Component <any, any > {
   }
 }
 
-export default DisplayBox;
+let mapper = (data:any) => {
+  console.log('DisplayBox changeDisplay')
+  // console.log(data);
+  if(data.shopping && data.shopping.viewing){
+    let product = data.shopping.viewing;
+    let images:Array<image> = [];
+    product.images.map((img:image)=>{images.push(img)});
+    images.unshift(product.hero);
+    console.log(images);
+
+    return {
+      pointer: 0,
+      expanded: true,
+      images: images,
+      product: product,
+    };
+  }
+  return {}
+}
+
+export default connect(mapper,{})(DisplayBox);

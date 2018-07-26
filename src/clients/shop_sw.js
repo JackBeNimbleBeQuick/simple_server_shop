@@ -1,11 +1,8 @@
-let version = 'v1::';
+var version = 'v1::';
 
-var appCache= [
-  '/',
-  '/shop',
-  '/shop/css/main.css',
-  '/shop/app.js'
-];
+var appCache = ___CACHE_INSERT___;
+
+
 self.addEventListener("install", function (event) {
   console.log('WORKER: install event in progress.');
 
@@ -49,8 +46,10 @@ self.addEventListener("fetch", function (event) {
         var networked = fetch(event.request)
         .then(fetchedFromNetwork, unableToResolve)
         .catch(unableToResolve);
+
         // console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
         return cached || networked;
+
         function fetchedFromNetwork(response) {
           var cacheCopy = response.clone();
           // console.log('WORKER: fetch response from network.', event.request.url);
@@ -65,6 +64,7 @@ self.addEventListener("fetch", function (event) {
 
           return response;
         }
+
         function unableToResolve() {
           console.log('WORKER: fetch request failed in both cache and network.');
           return new Response('<h1>Service Unavailable</h1>', {

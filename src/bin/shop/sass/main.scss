@@ -1,10 +1,5 @@
-@import 'vars/var';
-@import 'vars/mixes';
-
-@import 'common/icons';
-@import 'common/main';
-@import 'common/grid';
-@import 'common/animate';
+@import '../../main/sass/vars/var';
+@import '../../main/sass/vars/mixes';
 
 @import 'component/sidepanel';
 @import 'component/shopping';

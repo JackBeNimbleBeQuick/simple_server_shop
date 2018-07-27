@@ -43,7 +43,7 @@ export class CmsController{
   public main = (req: Request, res:Response) => {
     this.parts['title'] = 'Main page';
     this.parts['headng'] = 'Welcome to our site';
-    this.parts['body'] = 'Main introductions of app';
+    this.parts['content'] = 'Main introductions of app';
     res.render('layout',this.parts);
   }
 
@@ -51,7 +51,7 @@ export class CmsController{
   public login = (req: Request, res:Response) => {
     this.parts['title'] = 'Login please';
     this.parts['heading'] = 'Login page:';
-    this.parts['body'] = 'Login form';
+    this.parts['content'] = 'Login form';
     res.render('layout',this.parts);
   }
 
@@ -66,7 +66,7 @@ export class CmsController{
 
       this.parts['title'] = 'Shopping';
       this.parts['heading'] = 'Time to shop!! 8^)"';
-      this.parts['body'] = 'Shopping page';
+      this.parts['content'] = 'Shopping page';
 
       let data = pug.renderFile(template, this.parts);
       res.set('Content-Type', 'text/html');

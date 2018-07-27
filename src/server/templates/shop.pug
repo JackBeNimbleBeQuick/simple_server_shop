@@ -1,12 +1,10 @@
 extends layout.pug
 
-block headings
-  meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1' )
-  title= title
+block head
   link(rel='stylesheet', href='shop/css/main.css')
   
 block main 
-  div#root.container
+  div#root.container.main
   
 block scripts
  script(src="shop/app.js")

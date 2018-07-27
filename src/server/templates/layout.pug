@@ -1,15 +1,26 @@
 html
+
   head
-    block headings
+  
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1' )
+    link(rel='icon', href='public/favicon.ico')
+    link(rel='stylesheet', href='public/css/main.css')
+    
+    block head
     
   body
-    header
-      heading= heading 
+    block headings
+    
+    block header
+      header
+        div.heading= heading 
       
     block main
-      body= body
-      
+      div.container.main
+        content= content 
+          
     footer
-      footer= footer
+      div= footer
       
     block scripts

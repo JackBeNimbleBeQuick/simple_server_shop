@@ -80,6 +80,7 @@ export class DBRunner{
           }else{
             console.log(`record found ${result[0].key}`);
           }
+          return this;
         });
       });
     }
@@ -150,6 +151,7 @@ export class DBRunner{
                     console.log(`All is cool with images.${j}.href for: ${name}`);
                   }
                 }
+                return this;
               });
             }
           });
@@ -209,7 +211,7 @@ export class DBRunner{
 
           // console.log(content);
           fs.writeFile(cnf.cache.shop.server, content , (err)=>{
-            if(err !==null){
+            if(err ===null){
               return console.log('File saved');
             }
             return console.log(err);
@@ -262,7 +264,7 @@ export class DBRunner{
    */
   private download = (url:string, name:string) => {
     let suffix = '.jpg';
-    console.log(`should use cnf.paths.product_image: ${cnf.paths.product_image}`);
+    // console.log(`should use cnf.paths.product_image: ${cnf.paths.product_image}`);
     let dir = './server/public/imgs/products/';
     try{
 
@@ -279,7 +281,7 @@ export class DBRunner{
       })
       .pipe(fs.createWriteStream(dir+name+suffix));
     }catch(e){
-      console.log(`error on ${url}`)
+      console.log(`file may already be there for: ${url}`)
     }
   }
 

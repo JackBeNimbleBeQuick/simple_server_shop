@@ -30,7 +30,7 @@ export class DBConnect {
     });
     return this.connection;
   }
-  
+
   public sessionStop = ():any => {
     if(this.connection){
       this.connection.close();

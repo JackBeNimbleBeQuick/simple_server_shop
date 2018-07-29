@@ -26,36 +26,6 @@ export class Session implements Session{
     return false;
   }
 
-  public login = (data:any, success:Function, error:Function) => {
-    this.forward = success;
-
-    let succeeds = (response:any) => {
-      //@TODO work this into to validator
-      let s_resp =  JSON.parse(response);
-      let compare:any  = Config.services.login_success;
-      if(s_resp.status && compare.status && s_resp.status === compare.status ){
-        //@NOTE stub out for a client Object interface that should get
-        // . created to meet your needs
-        this.storeSessionData({
-          logged_in: true,
-          pid: data.username,
-          name: "Yosemite Sam",
-          key: 'login',
-          permits:{ // making things explicit
-            zones:{
-              appointments: true
-            }
-          },
-        });
-        return this.forward(true);
-      }
-      return error(response)
-    }
-
-
-    this.connect().send(this.loginPostage(data),succeeds, error);
-  }
-
   /**
    * Explains itself
    * @return {string}
@@ -179,7 +149,7 @@ export class Session implements Session{
   public loggedIn = ():boolean => {
     return this.logged(this.retrieve('login'));
   }
-  
+
   /**
    * always returns the object stored or empty object;
    * @type {Object}

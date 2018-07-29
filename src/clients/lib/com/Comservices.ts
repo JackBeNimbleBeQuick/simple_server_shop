@@ -95,7 +95,7 @@ export class Comservices{
       url: url,
       type: 'GET',
       data: null, // 8^) looking into this
-      header_type: 'form_ac'
+      header_type: 'json'
     },this.packager, error);
   }
 

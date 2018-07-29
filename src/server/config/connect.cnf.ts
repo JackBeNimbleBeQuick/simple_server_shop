@@ -43,8 +43,10 @@ export default {
       products:[
         '/',
         '/shop',
+        '/shop/app.js',
         '/shop/css/main.css',
-        '/shop/app.js'
+        '/public/css/main.css',
+        '/public/favicon.ico'
       ],
     }
   }

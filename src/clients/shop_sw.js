@@ -10,8 +10,8 @@ self.addEventListener("install", function (event) {
     caches
       .open(version + 'allCache')
       .then(function (cache) {
-        console.log('cache');
-        console.log(appCache);
+        // console.log('cache');
+        // console.log(appCache);
         return cache.addAll(appCache);
       })
       .then(function () {
@@ -35,8 +35,8 @@ self.addEventListener('activate', event => {
 self.addEventListener("fetch", function (event) {
   // console.log('WORKER: fetch event in progress.');
 
-  if (event.request.method !== 'GET') {
-    // console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
+  if (event.request.method !== 'GET' ||  /(socket.io)/.test(event.request.url) ) {
+    console.log('WORKER: IGNORE fetch event.', event.request.method, event.request.url);
     return;
   }
   event.respondWith(
@@ -47,33 +47,29 @@ self.addEventListener("fetch", function (event) {
         .then(fetchedFromNetwork, unableToResolve)
         .catch(unableToResolve);
 
-        // console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
+        console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
+        console.log(event.request.url);
+        console.log(cached ? cached.url : 'NOT cached');
         return cached || networked;
 
         function fetchedFromNetwork(response) {
           var cacheCopy = response.clone();
           // console.log('WORKER: fetch response from network.', event.request.url);
           caches
-            .open(version + 'pages')
+            .open(version + 'allCache')
             .then(function add(cache) {
+              console.log('WORKER: PUT into cache.', event.request.url);
               cache.put(event.request, cacheCopy);
-            })
-            .then(function () {
-              // console.log('WORKER: fetch response stored in cache.', event.request.url);
             });
+            // .then(function () {
+            //   // console.log('WORKER: fetch response stored in cache.', event.request.url);
+            // });
 
           return response;
         }
 
         function unableToResolve() {
-          console.log('WORKER: fetch request failed in both cache and network.');
-          return new Response('<h1>Service Unavailable</h1>', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: new Headers({
-              'Content-Type': 'text/html'
-            })
-          });
+          console.log('WORKER: Catch Network off line')
         }
       })
   );

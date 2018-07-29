@@ -1,7 +1,9 @@
 
 ///<reference path="./server.interface.d.ts" />
 import * as express from 'express';
+import {Response, Request, NextFunction} from 'express';
 import * as body from 'body-parser';
+import * as csrf from 'csurf';
 import {Routes} from './route/routes';
 
 //setup sessions env
@@ -29,14 +31,21 @@ class App implements shopApp{
   private start = ():void => {
     this.router.routes();
     this.app
-      .use(helmet())
       .use(helmet.hidePoweredBy())
-      .use('/public',express.static(__dirname + '/public'))
+      .use('/public',express.static(__dirname + '/public',{
+        setHeaders: (res: Response) => {
+          res.setHeader('Service-Worker-Allowed', '/');
+        }
+      }))
       .use(DBConnect.sessionDB)
       .use(body.json())
       .use(body.urlencoded({extended: false}))
-      //** @TODO changes for react to come
-      ;
+      .use(csrf())
+      .use(helmet())
+      .use((req:Request, res:Response, next:NextFunction) => {
+        // res.locals.csrftoken = csrf()
+        next();
+      });
   }
 
   public init = ():express.Application => {

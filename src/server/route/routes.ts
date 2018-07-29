@@ -12,6 +12,7 @@ export class Routes{
   apps: AppController;
   server: any;
   expressApp: any;
+  csrfTokens: any;
 
   constructor(shopApp:shopApp){
     // console.log(expressApp.getHttpServer());
@@ -42,9 +43,6 @@ export class Routes{
       .get(this.cms.login)
 
     this.app.route('/app')
-      .get(this.apps.getApp)
-
-    this.app.route('/socket.io')
       .get(this.apps.getApp)
 
     //@TODO create fallback / 404 and Error Routes

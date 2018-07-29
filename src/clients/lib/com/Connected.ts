@@ -32,6 +32,9 @@ export class Connected{
 	}
 
   public send = (postage:postage, success:Function, failure:Function) => {
+    
+    this.xhr.timeout = postage.wait ? postage.wait : 500;
+
     this.xhr.open(this.getType(postage), postage.url , true);
 
 		this.setHeaders(postage.header_type);
@@ -80,14 +83,6 @@ export class Connected{
       case 'json':
     		this.xhr.setRequestHeader("Content-Type","application/json");
       break;
-
-    	//@NOTE server side Response Headers... @FIXME
-      /*
-    		"Access-Control-Allow-Origin", '*'
-    		"Access-Control-Allow-Headers",
-          "Origin, X-Requested-With, Content-Type, Accept"
-       */
-
       case 'cors':
         this.xhr.withCredentials = true;
       break;

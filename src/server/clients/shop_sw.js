@@ -1,6 +1,6 @@
 var version = 'v1::';
 
-var appCache = ["/","/shop","/shop/css/main.css","/shop/app.js","/public/imgs/products/b2449_main_.jpg","/public/imgs/products/b2449_thumbnail_.jpg","/public/imgs/products/b2449_images_1_.jpg","/public/imgs/products/b2449_images_2_.jpg","/public/imgs/products/b2449_images_3_.jpg","/public/imgs/products/b2451_main_.jpg","/public/imgs/products/b2451_thumbnail_.jpg","/public/imgs/products/b2451_images_1_.jpg","/public/imgs/products/b2451_images_2_.jpg","/public/imgs/products/b2450_main_.jpg","/public/imgs/products/b2450_thumbnail_.jpg","/public/imgs/products/b2450_images_1_.jpg","/public/imgs/products/b2450_images_2_.jpg","/public/imgs/products/b2452_main_.jpg","/public/imgs/products/b2452_thumbnail_.jpg","/public/imgs/products/b2452_images_1_.jpg","/public/imgs/products/b2452_images_2_.jpg","/public/imgs/products/b2458_main_.jpg","/public/imgs/products/b2458_thumbnail_.jpg","/public/imgs/products/b2458_images_1_.jpg","/public/imgs/products/b2458_images_2_.jpg","/public/imgs/products/b2459_main_.jpg","/public/imgs/products/b2459_thumbnail_.jpg","/public/imgs/products/b2459_images_1_.jpg","/public/imgs/products/b2457_main_.jpg","/public/imgs/products/b2457_thumbnail_.jpg","/public/imgs/products/b2457_images_1_.jpg","/public/imgs/products/b2465_main_.jpg","/public/imgs/products/b2465_thumbnail_.jpg","/public/imgs/products/b2465_images_1_.jpg","/public/imgs/products/b2465_images_2_.jpg","/public/imgs/products/b2467_main_.jpg","/public/imgs/products/b2467_thumbnail_.jpg","/public/imgs/products/b2467_images_1_.jpg","/public/imgs/products/b2460_main_.jpg","/public/imgs/products/b2460_thumbnail_.jpg","/public/imgs/products/b2460_images_1_.jpg"];
+var appCache = ["/","/shop","/shop/app.js","/shop/css/main.css","/public/css/main.css","/public/favicon.ico","/public/imgs/products/b2449_main_.jpg","/public/imgs/products/b2449_thumbnail_.jpg","/public/imgs/products/b2449_images_1_.jpg","/public/imgs/products/b2449_images_2_.jpg","/public/imgs/products/b2449_images_3_.jpg","/public/imgs/products/b2451_main_.jpg","/public/imgs/products/b2451_thumbnail_.jpg","/public/imgs/products/b2451_images_1_.jpg","/public/imgs/products/b2451_images_2_.jpg","/public/imgs/products/b2450_main_.jpg","/public/imgs/products/b2450_thumbnail_.jpg","/public/imgs/products/b2450_images_1_.jpg","/public/imgs/products/b2450_images_2_.jpg","/public/imgs/products/b2459_main_.jpg","/public/imgs/products/b2459_thumbnail_.jpg","/public/imgs/products/b2459_images_1_.jpg","/public/imgs/products/b2465_main_.jpg","/public/imgs/products/b2465_thumbnail_.jpg","/public/imgs/products/b2465_images_1_.jpg","/public/imgs/products/b2465_images_2_.jpg","/public/imgs/products/b2457_main_.jpg","/public/imgs/products/b2457_thumbnail_.jpg","/public/imgs/products/b2457_images_1_.jpg","/public/imgs/products/b2458_main_.jpg","/public/imgs/products/b2458_thumbnail_.jpg","/public/imgs/products/b2458_images_1_.jpg","/public/imgs/products/b2458_images_2_.jpg","/public/imgs/products/b2452_main_.jpg","/public/imgs/products/b2452_thumbnail_.jpg","/public/imgs/products/b2452_images_1_.jpg","/public/imgs/products/b2452_images_2_.jpg","/public/imgs/products/b2460_main_.jpg","/public/imgs/products/b2460_thumbnail_.jpg","/public/imgs/products/b2460_images_1_.jpg","/public/imgs/products/b2467_main_.jpg","/public/imgs/products/b2467_thumbnail_.jpg","/public/imgs/products/b2467_images_1_.jpg"];
 
 
 self.addEventListener("install", function (event) {
@@ -10,8 +10,8 @@ self.addEventListener("install", function (event) {
     caches
       .open(version + 'allCache')
       .then(function (cache) {
-        console.log('cache');
-        console.log(appCache);
+        // console.log('cache');
+        // console.log(appCache);
         return cache.addAll(appCache);
       })
       .then(function () {
@@ -35,8 +35,8 @@ self.addEventListener('activate', event => {
 self.addEventListener("fetch", function (event) {
   // console.log('WORKER: fetch event in progress.');
 
-  if (event.request.method !== 'GET') {
-    // console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
+  if (event.request.method !== 'GET' ||  /(socket.io)/.test(event.request.url) ) {
+    console.log('WORKER: IGNORE fetch event.', event.request.method, event.request.url);
     return;
   }
   event.respondWith(
@@ -46,31 +46,30 @@ self.addEventListener("fetch", function (event) {
         var networked = fetch(event.request)
         .then(fetchedFromNetwork, unableToResolve)
         .catch(unableToResolve);
-        // console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
+
+        console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
+        console.log(event.request.url);
+        console.log(cached ? cached.url : 'NOT cached');
         return cached || networked;
+
         function fetchedFromNetwork(response) {
           var cacheCopy = response.clone();
           // console.log('WORKER: fetch response from network.', event.request.url);
           caches
-            .open(version + 'pages')
+            .open(version + 'allCache')
             .then(function add(cache) {
+              console.log('WORKER: PUT into cache.', event.request.url);
               cache.put(event.request, cacheCopy);
-            })
-            .then(function () {
-              // console.log('WORKER: fetch response stored in cache.', event.request.url);
             });
+            // .then(function () {
+            //   // console.log('WORKER: fetch response stored in cache.', event.request.url);
+            // });
 
           return response;
         }
+
         function unableToResolve() {
-          console.log('WORKER: fetch request failed in both cache and network.');
-          return new Response('<h1>Service Unavailable</h1>', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: new Headers({
-              'Content-Type': 'text/html'
-            })
-          });
+          console.log('WORKER: Catch Network off line')
         }
       })
   );

@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as pug from 'pug';
 import * as fs from 'fs';
 import * as url from 'url';
+import * as csrf from 'csurf';
 import CMSModel from '../model/cmsModel';
 import DBConnect from '../db/db_connect';
 
@@ -16,13 +17,17 @@ export class CmsController{
 
   private app: any;
 
+  private csrfTokens: any;
+
   private template_path: string;
 
   constructor(app:shopApp){
 
     this.app = app.get();
+
     this.template_path = path.join(__dirname, '../templates');
 
+    this.csrfTokens = csrf();
 
     //@NOTE Pug templates
     //@TODO evaluate client functions versus cached html .. et al.
@@ -70,7 +75,7 @@ export class CmsController{
 
       let data = pug.renderFile(template, this.parts);
       res.set('Content-Type', 'text/html');
-      res.set('Service-Worker-Allowed', '/shop');
+      res.set('Service-Worker-Allowed', '/');
       res.write(data);
       return res.end();
 
@@ -81,7 +86,7 @@ export class CmsController{
       repo.retrieve((err:any, data:any)=>{
         if(err===null){
           res.set('Content-Type', 'application/json');
-          res.set('Service-Worker-Allowed', '/shop');
+          res.set('Service-Worker-Allowed', '/');
           res.write(JSON.stringify(data));
           return res.end();
         }

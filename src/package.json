@@ -2,9 +2,12 @@
   "description": "Simple Shop with Server Implementation",
   "main": "server/index.ts",
   "scripts": {
-    "css": "node-sass ./bin/shop/sass/main.scss -o server/public/clients/shop/css -w&",
+    "sw": "ts-node create_cache.ts &",
+    "css_main": "node-sass ./bin/main/sass/main.scss -o server/public/css",
+    "css": "node-sass ./bin/shop/sass/main.scss -o server/clients/shop/css",
     "clean": "killall node node-sass",
-    "build": "webpack -w && ts-node-dev --respawn server/server.ts",
+    "production": "webpack &",
+    "build": "webpack --env dev -w && ts-node-dev --respawn server/server.ts",
     "server_dev": "ts-node-dev --respawn server/server.ts &",
     "launch": "open -a Google\\ Chrome\\ Canary https://localhost:6040 --args --disable-web-security -user-data-dir --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost:6040",
     "shop_css": "node-sass bin/shop/sass/main.scss -o server/clients/shop/css"
@@ -46,16 +49,19 @@
   },
   "dependencies": {
     "@types/connect-mongo": "0.0.37",
+    "@types/csurf": "^1.9.35",
     "@types/express": "^4.16.0",
     "@types/express-session": "^1.15.10",
     "@types/helmet": "0.0.38",
     "@types/pug": "^2.0.4",
     "@types/react-redux": "^6.0.4",
     "@types/socket.io": "^1.4.36",
+    "@types/socket.io-client": "^1.4.32",
     "@types/webappsec-credential-management": "^0.3.3",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.1",
     "cookie-session": "^2.0.0-beta.3",
+    "csurf": "^1.9.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "flux": "^3.1.3",
@@ -68,9 +74,11 @@
     "request-promise-core": "^1.1.1",
     "rx": "^4.1.0",
     "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "ts-node": "^7.0.0",
     "typesafe-actions": "^2.0.4",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "validate": "^4.4.1"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.12",

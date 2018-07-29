@@ -1,4 +1,4 @@
-import * as io from 'clients/vendor/socket.io';
+import * as io from 'socket.io-client';
 import Config from 'clients/lib/com/Coms.config';
 
 /**

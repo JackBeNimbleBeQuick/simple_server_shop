@@ -3,12 +3,12 @@ import * as Promise from 'promise';
 
 let runner = new DBRunner();
 
-let promise = new Promise((resolve:Function, reject:any)=>{
+new Promise((resolve:Function, reject:any)=>{
   runner.build();
   resolve()
 }).then(()=>{
   return runner.grabMedia();
-}).then((value:any)=>{
+}).then(()=>{
   return runner.renameMediaRefs();
 }).then(()=>{
   //inserts local cache files into show_sw.js

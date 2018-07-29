@@ -2,6 +2,7 @@
   "description": "Simple Shop with Server Implementation",
   "main": "server/index.ts",
   "scripts": {
+    "preinstall": "sudo npm install --unsafe-perm -g ts-node ts-node-dev node-sass cpx webpack webpack-cli",
     "build_db": "ts-node build_local_db_image_support.ts",
     "sw": "ts-node create_cache.ts &",
     "css_main": "node-sass ./bin/main/sass/main.scss -o server/public/css",

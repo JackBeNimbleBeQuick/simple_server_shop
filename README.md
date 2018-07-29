@@ -34,11 +34,11 @@
 - git clone simple_server_shop
 - cd simple_server_shop/src
 - npm install
-- chmod 755 \*.sh   
+- chmod 755 *.sh   
 - ./install_globals.sh **we are not using Gulp here** some packages may be missed you will know when they do not work. (we will do clean installs to catch the misses as well... but may miss in between things 8^)
 - cd server/config & ./pemmer.sh **you need to have your own .pem files**
 - in server/config/connect.cnf.ts ssl.passphrase = "your_passphrase"
-- ./build_local_db_image_support.sh **we have many async things here so run it a few times**
+- ts-node build_local_db_image_support.ts **we have many async things here so run it a few times**
 - open server/clients/shop_sw.js to make sure the cacheObject is attached and do not remove '___CACHE_INSERT___' from clients/show_sw.js
   - run `ts-node create_cache.ts` to get that build to work
 

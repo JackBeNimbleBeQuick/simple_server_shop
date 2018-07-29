@@ -54,6 +54,8 @@ export class CmsController{
 
 
   public login = (req: Request, res:Response) => {
+    console.log('login form')
+    console.log(res.locals)
     this.parts['title'] = 'Login please';
     this.parts['heading'] = 'Login page:';
     this.parts['content'] = 'Login form';

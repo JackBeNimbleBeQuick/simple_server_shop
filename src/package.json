@@ -2,6 +2,7 @@
   "description": "Simple Shop with Server Implementation",
   "main": "server/index.ts",
   "scripts": {
+    "build_db": "ts-node build_local_db_image_support.ts",
     "sw": "ts-node create_cache.ts &",
     "css_main": "node-sass ./bin/main/sass/main.scss -o server/public/css",
     "css": "node-sass ./bin/shop/sass/main.scss -o server/clients/shop/css",

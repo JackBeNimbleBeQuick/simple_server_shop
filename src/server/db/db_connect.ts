@@ -46,8 +46,12 @@ export class DBConnect {
       store: new connector(cnf.session),
       secret: cnf.key,
       maxAge: new Date(Date.now() + 60*60*1000*cnf.duration),
-      saveUninitialized: true,
-      resave: false,
+      cookie:{
+        httpOnly: true,
+        secure: true
+      }
+      // saveUninitialized: true,
+      // resave: false,
     }
 
   }

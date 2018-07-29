@@ -43,7 +43,7 @@ class App implements shopApp{
       .use(csrf())
       .use(helmet())
       .use((req:Request, res:Response, next:NextFunction) => {
-        // res.locals.csrftoken = csrf()
+        res.locals._csrf = req.csrfToken()
         next();
       });
   }

@@ -73,4 +73,42 @@ self.addEventListener("fetch", function (event) {
         }
       })
   );
+
 });
+
+//@NOTE future boiler plate
+
+// var credentialCheck = (token:string, providers: Array<string>) => {
+//   if ('credentials' in navigator) {
+//     (navigator.credentials as any).get({
+//       password: true,
+//       federated: {
+//         providers: providers
+//       },
+//       unmediated: true,
+//     }).then((cred:any) =>{
+//       if (cred) {
+//         let form = new FormData();
+//         form.append('email', cred.id);
+//         form.append('password', cred.password);
+//         form.append('csrf_token', token);
+//         return fetch('/signin', {
+//           method: 'POST',
+//           credentials: 'include',
+//           body: form
+//         });
+//       } else {
+//         // Fallback to sign-in form
+//       }
+//     }).then( (res:any) => {
+//       if (res.status === 200) {
+//         return res.json();
+//       } else {
+//         throw 'Auth failed';
+//       }
+//     }).then( (profile:any)=> {
+//       console.log('Auth succeeded', profile);
+//     });
+//   }
+//
+// }

@@ -7,6 +7,11 @@ interface shoppingProps{
  totalPages:number
 }
 
+interface fieldValue{
+  name:string,
+  value:string,
+}
+
 interface shoppingState{
   type: HTMLElement,
   any: any

@@ -58,10 +58,49 @@ html {
 ul.row li {
   display: inline-table; }
 
+button {
+  cursor: pointer;
+  user-select: none; }
+  button.online {
+    border: 1px solid #8f8f8f;
+    border-radius: 3pt;
+    color: #fff;
+    position: absolute;
+    right: 5pt;
+    transition: 0.5s ease;
+    top: 5pt; }
+    button.online.on {
+      background-color: rgba(39, 174, 96, 0.5); }
+    button.online.off {
+      background-color: darkred; }
+
 input {
   background-color: transparent;
   border: none;
   outline: none; }
+
+.messages {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2pt;
+  margin: 1em;
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  transition: 0.5s all ease-in-out;
+  text-align: center;
+  width: 55%; }
+  .messages li {
+    font-size: 0.5em;
+    height: 0;
+    opacity: 0;
+    padding: 5pt;
+    transition: 0.5s all ease-in-out; }
+  .messages.active {
+    height: auto;
+    opacity: 1; }
+    .messages.active li {
+      height: auto;
+      opacity: 1; }
 
 .image-wrap {
   animation-name: fader;

@@ -53,15 +53,6 @@ export class CmsController{
   }
 
 
-  public login = (req: Request, res:Response) => {
-    console.log('login form')
-    console.log(res.locals)
-    this.parts['title'] = 'Login please';
-    this.parts['heading'] = 'Login page:';
-    this.parts['content'] = 'Login form';
-    res.render('layout',this.parts);
-  }
-
   public shop = (req: Request, res:Response) => {
     let pathName:string|undefined = url.parse(req.url).pathname;
     let template = this.template_path+pathName + '.pug';
@@ -83,7 +74,7 @@ export class CmsController{
 
     }else if(pathName === '/shop/data'){
       let repo = CMSModel.repo('products');
-      DBConnect.sessionStart();
+      // DBConnect.sessionStart();
       console.log('Getting shop data')
       repo.retrieve((err:any, data:any)=>{
         if(err===null){
@@ -121,8 +112,8 @@ export class CmsController{
           let types = _path ? _path.match(filter): [];
           let type = types && types.length > 0 ? types[0].replace(/[\.]/,'') : '';
           let typed  = 'application/javascript';
-          console.log(_path);
-          console.log(type);
+          // console.log(_path);
+          // console.log(type);
 
           switch(type){
             case 'css':

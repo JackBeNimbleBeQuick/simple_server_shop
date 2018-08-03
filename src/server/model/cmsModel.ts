@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import {Response, Request, NextFunction} from 'express';
 import {Repository} from '../model/repository';
 import * as https from 'https';
+import cnf from '../config/connect.cnf'
 
 
 interface schemata{
@@ -22,6 +23,39 @@ export class CMSModel{
     let Mixed = mongoose.SchemaTypes.Mixed;
 
       this.schemas={
+        person: {
+          fname: {
+            type: String,
+            required: true,
+          },
+          lname: {
+            type: String,
+            required: true,
+          },
+          mname: {
+            type: String,
+            required: false,
+          },
+          active: {
+            type: Boolean,
+            required: true,
+            default: false,
+          },
+          reset: {
+            type: Boolean,
+            required: true,
+            default: false,
+          },
+          resetKey: {
+            type: Number,
+            required: false,
+          },
+          attempts: {
+            type: Number,
+            required: true,
+            default: 0,
+          },
+        },
         login: {
           key: {
             type:String,
@@ -35,6 +69,17 @@ export class CMSModel{
             type:String,
             required: 'Password required'
           },
+        },
+
+        session: {
+          data:{
+            type: Mixed,
+            required: true
+          },
+          usedAt:{
+            type: Date,
+            expires: Date.now() + cnf.hour*cnf.hours
+          }
         },
 
         products: {

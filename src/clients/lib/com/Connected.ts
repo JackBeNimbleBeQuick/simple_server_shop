@@ -32,7 +32,7 @@ export class Connected{
 	}
 
   public send = (postage:postage, success:Function, failure:Function) => {
-    
+
     this.xhr.timeout = postage.wait ? postage.wait : 500;
 
     this.xhr.open(this.getType(postage), postage.url , true);
@@ -73,6 +73,7 @@ export class Connected{
    * @return {void} sets headers on current xhr
    */
 	private setHeaders= (type?:string) => {
+    if(document)
     switch(type){
       case 'form-ac':
     		this.xhr.setRequestHeader("Access-Control-Allow-Credentials",'true');

@@ -45,15 +45,25 @@ export class Comservices{
     let act:Function = req.action;
     let postage = this.postage(req);
 
-    // if(this.env === 'dev') return Store.dispatch(act(new Mock()));
-
     let success = (response:any) =>{
-      Store.dispatch(act(response));
+      console.log('ComService: success');
+      console.log(response);
+      Store.dispatchAction(act,response);
+    }
+
+    let error = (response:any) => {
+      console.log('ComService: error');
+      console.log(response);
+      let message = response ? response : {
+        error: 'request_error',
+        message: req.uri + ' failed to load'
+      }
+      Store.dispatchAction(Actions.responseError, message);
     }
 
     if(req.type.toLowerCase() == 'post'){
       this.post(
-        this.postage(req), success, this.errors
+        this.postage(req), success, error
       );
     }else{
       this.get(
@@ -78,7 +88,7 @@ export class Comservices{
       url: url,
       type: 'POST',
       data: JSON.stringify(post),
-      header_type: 'form',
+      header_type: 'form-ac'
     },this.packager, error);
   }
 

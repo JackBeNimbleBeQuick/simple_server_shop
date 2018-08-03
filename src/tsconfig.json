@@ -4,6 +4,7 @@
     "target": "es6",
     "moduleResolution": "node",
     "preserveConstEnums": true,
+    "noImplicitAny": false,
     "outDir": "dist",
     "jsx": "react",
     "watch": false,
@@ -11,6 +12,7 @@
     "allowJs": true,
     "sourceMap": true,
     "baseUrl": "",
+    "typeRoots": ["server/server.interface.d.ts"],
     "paths":{
       "clients/*": ["clients/*"],
       "server/*": ["server/*"]

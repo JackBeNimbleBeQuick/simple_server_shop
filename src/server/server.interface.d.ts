@@ -1,3 +1,6 @@
+declare module MemoryStore{
+
+}
 interface sessionConnect{
   store: Function,
   maxAge: Date,
@@ -17,7 +20,7 @@ interface shopApp{
 
 interface message{
   type: string,
-  data: any,
+  message: any,
 }
 
 interface ioConnect{

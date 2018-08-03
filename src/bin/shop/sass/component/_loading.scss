@@ -3,7 +3,7 @@
   height: 100%;
   left:0;
   position: absolute;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.25s ease-in-out;
   top: 0;
   width: 100%;
   z-index: 1;
@@ -13,6 +13,7 @@
     text-align: center;
     margin: auto;
     position: relative;
+    transition: all 0.8s ease-in-out;
     width: 250pt;
     @include vertical(50%,-50%);
     &::after{

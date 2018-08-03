@@ -16,6 +16,13 @@ export class Actions implements Actions {
     });
   }
 
+  login = (data:any):any => {
+    return  action(Types.LOGIN,{
+      type: Types.LOGIN,
+      data,
+    });
+  }
+
   getData = (data:any):any =>{
     return  action(Types.GET_DATA,{
       type: Types.GET_DATA,
@@ -42,6 +49,16 @@ export class Actions implements Actions {
       type: Types.RESET_TRACKING,
       data,
     });
+  }
+
+  responseError = (data:any):any => {
+    console.log('actions response errro fired');
+    console.log(data);
+    return action(Types.ERROR_RESPONSE,{
+      type: Types.ERROR_RESPONSE,
+      data,
+    });
+
   }
 
 }

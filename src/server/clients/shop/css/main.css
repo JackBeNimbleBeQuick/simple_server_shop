@@ -9,6 +9,7 @@ each component to maintain full component architecture
   min-width: 200pt;
   max-width: 33%;
   position: fixed;
+  padding: 1.5em 0.5em;
   transform: translateX(0);
   transition: 0.25s all ease-in-out;
   top: 0;
@@ -103,37 +104,34 @@ each component to maintain full component architecture
 @TODO provide build reference tagging for packageing compile styles into
 each component to maintain full component architecture
 **/
-.sidepanel,
-.shopping {
-  padding: 1em; }
-  .sidepanel .frame,
-  .shopping .frame {
-    transition: 0.5s all ease-in-out; }
-    .sidepanel .frame .panel,
-    .shopping .frame .panel {
-      font-size: 0.6em;
-      float: left;
-      width: 50%; }
-      .sidepanel .frame .panel h2,
-      .shopping .frame .panel h2 {
-        font-size: 0.8em;
-        padding: 0 3pt 3pt 0; }
-      .sidepanel .frame .panel.left,
-      .shopping .frame .panel.left {
-        float: left; }
-        .sidepanel .frame .panel.left .image-wrap,
-        .shopping .frame .panel.left .image-wrap {
-          width: 80%; }
-      .sidepanel .frame .panel .price,
-      .shopping .frame .panel .price {
-        color: #696969;
-        font-size: 0.75em; }
-        .sidepanel .frame .panel .price .currency,
-        .shopping .frame .panel .price .currency {
-          font-size: 0.75em;
-          padding: 0 1pt 0 0;
-          position: relative;
-          top: -3pt; }
+.sidepanel .frame,
+.shopping .frame {
+  transition: 0.5s all ease-in-out; }
+  .sidepanel .frame .panel,
+  .shopping .frame .panel {
+    font-size: 0.6em;
+    float: left;
+    width: 50%; }
+    .sidepanel .frame .panel h2,
+    .shopping .frame .panel h2 {
+      font-size: 0.8em;
+      padding: 0 3pt 3pt 0; }
+    .sidepanel .frame .panel.left,
+    .shopping .frame .panel.left {
+      float: left; }
+      .sidepanel .frame .panel.left .image-wrap,
+      .shopping .frame .panel.left .image-wrap {
+        width: 80%; }
+    .sidepanel .frame .panel .price,
+    .shopping .frame .panel .price {
+      color: #696969;
+      font-size: 0.75em; }
+      .sidepanel .frame .panel .price .currency,
+      .shopping .frame .panel .price .currency {
+        font-size: 0.75em;
+        padding: 0 1pt 0 0;
+        position: relative;
+        top: -3pt; }
 
 @media (max-width: 480px) {
   .shopping .frame .panel {
@@ -250,7 +248,7 @@ each component to maintain full component architecture
   height: 100%;
   left: 0;
   position: absolute;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.25s ease-in-out;
   top: 0;
   width: 100%;
   z-index: 1; }
@@ -260,6 +258,7 @@ each component to maintain full component architecture
     text-align: center;
     margin: auto;
     position: relative;
+    transition: all 0.8s ease-in-out;
     width: 250pt;
     top: 50%;
     -webkit-transform: translateY(-50%);
@@ -267,3 +266,77 @@ each component to maintain full component architecture
     transform: translateY(-50%); }
     .loading p::after {
       content: '...'; }
+
+.login {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 1.2em;
+  padding: 3em 1em;
+  position: absolute;
+  transition: 0.5s all ease-in-out;
+  top: -17em;
+  z-index: 5; }
+  .login.open {
+    top: 0; }
+  .login .loading {
+    height: 0;
+    top: 50%;
+    left: 50%;
+    width: 0; }
+    .login .loading.on {
+      background-color: rgba(255, 255, 255, 0.6);
+      left: 0;
+      height: 100%;
+      top: 0;
+      width: 100%; }
+    .login .loading p {
+      font-size: 0;
+      left: -1em;
+      white-space: nowrap; }
+    .login .loading.on p {
+      color: #000;
+      font-size: 2em; }
+  .login .login-tab {
+    background-color: rgba(0, 0, 0, 0.9);
+    bottom: 0;
+    font-size: 0.8em;
+    margin: -1.5em 0;
+    opacity: 1;
+    position: absolute;
+    left: 0;
+    z-index: 1; }
+    .login .login-tab button {
+      color: #fff;
+      background-color: transparent;
+      border: 0;
+      display: block;
+      height: 3em;
+      min-width: 65pt;
+      outline: 0; }
+  .login form {
+    position: relative; }
+    .login form .field {
+      margin: 2em 0;
+      position: relative; }
+      .login form .field label {
+        bottom: 0;
+        padding: 3pt 0 3pt 10pt;
+        position: absolute;
+        transition: 0.5s all ease-in-out; }
+      .login form .field input {
+        color: #fff;
+        border: 1pt solid #8f8f8f;
+        border-radius: 1pt;
+        font-size: 1.1em;
+        margin: 0; }
+      .login form .field.active label {
+        bottom: 100%;
+        font-size: 1.1em;
+        opacity: 0.5;
+        padding: 3pt 0 3pt 0; }
+    .login form input[type=submit] {
+      border: 1pt solid #8f8f8f;
+      border-radius: 1pt;
+      color: #fff;
+      margin: 1em 0;
+      float: left; }

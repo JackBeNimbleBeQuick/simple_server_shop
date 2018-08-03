@@ -82,10 +82,9 @@ class ShopperFrame extends React.Component<any, any>{
   }
 
   render(){
-    let heading = null;
+    let heading = <div/>;
     if(this.props.heading){
-      heading =
-      <h4>{this.props.heading}</h4>
+      heading =  <h4>{this.props.heading}</h4>
     }
     return(
       <div className="frame col-lg-4 col-sm-12">

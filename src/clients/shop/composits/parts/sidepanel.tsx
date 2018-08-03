@@ -5,6 +5,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import ShopperFrame from 'clients/shop/composits/parts/shopperframe';
 import Image from 'clients/lib/component/image';
+import Login from 'clients/shop/composits/parts/login';
 import Store from 'clients/shop/data/store';
 import Actions from 'clients/shop/data/actions';
 import Types from 'clients/shop/data/types';
@@ -171,6 +172,7 @@ export class SidePanel extends React.Component<any,any>{
             {this.renderLastSeen()}
             {this.renderHistory()}
         </div>
+        <Login />
       </div>
     );
   }

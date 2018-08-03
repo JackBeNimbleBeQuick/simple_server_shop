@@ -15,6 +15,7 @@ let init = {
 }
 export default combineReducers ({
   shopping:(state=init, action:any)=>{
+
     switch(action.type){
       case 'RESET_TRACKING':
         return init;
@@ -36,6 +37,20 @@ export default combineReducers ({
         console.log(action);
         return{
           viewing: action.payload.data
+        }
+
+      case 'LOGIN':
+        console.log('LAST_VIEWED')
+        console.log(action);
+        return{
+          login: action.payload.data
+        }
+
+      case 'ERROR_RESPONSE':
+        console.log('ERROR_RESPONSE')
+        console.log(action.payload);
+        return {
+          response_error: action.payload.data
         }
 
       case 'ADD_TO_CART':

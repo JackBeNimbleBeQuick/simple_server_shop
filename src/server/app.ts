@@ -1,15 +1,28 @@
 
 ///<reference path="./server.interface.d.ts" />
 import * as express from 'express';
-import {Response, Request, NextFunction} from 'express';
+import {Response, Request, NextFunction } from 'express';
 import * as body from 'body-parser';
 import * as csrf from 'csurf';
+import * as favicon from 'serve-favicon';
+import * as path from 'path';
+import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
 import {Routes} from './route/routes';
+
+//session
+
+//session setup
+import * as connect from 'connect-mongo';
+import * as mongoose from 'mongoose';
+import * as crypt from 'crypto';
+import cnf from './config/connect.cnf';
 
 //setup sessions env
 import * as helmet from 'helmet';
 
 import DBConnect from './db/db_connect';
+
 
 /**
  * Application configurations and set up class
@@ -20,32 +33,69 @@ class App implements shopApp{
   private app: express.Application;
   private router:Routes;
   public httpsServer:any;
+  private db:any;
 
   //@NOTE tieing the mongoose connection to start up
   constructor(){
     this.app = express();
     this.router = new Routes(this);
-    DBConnect.sessionStart();
   }
 
   private start = ():void => {
-    this.router.routes();
+    let csrfToken = csrf({ cookie: true});
+
+    let connector = connect(session);
+    mongoose.connect(cnf.mongoUrl,cnf.session.options);
+    this.db = mongoose.connection;
+
+    let store = new connector({mongooseConnection: this.db});
+
+    let sessions = session({
+      store: store,
+      name: 'app.sid',
+      secret: cnf.key,
+      resave: true,
+      saveUninitialized: true,
+      cookie: {
+        secure: true,
+        httpOnly: true,
+        maxAge: cnf.hours*cnf.hour
+      }
+    })
+
     this.app
-      .use(helmet.hidePoweredBy())
+
+      .use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+      .use(helmet())
+
+      .use(helmet.hidePoweredBy({setTo: 'DaisyRanch tm'}))
+
+      .use(body.json())
+
+      .use(body.urlencoded({extended: false}))
+
+      // .use(csrfToken)
+
+      .use(cookieParser(cnf.key))
+
+      .use(sessions)
+
+      //@NOTE not using session on public at this point
       .use('/public',express.static(__dirname + '/public',{
         setHeaders: (res: Response) => {
           res.setHeader('Service-Worker-Allowed', '/');
         }
       }))
-      .use(DBConnect.sessionDB)
-      .use(body.json())
-      .use(body.urlencoded({extended: false}))
-      .use(csrf())
-      .use(helmet())
+
       .use((req:Request, res:Response, next:NextFunction) => {
-        res.locals._csrf = req.csrfToken()
+        // sessions(req,res,next);
         next();
       });
+
+    this.router.routes();
+
+
   }
 
   public init = ():express.Application => {

@@ -38,12 +38,56 @@ ul{
     }
   }
 }
+button{
+  cursor: pointer;
+  user-select: none;
+  &.online{
+    border: 1px solid $grey;
+    border-radius: 3pt;
+    color: $white;
+    position: absolute;
+    right: 5pt;
+    transition: 0.5s ease;
+    top: 5pt;
+    &.on{
+      background-color: $bg_green;
+    }
+    &.off{
+      background-color: $bg_red;
+    }
+  }
+}
 input{
   background-color:transparent;
   border: none;
   outline: none;
 }
-
+.messages{
+  @include fadedBG(255, 0.2);
+  border-radius: 2pt;
+  margin: 1em;
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  transition: 0.5s all ease-in-out;
+  text-align: center;
+  width: 55%;
+  li{
+    font-size: 0.5em;
+    height: 0;
+    opacity: 0;
+    padding: 5pt;
+    transition: 0.5s all ease-in-out;
+  }
+  &.active{
+    height: auto;
+    opacity: 1;
+    li{
+      height: auto;
+      opacity: 1;
+    }
+  }
+}
 .image-wrap{
   animation-name: fader;
   animation-duration: 2s;

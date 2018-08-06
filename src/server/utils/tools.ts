@@ -15,6 +15,13 @@ export class Tools{
     });
   }
 
+  public isJson = (json:string | Object) => {
+    if(typeof json === 'object'){
+      return validator.isJSON(JSON.stringify(json));
+    }
+    return validator.isJSON(json);
+  }
+
   public validate = (key: string, values:any) => {
 
     let valid   = false;
@@ -56,7 +63,7 @@ export class Tools{
 
         valid !== validator.isEmpty(value);
 
-        if( !valid ) message =  'A value is required';
+        if( ! valid ) message =  'A value is required';
 
         break;
 

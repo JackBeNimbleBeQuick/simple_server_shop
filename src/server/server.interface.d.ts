@@ -27,8 +27,10 @@ interface entityMeta{
 interface entityForm{
     validators: Array<string>,
     filters: Array<string>,
+    name?: string,
     type: string,
     label: string,
+    attributes?: Object
 }
 
 interface shopApp{

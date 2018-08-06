@@ -44,7 +44,7 @@ interface ShopperFrame{
   state:any,
 }
 
-interface Actions{
+interface actions{
   sessionTracking(data:any):any,
   getData(data:any):any,
   setViewed(data:any):any,

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {domToReact} from 'html-react-parser';
+import Comservices from 'clients/lib/com/Comservices';
+import Types from 'clients/shop/data/types'
+import Actions from 'clients/shop/data/actions'
 import Tools from 'clients/lib/util/tools';
 
 interface formLoader{
@@ -81,44 +84,26 @@ class FormLoader extends React.Component <any, any > {
     return values;
   }
 
-  validate = (e:any,field:HTMLElement) => {
+  getValidators = (name:string) => {
     let validators = this.state.validators;
+    if(validators[name]){
+      return validators[name];
+    }
+    return [];
+
+  }
+
+  validate = (e:any,field:HTMLElement) => {
+    // let validators = this.state.validators;
     let input = e.target;
     let value = input.value;
     let name  = input.name;
+    let fValidator = this.getValidators(name);
 
-    let errors:HTMLCollection = document.getElementsByClassName('error');
-    for(let i=0; i< errors.length; i++){
-      let parent = errors[i].parentNode;
-      if(parent) parent.removeChild(errors[i])
-    }
+    this.clearErrors();
 
-    if(validators[name]){
-
-      let messages:Array<string> = [];
-      let valid = false;
-
-      validators[name].forEach((key:string)=>{
-        let result:validateResult = Tools.validate(key, value, this.inputs());
-        console.log(result);
-        valid = result.isValid;
-        if( result.isValid === false ){
-          messages.push( result.message );
-        }
-      });
-
-      if( ! valid ){
-        messages.forEach((msg:string)=>{
-          if(msg && msg !==''){
-            let el = document.createElement('span');
-            let tn = document.createTextNode(msg);
-            el.className = 'error';
-            el.appendChild(tn);
-            field.appendChild(el);
-          }
-        });
-      }
-
+    if(fValidator){
+      this.validateEach(name, value, field);
     }else{
       return {
         isValid: false,
@@ -129,8 +114,79 @@ class FormLoader extends React.Component <any, any > {
 
   }
 
+  clearErrors = (oneField?:HTMLElement) => {
+    let errors:any = document.getElementsByClassName('error');
+    if(oneField){
+      errors   = oneField.getElementsByClassName('error');
+    }
+    for(let i=0; i< errors.length; i++){
+      let parent = errors[i].parentNode;
+      if(parent) parent.removeChild(errors[i])
+    }
+  }
+
+  attachError = (field:HTMLElement, msg: string) => {
+    let el = document.createElement('span');
+    let tn = document.createTextNode(msg);
+    el.className = 'error';
+    el.appendChild(tn);
+    field.appendChild(el);
+  }
+
+  validateEach = (name:string, value:string, field:HTMLElement) => {
+    let messages:Array<string> = [];
+    let valid = false;
+
+    this.getValidators(name).forEach((key:string)=>{
+      let result:validateResult = Tools.validate(key, value, this.inputs());
+      valid = result.isValid;
+      if( result.isValid === false ){
+        messages.push( result.message );
+      }
+    });
+
+    if( ! valid ){
+      messages.forEach((msg:string)=>{
+        console.log(msg);
+        if(msg && msg !==''){
+          this.attachError(field,msg);
+        }
+      });
+    }
+
+    return valid;
+
+  }
+
   submit = (e) => {
     e.preventDefault();
+    let isValid = false;
+    let inputs = this.inputs();
+    let post:any = {type: this.state.type};
+
+
+    this.clearErrors();
+
+    for(let name in inputs){
+      let input:HTMLElement|null = document.querySelector(`input[name=${name}]`);
+      let field:any = input && input.parentNode ? input.parentNode : null;
+
+      //take value from inputs and not element
+      let value = inputs[name].value;
+      isValid = this.validateEach(name, value===null ? '' : value, field);
+      if(isValid) post[name] = value;
+    }
+
+    if(isValid){
+
+      Comservices.action({
+        type: 'POST',
+        action: (Actions.form as Function),
+        uri: 'post',
+        data: post,
+      });
+    }
+    console.log(`Post ${this.state.type}: ${isValid ? 'SENT' : 'CAN NOT BE SENT'} as ${isValid ? 'Valid' : 'it is NOT Valid'}`);
     console.log(this.inputs());
   }
 
@@ -158,11 +214,10 @@ class FormLoader extends React.Component <any, any > {
             input.select();
           });
           input.addEventListener('focus',(e)=>{
+            this.clearErrors(field);
             field.className += ' active';
           });
           input.addEventListener('blur',(e)=>{
-            console.log(e);
-            console.log(field);
             this.validate(e, field);
             this.clearActive(fields);
           });
@@ -210,7 +265,7 @@ class FormLoader extends React.Component <any, any > {
           if(insert) insert.removeAttribute('style');
           this.setState({open: true, form: form});
           this.handlers();
-        },500);
+        },200);
       }
     }
     return null;

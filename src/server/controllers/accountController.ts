@@ -17,6 +17,13 @@ interface formSpec{
   validators: any,
 }
 
+interface formAttr{
+  name:string,
+  label:string,
+  type:string,
+  [Identifier:string]:any
+}
+
 export class AccountController{
   /**
    */
@@ -74,24 +81,28 @@ export class AccountController{
             name: 'email',
             type: 'email',
             label: 'Email',
+            autocomplete: 'email',
           });
 
           data.form.push({
             name: 'login',
             type: 'text',
             label: 'Login (optional)',
+            autocomplete: 'additional-name',
           });
 
           data.form.push({
             name: 'password',
             type: 'password',
             label: 'Password',
+            autocomplete: 'off',
           });
 
           data.form.push({
             name: 'confirm_password',
             type: 'password',
             label: 'Password confirmation',
+            autocomplete: 'off',
           });
 
 
@@ -105,7 +116,7 @@ export class AccountController{
           data.filters['password'] = [];
           data.filters['confirm_password'] = [];
 
-          console.log(data);
+          // console.log(data);
           break;
         case 'reset':
           submitLabel = 'Reset account';
@@ -121,6 +132,8 @@ export class AccountController{
         spec.filters    = data.filters;
         spec.rendered   = pug.renderFile(template, {Spec: data.form, Token: 'token', submitLabel: submitLabel});
       }
+
+      // console.log(spec.form);
 
       let boxed = {
         validators: spec.validators,
@@ -141,21 +154,30 @@ export class AccountController{
       let data:entitySpec| null = CMSModel.config(key);
       if(data){
 
-        let formSpec:Array<entityForm> = [];
+        let formSpec:Array<formAttr> = [];
         let filters     = {};
         let validators  = {};
+        let spec:any = {};
 
         for(let name in data){
           let field:entitySpec = data[name];
           if ( field.meta && field.meta.form){
+            let form = field.meta.form;
+            if(form.attributes) spec = form.attributes;
+
             //accumulate
-            field.meta.form['name'] = name;
+            spec['name'] = name;
+            spec['label'] = form.label;
+            spec['type'] = form.type;
+            // field.meta.form['name'] = name;
+
 
             validators[name]  = field.meta.form.validators;
             filters[name]     = field.meta.form.filters;
 
             //push the form spec
-            formSpec.push(field.meta.form);
+            // formSpec.push(field.meta.form);
+            formSpec.push(spec);
           }
 
         }

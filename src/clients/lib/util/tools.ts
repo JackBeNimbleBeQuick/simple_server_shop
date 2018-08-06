@@ -3,12 +3,22 @@ import * as validator from 'validator';
 
 export class Tools{
 
+  public isJson = (json:string | Object) => {
+    if(typeof json === 'object'){
+      return validator.isJSON(JSON.stringify(json));
+    }
+    return validator.isJSON(json);
+  }
+
 
   public validate = (key: string, value:string, values: any) => {
 
     let valid  = false;
     let empty  = validator.isEmpty(value);
     let message = '';
+
+    if(typeof value === 'object' && Object.getOwnPropertyNames(value).length) throw new TypeError('value need to be converted to string');
+    value = typeof value !== 'string' ? '' : value;
     // let value = values[key] || values[key].value;
 
     switch(key){
@@ -17,7 +27,7 @@ export class Tools{
 
        if(!valid) message = ! empty
         ? 'This does not look like an Email, please verify'
-        : 'A Email is required';
+        : 'An Email is required';
 
         break;
 
@@ -38,11 +48,29 @@ export class Tools{
         break;
 
       case 'required':
-        valid !== validator.isEmpty(value);
+        console.log(`checking for required with : ${value}`);
 
-        if( !valid ) message =  'A value is required';
+        if( empty ) message =  'A value is required';
 
         break;
+
+      default:
+
+        if(/(match\.)/){
+          let keys = key.split('.');
+          if(keys[1]){
+            
+            let tomatch = values[keys[1]];
+
+            console.log(`checking ${tomatch.value} for match with: ${value}`);
+            valid = tomatch.value && tomatch.value !==null && validator.equals(value,tomatch.value);
+
+            //comparing
+            if(!valid) message =  `This value does not match ${keys[1]}`;
+
+          }
+        }
+
 
 
 

@@ -34,6 +34,9 @@ export class CMSModel{
                 filters:[],
                 label: 'First name',
                 type: 'text',
+                attributes:{
+                  autocomplete: 'given-name',
+                },
               },
             }
           },
@@ -46,6 +49,9 @@ export class CMSModel{
                 filters:[],
                 label: 'Last name',
                 type: 'text',
+                attributes:{
+                  autocomplete: 'family-name',
+                },
               },
             }
           },
@@ -58,6 +64,9 @@ export class CMSModel{
                 filters:[],
                 label: 'Middle name',
                 type: 'text',
+                attributes:{
+                  autocomplete: 'middle-name',
+                },
               },
             },
           },
@@ -105,6 +114,9 @@ export class CMSModel{
                 filters:[],
                 label: 'Login',
                 type: 'text',
+                attributes:{
+                  autocomplete: 'on',
+                },
               },
             },
           },
@@ -117,6 +129,9 @@ export class CMSModel{
                 filters:[],
                 label: 'Login',
                 type: 'password',
+                attributes:{
+                  autocomplete: 'on',
+                },
               },
             },
           },

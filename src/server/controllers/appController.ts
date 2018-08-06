@@ -3,7 +3,6 @@ import {Response, Request} from 'express';
 import {Server} from 'https';
 import {Socket} from '../com/socket';
 import * as path from 'path';
-import * as fs from 'fs';
 import CMSModel from '../model/cmsModel';
 import DBConnect from '../db/db_connect';
 

@@ -38,6 +38,12 @@ export default combineReducers ({
         return{
           viewing: action.payload.data
         }
+      case 'FORM':
+        console.log('FORM')
+        console.log(action);
+        return{
+          form: action.payload.data
+        }
 
       case 'LOGIN':
         console.log('LAST_VIEWED')

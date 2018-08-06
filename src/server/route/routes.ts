@@ -43,20 +43,13 @@ export class Routes{
       .get(this.cms.shop)
 
     this.app.route('/login')
-      .get(this.acc.login)
+      .post(this.acc.login)
 
-    this.app.route('/authenticate')
-      .post(this.acc.authenticate)
+    this.app.route('/forms')
+      .post(this.acc.forms);
 
     this.app.route('/app')
       .get(this.apps.getApp)
-
-    //@TODO create fallback / 404 and Error Routes
-    // this.app.route('*')
-    //   .get((req:Request, res:Response)=>{
-    //     console.log(req)
-    //   });
-
 
   }
 

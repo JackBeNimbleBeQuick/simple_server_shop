@@ -88,7 +88,7 @@ export class Comservices{
       url: url,
       type: 'POST',
       data: JSON.stringify(post),
-      header_type: 'form-ac'
+      header_type: 'data_form'
     },this.packager, error);
   }
 

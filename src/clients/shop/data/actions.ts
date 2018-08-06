@@ -3,12 +3,19 @@
 ///<reference path="../../lib/interfaces/react.interface.d.ts" />
 
 import Types from 'clients/shop/data/types';
+import Store from 'clients/shop/data/store';
 import {action} from 'typesafe-actions';
 
 //@TODO definitely type the data and return values as step towards
 //@TODO validators
 export class Actions implements Actions {
 
+  dispatch = (action:string, data:any) => {
+    if(this[action]){
+      console.log(`Actions: ${action}`)
+      Store.dispatchAction(this[action], data);
+    }
+  }
   sessionTracking = (data:any):any =>{
     return action(Types.SESSION_TRACKING,{
       type: Types.SESSION_TRACKING,
@@ -19,6 +26,20 @@ export class Actions implements Actions {
   login = (data:any):any => {
     return  action(Types.LOGIN,{
       type: Types.LOGIN,
+      data,
+    });
+  }
+
+  serviceCallMade = (component:string) => {
+    return  action(Types.SERVICE_CALL,{
+      type: Types.SERVICE_CALL,
+      component,
+    });
+  }
+
+  form = (data:any):any => {
+    return  action(Types.FORM,{
+      type: Types.FORM,
       data,
     });
   }

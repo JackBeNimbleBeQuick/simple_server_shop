@@ -10,6 +10,27 @@ interface sessionConnect{
   cookie?: Object
 }
 
+interface schemata{
+  [Identifier:string]:entityField
+}
+interface entityField{
+  [Identifier:string]: entitySpec
+}
+interface entitySpec{
+  type: string,
+  required: boolean | string,
+  meta?: entityMeta
+}
+interface entityMeta{
+    form?: entityForm
+}
+interface entityForm{
+    validators: Array<string>,
+    filters: Array<string>,
+    type: string,
+    label: string,
+}
+
 interface shopApp{
   //may need type of express.Application
   get(): any,

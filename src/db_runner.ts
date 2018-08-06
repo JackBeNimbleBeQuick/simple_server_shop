@@ -6,7 +6,7 @@ import CMSModel from './server/model/cmsModel';
 import {Repository} from './server/model/repository';
 import cnf from './server/config/connect.cnf';
 import * as http from 'http';
-import * as fs from 'fs';
+import {readFile, readdir, writeFile, createWriteStream} from 'fs';
 import * as request from 'request';
 
 interface Incoming extends http.IncomingMessage {
@@ -95,7 +95,7 @@ export class DBRunner{
   public renameMediaRefs = () => {
     let dir = './server/public/imgs/products';
     console.log(cnf.paths.product_image);
-    fs.readdir(dir, (err:any, files: any)=>{
+    readdir(dir, (err:any, files: any)=>{
       if(err===null){
         DBConnect.sessionStart();
         let repo = CMSModel.repo('products');
@@ -205,12 +205,12 @@ export class DBRunner{
     CMSModel.cacheable('products', (cacheable:Array<string>)=>{
       let cache = cnf.cache.shop.products.concat(cacheable);
 
-      fs.readFile(cnf.cache.shop.client, 'utf8' ,(err:any, file:any)=>{
+      readFile(cnf.cache.shop.client, 'utf8' ,(err:any, file:any)=>{
         if(err === null){
           let content = file.replace('___CACHE_INSERT___', JSON.stringify(cache));
 
           // console.log(content);
-          fs.writeFile(cnf.cache.shop.server, content , (err)=>{
+          writeFile(cnf.cache.shop.server, content , (err)=>{
             if(err ===null){
               return console.log('File saved');
             }
@@ -233,10 +233,10 @@ export class DBRunner{
     repo.retrieve((err:any, data:any)=>{
       let json:string = JSON.stringify(data);
 
-      fs.writeFile('./data.json',json, (err)=>{
+      writeFile('./data.json',json, (err)=>{
         if(err===null){
           console.log('data saved as json');
-          fs.readFile('./data.json', (err:any, string:any)=>{
+          readFile('./data.json', (err:any, string:any)=>{
             if(err===null){
               console.log(JSON.parse(string));
             }else{
@@ -279,7 +279,7 @@ export class DBRunner{
         console.log(`code: ${resp.statusCode} type: ${resp.headers['content-type']}`);
         console.log(url);
       })
-      .pipe(fs.createWriteStream(dir+name+suffix));
+      .pipe(createWriteStream(dir+name+suffix));
     }catch(e){
       console.log(`file may already be there for: ${url}`)
     }

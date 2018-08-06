@@ -1,21 +1,59 @@
+import * as validator from 'validator';
 
 
 export class Tools{
 
-  isJson = (packet:any) => {
-    if (typeof packet === 'string'){
-      try{
 
-        let convert = JSON.parse(packet);
-        let notEmpty= /(number|boolean)/.test(typeof convert);
+  public validate = (key: string, value:string, values: any) => {
 
-        if(typeof convert === 'object' && notEmpty && convert !== null) return true;
+    let valid  = false;
+    let empty  = validator.isEmpty(value);
+    let message = '';
+    // let value = values[key] || values[key].value;
 
-      }catch(e){}
+    switch(key){
+      case 'email':
+       valid = validator.isEmail(value);
+
+       if(!valid) message = ! empty
+        ? 'This does not look like an Email, please verify'
+        : 'A Email is required';
+
+        break;
+
+      case 'name':
+        valid = validator.isAlpha(value);
+
+        if(!valid) message = empty
+          ? 'A value is required'
+          : 'Only letters are allowed for this entry';
+
+        break;
+
+      case 'optional_name':
+        valid = validator.isAlpha(value) || empty;
+
+        if(!valid) message =  'Only letters are allowed for this entry';
+
+        break;
+
+      case 'required':
+        valid !== validator.isEmpty(value);
+
+        if( !valid ) message =  'A value is required';
+
+        break;
+
+
+
     }
-    return false;
-  }
 
+    return {
+      isValid: valid,
+      message:  message
+    }
+
+  }
 
 }
 export default new Tools();

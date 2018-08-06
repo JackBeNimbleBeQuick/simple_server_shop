@@ -9,7 +9,7 @@ each component to maintain full component architecture
   min-width: 200pt;
   max-width: 33%;
   position: fixed;
-  padding: 1.5em 0.5em;
+  padding: 3.5em 0.5em;
   transform: translateX(0);
   transition: 0.25s all ease-in-out;
   top: 0;
@@ -267,6 +267,7 @@ each component to maintain full component architecture
     .loading p::after {
       content: '...'; }
 
+.form-loader,
 .login {
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -274,38 +275,51 @@ each component to maintain full component architecture
   padding: 3em 1em;
   position: absolute;
   transition: 0.5s all ease-in-out;
-  top: -17em;
+  transform: translateY(-100%);
+  top: 0;
   z-index: 5; }
+  .form-loader.open,
   .login.open {
-    top: 0; }
+    transform: translateY(0); }
+  .form-loader .links a,
+  .login .links a {
+    color: #fff;
+    font-size: 0.65em;
+    padding: 0 0.5em; }
+  .form-loader .loading,
   .login .loading {
     height: 0;
     top: 50%;
     left: 50%;
     width: 0; }
+    .form-loader .loading.on,
     .login .loading.on {
       background-color: rgba(255, 255, 255, 0.6);
       left: 0;
       height: 100%;
       top: 0;
       width: 100%; }
+    .form-loader .loading p,
     .login .loading p {
       font-size: 0;
       left: -1em;
       white-space: nowrap; }
+    .form-loader .loading.on p,
     .login .loading.on p {
       color: #000;
       font-size: 2em; }
-  .login .login-tab {
+  .form-loader .down-tab,
+  .login .down-tab {
     background-color: rgba(0, 0, 0, 0.9);
     bottom: 0;
     font-size: 0.8em;
-    margin: -1.5em 0;
+    margin: -2em 0;
     opacity: 1;
     position: absolute;
     left: 0;
     z-index: 1; }
-    .login .login-tab button {
+    .form-loader .down-tab button,
+    .login .down-tab button {
       color: #fff;
       background-color: transparent;
       border: 0;
@@ -313,30 +327,39 @@ each component to maintain full component architecture
       height: 3em;
       min-width: 65pt;
       outline: 0; }
+    .form-loader .down-tab.offset-5,
+    .login .down-tab.offset-5 {
+      left: 5em; }
+  .form-loader form,
   .login form {
     position: relative; }
+    .form-loader form .field,
     .login form .field {
       margin: 2em 0;
       position: relative; }
+      .form-loader form .field label,
       .login form .field label {
         bottom: 0;
         padding: 3pt 0 3pt 10pt;
         position: absolute;
         transition: 0.5s all ease-in-out; }
+      .form-loader form .field input,
       .login form .field input {
         color: #fff;
         border: 1pt solid #8f8f8f;
         border-radius: 1pt;
         font-size: 1.1em;
         margin: 0; }
+      .form-loader form .field.active label,
       .login form .field.active label {
         bottom: 100%;
         font-size: 1.1em;
         opacity: 0.5;
         padding: 3pt 0 3pt 0; }
+    .form-loader form input[type=submit],
     .login form input[type=submit] {
       border: 1pt solid #8f8f8f;
       border-radius: 1pt;
       color: #fff;
-      margin: 1em 0;
+      margin: 0;
       float: left; }

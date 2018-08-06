@@ -21,9 +21,16 @@ class Input extends React.Component <any, any > {
     this.setState({ active: this.state.value && this.state.value.length ? true : false});
   }
 
+  focus = (el:any ) => {
+    let input = el.target.parentNode.querySelector('input');
+    if(input){
+      input.focus();
+      input.select();
+    }
+  }
+
   active = (el:any) => {
     let value = el.target.value;
-    console.log(value);
     this.setState({ active: true, value: value});
     this.props.handler({[this.props.name]: value});
   }
@@ -34,7 +41,9 @@ class Input extends React.Component <any, any > {
     return(
       <div className={labelState.join(' ')}>
 
-        <label>{this.props.label}</label>
+        <label
+          onClick={e=>this.focus(e)}
+          >{this.props.label}</label>
 
         <input type={this.props.type} name={this.props.name}
           onBlur={e=>this.checkState(e)}

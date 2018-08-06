@@ -11,6 +11,7 @@ import Actions from 'clients/shop/data/actions';
 import Types from 'clients/shop/data/types';
 import Tracker from 'clients/shop/data/tracker';
 import Session from 'clients/lib/com/Session';
+import FormLoader from 'clients/shop/composits/parts/form_loader';
 
 export class SidePanel extends React.Component<any,any>{
 
@@ -173,6 +174,7 @@ export class SidePanel extends React.Component<any,any>{
             {this.renderHistory()}
         </div>
         <Login />
+        <FormLoader />
       </div>
     );
   }

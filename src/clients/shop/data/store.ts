@@ -52,14 +52,14 @@ export class Store{
   }
 
   public dispatchAction = (action:Function, state:any):void => {
-    console.log('dispatchAction');
+    console.log(`dispatchAction:`);
     // console.log(state);
     this.store.dispatch(action(state));
   }
 
   public dispatch = (action:any):void => {
     console.log('dispatch');
-    console.log(action);
+    // console.log(action);
     return this.store.dispatch(action);
   }
 

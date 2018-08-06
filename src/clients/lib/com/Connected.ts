@@ -79,7 +79,8 @@ export class Connected{
     		this.xhr.setRequestHeader("Access-Control-Allow-Credentials",'true');
       case 'form':
     		this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    		this.xhr.setRequestHeader("Accept","application/json");
+      case 'data_form':
+    		this.xhr.setRequestHeader("Content-Type","application/json");
       break;
       case 'json':
     		this.xhr.setRequestHeader("Content-Type","application/json");

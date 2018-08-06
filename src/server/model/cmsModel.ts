@@ -1,17 +1,19 @@
+///<reference path="../server.interface.d.ts" />
 import * as mongoose from 'mongoose';
 import {Response, Request, NextFunction} from 'express';
-import {Repository} from '../model/repository';
+import {Repository} from './repository';
+import Validate from './validate';
 import * as https from 'https';
 import cnf from '../config/connect.cnf'
 
 
-interface schemata{
-  [Identifier:string]: {}
-}
+export let Schema = mongoose.Schema;
+export let ObjectId = mongoose.Schema.Types.ObjectId;
+export let Mixed = mongoose.Schema.Types.Mixed;
 
 export class CMSModel{
 
-  private schemas:schemata;
+  private configs:any;
 
   private model:any = null;
 
@@ -20,54 +22,103 @@ export class CMSModel{
   private repository:any = null;
 
   constructor(){
-    let Mixed = mongoose.SchemaTypes.Mixed;
 
-      this.schemas={
-        person: {
+      this.configs = {
+        Person: {
           fname: {
             type: String,
             required: true,
+            meta:{
+              form: {
+                validators:['name'],
+                filters:[],
+                label: 'First name',
+                type: 'text',
+              },
+            }
           },
           lname: {
             type: String,
             required: true,
+            meta:{
+              form: {
+                validators:['name'],
+                filters:[],
+                label: 'Last name',
+                type: 'text',
+              },
+            }
           },
           mname: {
             type: String,
             required: false,
+            meta:{
+              form: {
+                validators:['optional_name'],
+                filters:[],
+                label: 'Middle name',
+                type: 'text',
+              },
+            },
           },
+          logins: [{type: ObjectId, ref: 'Login'}],
           active: {
             type: Boolean,
             required: true,
             default: false,
+            meta:{
+            }
           },
           reset: {
             type: Boolean,
             required: true,
             default: false,
+            meta:{
+            }
           },
           resetKey: {
             type: Number,
             required: false,
+            meta:{
+            }
           },
           attempts: {
             type: Number,
             required: true,
             default: 0,
+            meta:{
+            }
           },
         },
-        login: {
+        Login: {
+          owner: {type: ObjectId, ref: 'Person'},
           key: {
             type:String,
             required: true
           },
           login: {
             type:String,
-            required: 'Login required'
+            required: 'Login required',
+            meta:{
+              form: {
+                validators:['name'],
+                filters:[],
+                label: 'Login',
+                type: 'text',
+              },
+            },
           },
           pw: {
             type:String,
-            required: 'Password required'
+            required: 'Password required',
+            meta:{
+              form: {
+                validators:['password','required'],
+                filters:[],
+                label: 'Login',
+                type: 'password',
+              },
+            },
           },
         },
 
@@ -132,13 +183,19 @@ export class CMSModel{
             required: true
           },
         },
-
       }
+  }
+
+  public config = (name:string):entitySpec | null  => {
+    if(this.configs[name]){
+      return this.configs[name];
+    }
+    return null;
   }
 
   public getSchema = (name:string):any|null => {
     if(this.schema) return this.schema;
-    let s_object :any = this.schemas ? this.schemas[name] : null;
+    let s_object :any = this.configs? this.configs[name] : null;
     if( s_object){
       this.schema = new mongoose.Schema(s_object);
     }
@@ -162,6 +219,15 @@ export class CMSModel{
     }
     return this.repository;
   }
+
+  public validators = (name:string) => {
+    let schema = this.getSchema(name);
+    if(schema){
+      return Validate.validators(schema);
+    }
+    return null;
+  }
+
 
   public cacheable = (name:string, callback: Function) => {
     switch(name){

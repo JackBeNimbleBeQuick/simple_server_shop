@@ -79,12 +79,27 @@ input {
   border: none;
   outline: none; }
 
+.error {
+  background-color: rgba(169, 169, 169, 0.8);
+  background-color: f;
+  border: 1pt solid #8b0000;
+  font-size: 0.5em;
+  left: 0;
+  padding: 1pt;
+  position: absolute;
+  top: -2em; }
+
+.loader {
+  overflow: hidden;
+  transition: width 600ms ease-in-out, height 600ms ease-in-out, opacity 1000ms ease-in-out; }
+
 .messages {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 125, 0, 0.8);
   border-radius: 2pt;
   margin: 1em;
   height: 0;
   opacity: 0;
+  position: absolute;
   padding: 0;
   transition: 0.5s all ease-in-out;
   text-align: center;

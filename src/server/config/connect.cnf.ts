@@ -1,5 +1,5 @@
 
-import * as fs from 'fs';
+import {readFileSync} from 'fs';
 import * as path from 'path';
 
 export default {
@@ -15,8 +15,8 @@ export default {
     // password: 'eafb0424376b45769ccc4ffeacbd8f48',
   },
   ssl:{
-    key: fs.readFileSync(__dirname + '/key.pem'),
-    cert: fs.readFileSync(__dirname + '/cert.pem'),
+    key: readFileSync(__dirname + '/key.pem'),
+    cert: readFileSync(__dirname + '/cert.pem'),
     passphrase: 'goodword'
   },
   ioOptions:{ //ioOptions refer to server.interface.d

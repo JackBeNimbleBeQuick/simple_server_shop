@@ -73,13 +73,13 @@ class App implements shopApp{
 
       .use(body.json())
 
-      .use(body.urlencoded({extended: false}))
-
-      // .use(csrfToken)
+      .use(body.urlencoded({extended: true}))
 
       .use(cookieParser(cnf.key))
 
       .use(sessions)
+
+      // .use(csrf({cookie: true}))
 
       //@NOTE not using session on public at this point
       .use('/public',express.static(__dirname + '/public',{

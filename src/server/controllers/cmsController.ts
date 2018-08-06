@@ -3,7 +3,7 @@ import * as  mongoose from 'mongoose';
 import {Response, Request, NextFunction} from 'express';
 import * as path from 'path';
 import * as pug from 'pug';
-import * as fs from 'fs';
+import {readFile} from 'fs';
 import * as url from 'url';
 import * as csrf from 'csurf';
 import CMSModel from '../model/cmsModel';
@@ -101,7 +101,7 @@ export class CmsController{
   private serveServiceWorker = (_path:string, res:Response) => {
     let files    = path.join(__dirname, '../clients' + _path);
 
-    fs.readFile(files, (err, data) => {
+    readFile(files, (err, data) => {
 
         if(err){
           return this.notFound(res);

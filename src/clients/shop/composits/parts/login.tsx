@@ -5,6 +5,7 @@ import Types from 'clients/shop/data/types'
 import Actions from 'clients/shop/data/actions'
 import {connect} from 'react-redux';
 import Input from 'clients/lib/component/input';
+import Link from 'clients/lib/component/link';
 
 class Login extends React.Component <any, any > {
 
@@ -12,6 +13,8 @@ class Login extends React.Component <any, any > {
     locale:'en_us',
     lang:{
       en_us:{
+        reset: 'Reset account',
+        register: 'Create account',
         login: 'Login',
         password: 'Password',
         loading: 'Getting results',
@@ -33,8 +36,10 @@ class Login extends React.Component <any, any > {
         word: false,
       },
       loading: false,
+      open: false,
       login: '',
       word: '',
+      form: '',
       status:{
         current: false,
         success: false,
@@ -46,6 +51,9 @@ class Login extends React.Component <any, any > {
   componentWillReceiveProps (data:any) {
     console.log('Login: receives props');
     console.log(data);
+    if(data.form){
+
+    }
     if(data.status){
       this.setState({
         status: data.status,
@@ -56,7 +64,7 @@ class Login extends React.Component <any, any > {
   }
 
   toggle = (e:any) => {
-    e.preventDefault();
+    console.log(e);
     this.setState({
       open: this.state.open === false,
       status: this.baseStatus
@@ -69,7 +77,7 @@ class Login extends React.Component <any, any > {
     Comservices.action({
       type: 'POST',
       action: Actions.login,
-      uri: 'authenticate',
+      uri: 'login',
       data: {
         login: this.state.login,
         pw: this.state.word,
@@ -79,6 +87,23 @@ class Login extends React.Component <any, any > {
     this.setState({
       loading: true,
       status: this.baseStatus
+    });
+
+  }
+
+  getForm = (e:any) => {
+    e.preventDefault();
+    let uri = e.target.getAttribute('data-state');
+
+    Actions.dispatch('serviceCallMade','FormLoader');
+
+    Comservices.action({
+      type: 'POST',
+      action: Actions.form,
+      uri: 'forms',
+      data: {
+        form: uri,
+      },
     });
 
   }
@@ -108,9 +133,9 @@ class Login extends React.Component <any, any > {
 
   render() {
 
-    let tabClass    = ['login-tab', this.state.open  ? 'open' : 'close'];
+    let tabClass     = ['down-tab', this.state.open  ? 'open' : 'close'];
 
-    let loginState = ['login col-md-12', this.state.open ? 'open' : null];
+    let loginState   = ['login col-md-12', this.state.open ? 'open' : null];
 
     let loadingState = ['loading', this.state.loading ? 'on' : null];
 
@@ -141,12 +166,29 @@ class Login extends React.Component <any, any > {
             handler={this.setValue}
             type="password"
             name="login" />
-
           <input type="submit" value="login" onClick={e => this.submit(e)}/>
         </form>
 
-        <div className={tabClass.join(' ')}>
-          <button onClick= {e=>this.toggle(e)}>
+        <ul className="links row">
+          <li>
+            <Link
+              handler={this.getForm}
+              name='register'
+              label={this.props.lang[this.props.locale].register}
+            />
+          </li>
+          <li>
+            <Link
+              handler={this.getForm}
+              name='reset'
+              label={this.props.lang[this.props.locale].reset}
+            />
+          </li>
+        </ul>
+
+
+        <div className={tabClass.join(' ')} >
+          <button onClick={e=>this.toggle(e)}>
             {this.props.lang[this.props.locale].login}
           </button>
         </div>
@@ -160,8 +202,6 @@ class Login extends React.Component <any, any > {
 let mapper = (data:any) => {
 
   let parse = data.shopping ? data.shopping : null;
-  console.log('LOGIN mapper ');
-  console.log(parse);
   if(parse){
     let keys = Object.keys(parse);
 

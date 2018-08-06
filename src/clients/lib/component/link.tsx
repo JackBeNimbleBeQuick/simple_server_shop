@@ -8,7 +8,7 @@ class Link extends React.Component <any, any > {
     label: 'Label',
     handler: () => {alert('hey you are supposed to override me')}
   }
-  
+
   constructor(props:any){
     super(props);
     this.props.handler.bind(this);

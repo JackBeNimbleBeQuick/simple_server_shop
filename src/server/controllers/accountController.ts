@@ -107,7 +107,7 @@ export class AccountController{
 
 
           data.validators['email'] = ['email'];
-          data.validators['login'] = ['name','unique'];
+          data.validators['login'] = ['optional','unique'];
           data.validators['password'] = ['password','required'];
           data.validators['confirm_password'] = ['match.password','required'];
 
@@ -120,7 +120,14 @@ export class AccountController{
           break;
         case 'reset':
           submitLabel = 'Reset account';
-          data = this.extractForm('Login');
+
+          data = this.extractForm('Login',/(pw)/);
+
+          console.log(data);
+
+          data.validators['login'] = ['required'];
+          data.filters['login'] = [];
+
           data.hasData = true;
           break;
         default:
@@ -150,7 +157,7 @@ export class AccountController{
 
     }
 
-    private extractForm = (key:string) => {
+    private extractForm = (key:string, filter?: RegExp) => {
       let data:entitySpec| null = CMSModel.config(key);
       if(data){
 
@@ -160,6 +167,7 @@ export class AccountController{
         let spec:any = {};
 
         for(let name in data){
+          if(filter && filter.test(name)) continue;
           let field:entitySpec = data[name];
           if ( field.meta && field.meta.form){
             let form = field.meta.form;

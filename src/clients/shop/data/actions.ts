@@ -16,6 +16,7 @@ export class Actions implements Actions {
       Store.dispatchAction(this[action], data);
     }
   }
+
   sessionTracking = (data:any):any =>{
     return action(Types.SESSION_TRACKING,{
       type: Types.SESSION_TRACKING,

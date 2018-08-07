@@ -1,6 +1,7 @@
 
 import {Request, Response, NextFunction, Application} from 'express';
 import {Server} from 'https';
+import * as csrf from 'csurf';
 import {CmsController} from '../controllers/cmsController';
 import {AppController} from '../controllers/appController';
 import {AccountController} from '../controllers/accountController';
@@ -42,11 +43,11 @@ export class Routes{
     this.app.route('/shop*')
       .get(this.cms.shop)
 
-    this.app.route('/login')
-      .post(this.acc.login)
-
     this.app.route('/forms')
       .post(this.acc.forms);
+
+    this.app.route('/login')
+      .post(this.acc.login)
 
     this.app.route('/app')
       .get(this.apps.getApp)

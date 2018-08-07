@@ -99,6 +99,7 @@ export class CMSModel{
             }
           },
         },
+
         Login: {
           owner: {type: ObjectId, ref: 'Person'},
           key: {
@@ -127,7 +128,7 @@ export class CMSModel{
               form: {
                 validators:['password','required'],
                 filters:[],
-                label: 'Login',
+                label: 'Password',
                 type: 'password',
                 attributes:{
                   autocomplete: 'on',

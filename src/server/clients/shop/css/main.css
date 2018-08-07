@@ -345,16 +345,17 @@ each component to maintain full component architecture
         transition: 0.5s all ease-in-out; }
       .form-loader form .field input,
       .login form .field input {
-        color: #fff;
+        color: #fff !important;
         border: 1pt solid #8f8f8f;
         border-radius: 1pt;
-        font-size: 1em;
+        font-size: 0.75em;
         margin: 0;
-        padding: 0 0 0 5pt; }
+        padding: 5pt;
+        width: 70%; }
       .form-loader form .field.active label,
       .login form .field.active label {
         bottom: 100%;
-        font-size: 1.1em;
+        font-size: 0.65em;
         opacity: 0.5;
         padding: 3pt 0 3pt 0; }
     .form-loader form input[type=submit],

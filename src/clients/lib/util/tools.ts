@@ -1,4 +1,5 @@
 import * as validator from 'validator';
+import Comservices from 'clients/lib/com/Comservices';
 
 
 export class Tools{
@@ -59,7 +60,7 @@ export class Tools{
         if(/(match\.)/){
           let keys = key.split('.');
           if(keys[1]){
-            
+
             let tomatch = values[keys[1]];
 
             console.log(`checking ${tomatch.value} for match with: ${value}`);

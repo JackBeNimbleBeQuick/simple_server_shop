@@ -81,7 +81,6 @@ class App implements shopApp{
 
       // .use(csrf({cookie: true}))
 
-      //@NOTE not using session on public at this point
       .use('/public',express.static(__dirname + '/public',{
         setHeaders: (res: Response) => {
           res.setHeader('Service-Worker-Allowed', '/');
@@ -89,12 +88,14 @@ class App implements shopApp{
       }))
 
       .use((req:Request, res:Response, next:NextFunction) => {
-        // sessions(req,res,next);
-        next();
+        if(req.url.match(/\/forms/)){
+          console.log('Getting forms');
+        }
+
+        return next();
       });
 
     this.router.routes();
-
 
   }
 

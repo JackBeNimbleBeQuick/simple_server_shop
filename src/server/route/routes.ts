@@ -43,8 +43,8 @@ export class Routes{
     this.app.route('/shop*')
       .get(this.cms.shop)
 
-    this.app.route('/forms')
-      .post(this.acc.forms);
+    this.app.route('/forms*')
+      .get(this.acc.forms);
 
     this.app.route('/login')
       .post(this.acc.login)

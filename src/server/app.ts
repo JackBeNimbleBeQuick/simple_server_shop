@@ -26,8 +26,7 @@ import DBConnect from './db/db_connect';
 
 /**
  * Application configurations and set up class
-  . Routes are instataited with this app as it is created
-  .. this way app is never imported again from fs after instantiation
+  . Routes are handled separate to provide clean separation of concerns
  */
 class App implements shopApp{
   private app: express.Application;
@@ -79,19 +78,16 @@ class App implements shopApp{
 
       .use(sessions)
 
-      // .use(csrf({cookie: true}))
-
+      //@NOTE the media in public is all flagged to inclusion to Service Workers
       .use('/public',express.static(__dirname + '/public',{
         setHeaders: (res: Response) => {
           res.setHeader('Service-Worker-Allowed', '/');
         }
       }))
 
-      .use((req:Request, res:Response, next:NextFunction) => {
-        if(req.url.match(/\/forms/)){
-          console.log('Getting forms');
-        }
+      .use(csrf({cookie: true}))
 
+      .use((req:Request, res:Response, next:NextFunction) => {
         return next();
       });
 

@@ -6,6 +6,7 @@ import {Response, Request} from 'express';
 import {Server} from 'https';
 import {Socket} from '../com/socket';
 import * as path from 'path';
+import * as url from 'url';
 import * as pug from 'pug';
 import CMSModel from '../model/cmsModel';
 import DBConnect from '../db/db_connect';
@@ -53,9 +54,14 @@ export class AccountController{
     }
 
     public forms = (req: Request, res:Response, cb?:Function) => {
+
       this.app.set('view engine','pug');
       this.app.set('views', this.template_path);
-      let type = req.body.data && req.body.data.form ? req.body.data.form : 'register' ;
+
+      //NOTE determine request type on GET
+      let pathName:string|undefined = url.parse(req.url).pathname;
+      let type = pathName ? pathName.replace('/forms/','') : 'register';
+
       let form:any;
       let data:any={};
       let template = this.template_path+'/forms/form.pug';
@@ -75,8 +81,6 @@ export class AccountController{
         case 'register':
           submitLabel = 'Create account';
           data = this.extractForm('Person');
-          data.hasData = true;
-
           data.form.push({
             name: 'email',
             type: 'email',
@@ -105,7 +109,6 @@ export class AccountController{
             autocomplete: 'off',
           });
 
-
           data.validators['email'] = ['email'];
           data.validators['login'] = ['optional','unique'];
           data.validators['password'] = ['password','required'];
@@ -115,19 +118,22 @@ export class AccountController{
           data.filters['login'] = [];
           data.filters['password'] = [];
           data.filters['confirm_password'] = [];
-
-          // console.log(data);
+          data.hasData = true;
           break;
-        case 'reset':
-          submitLabel = 'Reset account';
 
-          data = this.extractForm('Login',/(pw)/);
-
-          console.log(data);
-
+        case 'login':
+          submitLabel = 'Login';
+          data = this.extractForm('Login');
           data.validators['login'] = ['required'];
           data.filters['login'] = [];
+          data.hasData = true;
+          break;
 
+        case 'reset':
+          submitLabel = 'Reset account';
+          data = this.extractForm('Login',/(pw)/);
+          data.validators['login'] = ['required'];
+          data.filters['login'] = [];
           data.hasData = true;
           break;
         default:
@@ -177,8 +183,6 @@ export class AccountController{
             spec['name'] = name;
             spec['label'] = form.label;
             spec['type'] = form.type;
-            // field.meta.form['name'] = name;
-
 
             validators[name]  = field.meta.form.validators;
             filters[name]     = field.meta.form.filters;

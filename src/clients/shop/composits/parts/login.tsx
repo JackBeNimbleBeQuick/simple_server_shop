@@ -98,12 +98,9 @@ class Login extends React.Component <any, any > {
     Actions.dispatch('serviceCallMade','FormLoader');
 
     Comservices.action({
-      type: 'POST',
+      type: 'GET',
       action: Actions.form,
-      uri: 'forms',
-      data: {
-        form: uri,
-      },
+      uri: 'forms/'+uri,
     });
 
   }

@@ -52,7 +52,6 @@ export class CmsController{
     res.render('layout',this.parts);
   }
 
-
   public shop = (req: Request, res:Response) => {
     let pathName:string|undefined = url.parse(req.url).pathname;
     let template = this.template_path+pathName + '.pug';

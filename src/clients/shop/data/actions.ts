@@ -17,6 +17,13 @@ export class Actions implements Actions {
     }
   }
 
+  trayEvent = (data:any):any => {
+    return action(Types.TRAY_STATE,{
+      type: Types.TRAY_STATE,
+      data,
+    });
+  }
+
   sessionTracking = (data:any):any =>{
     return action(Types.SESSION_TRACKING,{
       type: Types.SESSION_TRACKING,

@@ -37,9 +37,9 @@ export class Connected{
 
     this.xhr.open(this.getType(postage), postage.url , true);
 
-		this.setHeaders(postage.header_type);
+		this.setHeaders(postage);
 
-    //es6+ may not need this for better scoped vars
+    //es6+ may no longer be needed
     let xhr_ = this.xhr;
     this.xhr.onreadystatechange = () => {
       if (xhr_.readyState == XMLHttpRequest.DONE) {
@@ -61,7 +61,6 @@ export class Connected{
    */
   private processServerResponse = () => {
     let headers = this.xhr.getAllResponseHeaders();
-    // console.log(headers);
     return [];
   }
 
@@ -72,16 +71,30 @@ export class Connected{
    * @param {string} type
    * @return {void} sets headers on current xhr
    */
-	private setHeaders= (type?:string) => {
+	private setHeaders= (post:postage) => {
+
+    let data = typeof post.data === 'string' ? JSON.parse(post.data) : null;
+
+    let csrf = data && data.data &&  data.data._csrf;
+
+    let type = post['header_type'] ? post['header_type'] : '';
+
+    if(csrf){
+    	this.xhr.setRequestHeader("csrf-token",csrf);
+    }
+
     if(document)
     switch(type){
+
       case 'form-ac':
     		this.xhr.setRequestHeader("Access-Control-Allow-Credentials",'true');
       case 'form':
     		this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
       case 'data_form':
     		this.xhr.setRequestHeader("Content-Type","application/json");
-      break;
+        break;
+
+
       case 'json':
     		this.xhr.setRequestHeader("Content-Type","application/json");
       break;

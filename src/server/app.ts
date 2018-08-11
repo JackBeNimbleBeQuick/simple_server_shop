@@ -76,8 +76,6 @@ class App implements shopApp{
 
       .use(cookieParser(cnf.key))
 
-      .use(sessions)
-
       //@NOTE the media in public is all flagged to inclusion to Service Workers
       .use('/public',express.static(__dirname + '/public',{
         setHeaders: (res: Response) => {
@@ -85,13 +83,30 @@ class App implements shopApp{
         }
       }))
 
+      .use(sessions)
+
       .use(csrf({cookie: true}))
 
-      .use((req:Request, res:Response, next:NextFunction) => {
-        return next();
+      // handle csrf errors specifically
+      this.app.use( (err, req, res, next) => {
+          if (err.code !== 'EBADCSRFTOKEN') return next(err);
+          res.status(403).json({"error": "session has expired or tampered with"});
       });
 
-    this.router.routes();
+      this.router.posts();
+
+      //Post Handlers
+      this.app.post( '*', (req:Request, res:Response, next:NextFunction) => {
+        next();
+      });
+
+      //Get Handlers
+      this.app.get( '*', (req:Request, res:Response, next:NextFunction) => {
+        res.locals.token = req.csrfToken();
+        next();
+      });
+
+      this.router.gets();
 
   }
 

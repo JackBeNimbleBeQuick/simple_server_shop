@@ -49,7 +49,6 @@ export class AppController{
     DBConnect.sessionStart();
     let repo = CMSModel.repo('products');
 
-
   }
 
 }

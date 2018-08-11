@@ -2,6 +2,7 @@
 import {Request, Response, NextFunction, Application} from 'express';
 import {Server} from 'https';
 import * as csrf from 'csurf';
+import * as svgCaptcha from 'svg-captcha';
 import {CmsController} from '../controllers/cmsController';
 import {AppController} from '../controllers/appController';
 import {AccountController} from '../controllers/accountController';
@@ -27,12 +28,7 @@ export class Routes{
     this.acc  = new AccountController(shopApp);
   }
 
-  /**
-   * Provides base routing logic
-   * @param  ''
-   * @return {void} routes to permitted parts of app
-   */
-  public routes = () =>{
+  public gets = () => {
 
     this.app.route('')
       .get(this.cms.main)
@@ -46,11 +42,36 @@ export class Routes{
     this.app.route('/forms*')
       .get(this.acc.forms);
 
+    this.app.route('/app')
+      .get(this.apps.getApp)
+
+    this.app.route('/sigmond')
+      .get( (req: Request,res:Response) =>{
+        let sigmond = svgCaptcha.createMathExpr({
+        	background: 'rgba(255,255,255,0.7)',
+          color: false,
+          fontSize: 35,
+          height: 25,
+          noise: 4,
+          width: 100,
+        })
+        if(req.session) req.session.captcha = sigmond.text;
+
+        res.type('svg')
+        res.status(200).send(sigmond.data)
+      })
+  }
+
+  public posts= () => {
+
     this.app.route('/login')
       .post(this.acc.login)
 
-    this.app.route('/app')
-      .get(this.apps.getApp)
+    this.app.route('/register')
+      .post(this.acc.register)
+
+    this.app.route('/reset')
+      .post(this.acc.reset)
 
   }
 

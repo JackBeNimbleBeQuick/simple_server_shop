@@ -1,0 +1,195 @@
+.form-loader,
+.login{
+  @include fadedBG(0,0.9);
+  color: $white;
+  font-size: 1em;
+  padding: 0 1em 1.25em;
+  position: absolute;
+  transition: 0.5s all ease-in-out;
+  transform: translateY(-100%);
+  top: 0;
+  z-index: 5;
+  &.no-data{
+    transform: translateY(-200%);
+  }
+  &.open{
+    transform: translateY(0);
+  }
+  .links{
+    margin: 1em;
+    a{
+      color: $white;
+      font-size: 0.65em;
+      padding: 0 0.5em;
+    }
+  }
+  .loading{
+    height:0;
+    top: 50%;
+    left: 50%;
+    width:0;
+    &.on{
+      @include fadedBG(255,0.6);
+      left: 0;
+      height:100%;
+      top: 0;
+      width:100%;
+    }
+    p{
+      font-size: 0;
+      left: -1em;
+      white-space: nowrap;
+      // transform: rotate(-360deg);
+    }
+    &.on{
+      p{
+        color: #000;
+        font-size: 2em;
+        // transform: rotate(0deg);
+      }
+    }
+  }
+  .captcha{
+    position: relative;
+    margin-bottom: 1em;
+    width: 70%;
+    .box{
+    }
+    button.reset{
+      background-color: transparent;
+      border: 1pt solid $white;
+      border-radius: 2pt;
+      color: $white;
+      font-size: 0.25em;
+      position: absolute;
+      top: -2.5em;
+    }
+    object{
+      border: 1px solid $white;
+      border-radius: 3pt;
+      height: 1.5em;
+      width: 75pt;
+    }
+    .answer{
+      color: #000;
+      position: absolute;
+      right: 1em;
+      top: 4px;
+      white-space: nowrap;
+      width: calc(100% - 7em);
+      .space{
+        color: $white;
+        margin-right: 0.5em;
+      }
+      input[type=text]{
+        background-color: transparent;
+        border: 1pt solid;
+        color: #fff;
+        height: 1.5em;
+        text-align: center;
+        width: 4em;
+      }
+    }
+    input[type=submit]{
+      float: right;
+      margin: 2em 0 0;
+    }
+  }
+  .meter{
+    bottom: -15px;
+    border: 1pt solid rgba(169,169,169, .5);
+    height: 5pt;
+    position: absolute;
+    width: 69%;
+    .status{
+      background-color: red;
+      height: 2pt;
+      left: 1pt;
+      position: relative;
+      top: 1pt;
+      transition: 0.75s all ease-in;
+      width: 0.5%;
+    }
+  }
+  .down-tab{
+    @include fadedBG(0,0.9);
+    bottom: 0;
+    font-size: 0.8em;
+    margin: -2em 0;
+    opacity: 1;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    button{
+      color: $white;
+      background-color: transparent;
+      border: 0;
+      display: block;
+      height: 3em;
+      min-width: 65pt;
+      outline: 0;
+    }
+    &.offset-5{
+      left: 5em;
+    }
+  }
+  form{
+    position: relative;
+    overflow: auto;
+    .scrolling{
+      @include fuzzybottom();
+    }
+    .field{
+      margin: 2em 0 1em;
+      position: relative;
+      label{
+        bottom:0;
+        padding: 3pt 0 3pt 10pt;
+        position: absolute;
+        transition: 0.5s all ease-in-out;
+      }
+      .boundary{
+        position: relative;
+        width: 70%;
+        input{
+          width: 100%;
+        }
+        button{
+          color: $white;
+          background-color: transparent;
+          border: 1pt solid rgba(169,169,169,0.5);
+          font-size: 0.25em;
+          outline: 0;
+          position: absolute;
+          right: 2pt;
+          top: 2pt;
+        }
+      }
+      input{
+        color: $white !important;
+        border: 1pt solid $grey;
+        border-radius: 1pt;
+        font-size: 0.75em;
+        margin: 0;
+        padding: 5pt;
+        width: 70%;
+      }
+      &.active{
+        label{
+          bottom:100%;
+          font-size: 0.65em;
+          opacity: 0.5;
+          padding: 3pt 0 3pt 0;
+        }
+      }
+    }
+    input[type=submit]{
+      border: 1pt solid $grey;
+      border-radius: 1pt;
+      color: $white;
+      margin: 0;
+      float: left;
+    }
+  }
+
+}

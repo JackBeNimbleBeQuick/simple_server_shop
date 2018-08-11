@@ -1,11 +1,47 @@
 
 
-form(method="POST" action="/register")
+form(method="POST" action= action)
 
-  input(type="hidden" name="_csrf" value=Token)
-  each part in Spec
-    div.field
-      label(for= name)= part.label
-      input(type= part.type, name= part.name, autocomplete= part.autocomplete )
+  div.list
+
+    input(type="hidden" name="_csrf" value= token )
+    each part in Spec
       
-  input(type="submit", name= "submit", value= submitLabel)
+      if part.type == 'text'
+        div.field
+          label(for= name)= part.label
+          input(type= part.type, name= part.name, autocomplete= part.autocomplete )
+        
+      if part.type === 'email'
+        div.field
+          label(for= name)= part.label
+          input(type= part.type, name= part.name, autocomplete= part.autocomplete )
+        
+      if part.type == 'password' && part.name === 'password'
+        div.field
+          label(for= name)= part.label
+          div.boundary
+            input(type= part.type, name= part.name, autocomplete= part.autocomplete )
+            button.toggle.show show
+          
+          div.meter
+            div.status
+            
+      if part.type == 'password' && part.name !== 'password'
+        div.field
+          label(for= name)= part.label
+          input(type= part.type, name= part.name, autocomplete= part.autocomplete )
+          
+    if captcha      
+      div.captcha.field
+        div.box  
+          div.frame
+            <object data="/sigmond" type="image/svg+xml"></object>
+        div.answer
+          span.space= '='
+          input(type='text',name='sigmond')
+        input(type="submit", name= "submit", value= submitLabel)
+        button.toggle.reset reset 
+          
+    else 
+      input(type="submit", name= "submit", value= submitLabel)

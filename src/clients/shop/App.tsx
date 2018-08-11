@@ -40,7 +40,7 @@ class App extends React.Component<any, any>{
     Comservices.action({
       type: 'GET',
       action: Actions.getData,
-      uri: 'shop/data',
+      uri: '/shop/data',
     });
   }
 

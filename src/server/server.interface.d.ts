@@ -46,6 +46,21 @@ interface message{
   message: any,
 }
 
+interface validatedBatch{
+  failed: {
+    [Identifier:string]:[
+      {message: string}
+    ]
+  },
+  isValid: boolean
+
+}
+
+interface validateResult{
+  isValid: boolean,
+  message: string,
+}
+
 interface ioConnect{
   (value:string, app:any):ioResult
 }

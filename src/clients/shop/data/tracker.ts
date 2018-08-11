@@ -13,6 +13,44 @@ export class Tracker{
     // this.store   = new Store();
   }
 
+  //follows sessions / aggregate pattern
+  /*
+   .if event is registered emit event  and return state
+   .if no event just return state
+
+   */
+  public trays = (e:trayEvent | null) => {
+    let trays = Session.retrieve('trays');
+
+    let state:trayStates = trays && trays.lastin ? trays : {
+      length: 0,
+      lastin: null,
+      trays: {}
+    }
+
+    console.log(e);
+    console.log(state);
+
+    // provide calc on state to catch calc needs
+    // as there are discovered
+    let tally = (state:trayStates) => {
+      let count = 0;
+      for(let tray in state){
+        count++
+      }
+      state.length = count;
+      return state;
+    }
+
+    if(e){
+      state.lastin = e.trayid;
+      state.trays[e.trayid] = e.state;
+      Session.store('trays', tally(state));
+      Actions.dispatch('trayEvent',state);
+    }
+    return state;
+  }
+
   public viewedItem = (visited:product) => {
     console.log('Viewed:');
     console.log(visited);
@@ -28,7 +66,7 @@ export class Tracker{
   /**
    * Builds productList
    * called as part of store.reduce when service was called
-   * @param {null}
+   * @param {Array<products>}
    * @return {void}
    * @TODO Create Actions.products wthif PRODUCTS type and move this into Reduce/Store
    */

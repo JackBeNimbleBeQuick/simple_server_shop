@@ -10,6 +10,21 @@ interface productPoint{
   count: number
 }
 
+interface trayEvent{
+  trayid: string,
+  state: string  // open | close | no-data
+}
+
+interface trays{
+  [Identifier:string]: string 
+}
+
+interface trayStates{
+  length: number,
+  lastin: string,
+  trays: trays
+}
+
 interface cartItem{
   quantity: number,
   id: product,

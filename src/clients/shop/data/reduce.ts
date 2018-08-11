@@ -27,6 +27,11 @@ export default combineReducers ({
           all: action.payload.data
         }
 
+      case 'TRAY_STATE':
+        return {
+          trayState: action.payload.data
+        }
+
       case 'SESSION_TRACKING':
         return {
           tracked: action.payload.data

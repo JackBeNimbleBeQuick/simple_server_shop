@@ -51,8 +51,14 @@ class Login extends React.Component <any, any > {
   componentWillReceiveProps (data:any) {
     console.log('Login: receives props');
     console.log(data);
+    if(data.trayState){
+      if(data.trayState.state === 'open'){
+        if(this.state.open){
+          this.setState({open: false});
+        }
+      }
+    }
     if(data.form){
-
     }
     if(data.status){
       this.setState({
@@ -100,7 +106,7 @@ class Login extends React.Component <any, any > {
     Comservices.action({
       type: 'GET',
       action: Actions.form,
-      uri: 'forms/'+uri,
+      uri: '/forms/'+uri,
     });
 
   }
@@ -197,15 +203,24 @@ class Login extends React.Component <any, any > {
 }
 
 let mapper = (data:any) => {
-
+  console.log('LOGIN Loader');
+  console.log(data);
   let parse = data.shopping ? data.shopping : null;
+  let filter = /(response_error|login)/;
   if(parse){
     let keys = Object.keys(parse);
 
     console.log(keys);
-    console.log(/(response_error|login)/.test(keys.join( )) );
+    console.log(filter.test(keys.join( )) );
 
-    if(/(response_error|login)/.test(keys.join( )) ){
+    if(parse.trayState){
+      if(parse.trayState.lastin !== 'login'){
+        let change = parse.trayState;
+        return {trayState:{trayid: change.lastin, state: change.trays[change.lastin] }}
+      }
+    }
+
+    if(filter.test(keys.join( )) ){
       let type    = keys[0];
       let data    = parse[type];
       let message = data.message ? [data.message] : [];

@@ -1,4 +1,4 @@
-import Tools from 'clients/lib/util/tools';
+import Validation from 'clients/lib/util/validation';
 
 /**
  * Accepts data packets and iterates for all media that is not
@@ -21,7 +21,7 @@ export class Fetch{
   }
 
   public scan = (packet:any ) =>{
-    packet = Tools.isJson(packet) ? JSON.parse(packet) : packet;
+    packet = Validation.isJson(packet) ? JSON.parse(packet) : packet;
 
     return this.scanner(packet);
 

@@ -20,7 +20,7 @@ export default {
     iosocket: env==='dev' ? ports.dev.iosocket : ports.prod.iosocket,
   },
   services:{
-    url: env==='dev' ? `https://localhost:${ports.dev.server}/` : `https://sockets.daisyranch.org:${ports.prod.server}/`,
+    url: env==='dev' ? `https://localhost:${ports.dev.server}` : `https://sockets.daisyranch.org:${ports.prod.server}`,
     login: 'login',
     login_success: {"status":"ok"},
     uri: 'shop/data',

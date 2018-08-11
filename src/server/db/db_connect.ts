@@ -28,6 +28,9 @@ export class DBConnect {
 
     let options:Object = cnf.session.options;
     this.connection = mongoose.connect(cnf.mongoUrl, options, (err:any)=>{
+      if(cb){
+        return cb()
+      }
       if(err){
         console.log(`mongoose did not connect ${err}`);
         this.sessionStop();

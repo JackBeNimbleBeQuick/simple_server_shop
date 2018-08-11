@@ -269,23 +269,29 @@ each component to maintain full component architecture
 
 .form-loader,
 .login {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   color: #fff;
-  font-size: 1.2em;
-  padding: 3em 1em;
+  font-size: 1em;
+  padding: 0 1em 1.25em;
   position: absolute;
   transition: 0.5s all ease-in-out;
   transform: translateY(-100%);
   top: 0;
   z-index: 5; }
+  .form-loader.no-data,
+  .login.no-data {
+    transform: translateY(-200%); }
   .form-loader.open,
   .login.open {
     transform: translateY(0); }
-  .form-loader .links a,
-  .login .links a {
-    color: #fff;
-    font-size: 0.65em;
-    padding: 0 0.5em; }
+  .form-loader .links,
+  .login .links {
+    margin: 1em; }
+    .form-loader .links a,
+    .login .links a {
+      color: #fff;
+      font-size: 0.65em;
+      padding: 0 0.5em; }
   .form-loader .loading,
   .login .loading {
     height: 0;
@@ -308,6 +314,66 @@ each component to maintain full component architecture
     .login .loading.on p {
       color: #000;
       font-size: 2em; }
+  .form-loader .captcha,
+  .login .captcha {
+    position: relative;
+    margin-bottom: 1em;
+    width: 70%; }
+    .form-loader .captcha button.reset,
+    .login .captcha button.reset {
+      background-color: transparent;
+      border: 1pt solid #fff;
+      border-radius: 2pt;
+      color: #fff;
+      font-size: 0.25em;
+      position: absolute;
+      top: -2.5em; }
+    .form-loader .captcha object,
+    .login .captcha object {
+      border: 1px solid #fff;
+      border-radius: 3pt;
+      height: 1.5em;
+      width: 75pt; }
+    .form-loader .captcha .answer,
+    .login .captcha .answer {
+      color: #000;
+      position: absolute;
+      right: 1em;
+      top: 4px;
+      white-space: nowrap;
+      width: calc(100% - 7em); }
+      .form-loader .captcha .answer .space,
+      .login .captcha .answer .space {
+        color: #fff;
+        margin-right: 0.5em; }
+      .form-loader .captcha .answer input[type=text],
+      .login .captcha .answer input[type=text] {
+        background-color: transparent;
+        border: 1pt solid;
+        color: #fff;
+        height: 1.5em;
+        text-align: center;
+        width: 4em; }
+    .form-loader .captcha input[type=submit],
+    .login .captcha input[type=submit] {
+      float: right;
+      margin: 2em 0 0; }
+  .form-loader .meter,
+  .login .meter {
+    bottom: -15px;
+    border: 1pt solid rgba(169, 169, 169, 0.5);
+    height: 5pt;
+    position: absolute;
+    width: 69%; }
+    .form-loader .meter .status,
+    .login .meter .status {
+      background-color: red;
+      height: 2pt;
+      left: 1pt;
+      position: relative;
+      top: 1pt;
+      transition: 0.75s all ease-in;
+      width: 0.5%; }
   .form-loader .down-tab,
   .login .down-tab {
     background-color: rgba(0, 0, 0, 0.9);
@@ -332,10 +398,16 @@ each component to maintain full component architecture
       left: 5em; }
   .form-loader form,
   .login form {
-    position: relative; }
+    position: relative;
+    overflow: auto; }
+    .form-loader form .scrolling,
+    .login form .scrolling {
+      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
+      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 50%, white 100%); }
     .form-loader form .field,
     .login form .field {
-      margin: 2em 0;
+      margin: 2em 0 1em;
       position: relative; }
       .form-loader form .field label,
       .login form .field label {
@@ -343,6 +415,23 @@ each component to maintain full component architecture
         padding: 3pt 0 3pt 10pt;
         position: absolute;
         transition: 0.5s all ease-in-out; }
+      .form-loader form .field .boundary,
+      .login form .field .boundary {
+        position: relative;
+        width: 70%; }
+        .form-loader form .field .boundary input,
+        .login form .field .boundary input {
+          width: 100%; }
+        .form-loader form .field .boundary button,
+        .login form .field .boundary button {
+          color: #fff;
+          background-color: transparent;
+          border: 1pt solid rgba(169, 169, 169, 0.5);
+          font-size: 0.25em;
+          outline: 0;
+          position: absolute;
+          right: 2pt;
+          top: 2pt; }
       .form-loader form .field input,
       .login form .field input {
         color: #fff !important;

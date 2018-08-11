@@ -5,7 +5,7 @@
 interface postage {
   url: string,
   type: string,
-  data?: Object|null,
+  data?: Object|string|null,
   header_type?: string, //cors,form,json
   wait?: number,
   debug?: Boolean

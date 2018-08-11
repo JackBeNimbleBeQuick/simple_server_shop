@@ -2,6 +2,7 @@
   "description": "Simple Shop with Server Implementation",
   "main": "server/index.ts",
   "scripts": {
+    "copy": "cpx clients/lib/util/validation.ts server/utils/",
     "inspect": "node --inspect -r ts-node/register server/server.ts",
     "preinstall": "sudo npm install --unsafe-perm -g ts-node ts-node-dev node-sass cpx webpack webpack-cli",
     "build_db": "ts-node build_local_db_image_support.ts",
@@ -90,10 +91,12 @@
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
+    "svg-captcha": "^1.3.11",
     "ts-node": "^7.0.0",
     "typesafe-actions": "^2.0.4",
     "typescript": "^2.9.2",
-    "validator": "^10.5.0"
+    "validator": "^10.5.0",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.12",

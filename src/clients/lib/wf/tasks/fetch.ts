@@ -1,4 +1,3 @@
-import Validation from 'clients/lib/util/validation';
 
 /**
  * Accepts data packets and iterates for all media that is not
@@ -21,7 +20,7 @@ export class Fetch{
   }
 
   public scan = (packet:any ) =>{
-    packet = Validation.isJson(packet) ? JSON.parse(packet) : packet;
+    packet = JSON.parse(packet);
 
     return this.scanner(packet);
 

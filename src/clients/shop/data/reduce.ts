@@ -50,6 +50,13 @@ export default combineReducers ({
           form: action.payload.data
         }
 
+      case 'VALIDATION':
+        console.log('VALIDATION')
+        console.log(action);
+        return {
+          validation: action.payload.data
+        }
+
       case 'LOGIN':
         console.log('LAST_VIEWED')
         console.log(action);

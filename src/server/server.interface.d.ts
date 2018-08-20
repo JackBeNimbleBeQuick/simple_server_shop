@@ -1,6 +1,15 @@
 declare module MemoryStore{
 
 }
+
+interface shopApp{
+  //may need type of express.Application
+  get(): any,
+  init():Function,
+  //may nee type of https.Server
+  getHttpsServer(): any,
+}
+
 interface sessionConnect{
   store: Function,
   maxAge: Date,
@@ -8,6 +17,13 @@ interface sessionConnect{
   saveUninitialized?: boolean,
   resave?: boolean,
   cookie?: Object
+}
+
+interface mailerProtocol{
+  fname: string,
+  lname: string,
+  mname: string,
+  email: string,
 }
 
 interface schemata{
@@ -21,6 +37,7 @@ interface entitySpec{
   required: boolean | string,
   meta?: entityMeta
 }
+
 interface entityMeta{
     form?: entityForm
 }
@@ -33,32 +50,9 @@ interface entityForm{
     attributes?: Object
 }
 
-interface shopApp{
-  //may need type of express.Application
-  get(): any,
-  init():Function,
-  //may nee type of https.Server
-  getHttpsServer(): any,
-}
-
 interface message{
   type: string,
   message: any,
-}
-
-interface validatedBatch{
-  failed: {
-    [Identifier:string]:[
-      {message: string}
-    ]
-  },
-  isValid: boolean
-
-}
-
-interface validateResult{
-  isValid: boolean,
-  message: string,
 }
 
 interface ioConnect{

@@ -20,18 +20,18 @@ export class Validate{
           message: 'Please do not use special characters or numbers',
         },
       ],
-      optional_name: [
-        {
-          validator: 'isLength',
-          arguments: [0,50],
-          message: 'Name needs to be no more than {ARGS[1]} in length',
-        },
-        {
-          validator: 'isAlphanumeric',
-          passIfEmpty: true,
-          message: 'Please do not use special characters or numbers',
-        },
-      ],
+      // optional_name: [
+      //   {
+      //     validator: 'isLength',
+      //     arguments: [0,50],
+      //     message: 'Name needs to be no more than {ARGS[1]} in length',
+      //   },
+      //   {
+      //     validator: 'isAlphanumeric',
+      //     passIfEmpty: true,
+      //     message: 'Please do not use special characters or numbers',
+      //   },
+      // ],
       email: [
         {
           validator: 'isEmail',

@@ -3,7 +3,7 @@
   @include fadedBG(0,0.9);
   color: $white;
   font-size: 1em;
-  padding: 0 1em 1.25em;
+  padding: 1em 1em 1.25em;
   position: absolute;
   transition: 0.5s all ease-in-out;
   transform: translateY(-100%);
@@ -14,6 +14,23 @@
   }
   &.open{
     transform: translateY(0);
+  }
+  &.scrolling{
+    input[type=submit]{
+      background-color: rgba(0,0,0,.3);
+      left: 40%;
+      top: 5px;
+      position: fixed;
+      transition: 1s all ease-in-out;
+    }
+    .fader{
+      @include fuzzybottomBlack();
+      bottom: 0;
+      left: 0;
+      height: 3em;
+      position: absolute;
+      width: 100%;
+    }
   }
   .links{
     margin: 1em;
@@ -49,51 +66,9 @@
       }
     }
   }
-  .captcha{
-    position: relative;
-    margin-bottom: 1em;
-    width: 70%;
-    .box{
-    }
-    button.reset{
-      background-color: transparent;
-      border: 1pt solid $white;
-      border-radius: 2pt;
-      color: $white;
-      font-size: 0.25em;
-      position: absolute;
-      top: -2.5em;
-    }
-    object{
-      border: 1px solid $white;
-      border-radius: 3pt;
-      height: 1.5em;
-      width: 75pt;
-    }
-    .answer{
-      color: #000;
-      position: absolute;
-      right: 1em;
-      top: 4px;
-      white-space: nowrap;
-      width: calc(100% - 7em);
-      .space{
-        color: $white;
-        margin-right: 0.5em;
-      }
-      input[type=text]{
-        background-color: transparent;
-        border: 1pt solid;
-        color: #fff;
-        height: 1.5em;
-        text-align: center;
-        width: 4em;
-      }
-    }
-    input[type=submit]{
-      float: right;
-      margin: 2em 0 0;
-    }
+  .captcha.field{
+    margin: 3em auto 2em auto;
+    width: 85%;
   }
   .meter{
     bottom: -15px;
@@ -136,9 +111,7 @@
   form{
     position: relative;
     overflow: auto;
-    .scrolling{
-      @include fuzzybottom();
-    }
+
     .field{
       margin: 2em 0 1em;
       position: relative;

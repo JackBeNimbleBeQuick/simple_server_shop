@@ -9,6 +9,8 @@ import * as http from 'http';
 import {readFile, readdir, writeFile, createWriteStream} from 'fs';
 import * as request from 'request';
 
+import * as mongoose from 'mongoose';
+
 interface Incoming extends http.IncomingMessage {
   absoluteUri: string
 }
@@ -98,14 +100,14 @@ export class DBRunner{
     readdir(dir, (err:any, files: any)=>{
       if(err===null){
         DBConnect.sessionStart();
-        let repo = CMSModel.repo('products');
+        let repo:any = CMSModel.repo('products');
         if(repo){
           // console.log(files);
           repo.retrieve((err:any, prods:any)=>{
             if(err===null){
               prods.forEach((prod:any)=>{
 
-                let id = prod._id;
+                let id: string;
                 let key:string = prod.key;
                 let m_name = `${cnf.paths.shop_image_path}${key}_main_.jpg`;
                 let t_name = `${cnf.paths.shop_image_path}${key}_thumbnail_.jpg`;
@@ -128,7 +130,7 @@ export class DBRunner{
                 for(let _i in it){
                   if(it[_i].exists || it[_i].diffname ){
                     console.log(`prod: ${id} href changing to: ${it[_i].name}`);
-                    repo.update({_id:id}, it[_i].set, (err:any, prod:any)=>{
+                    repo.update({_id: id }, it[_i].set, (err:any, prod:any)=>{
                       console.log('updating');
                       console.log(prod);
                     });
@@ -143,7 +145,7 @@ export class DBRunner{
                   if(exists || name !== prod.images[j].href){
                     console.log(`prod: ${id} href changing to: ${name}`);
                     let ip = `images.${j}.href`;
-                    repo.update({_id:id},{'$set':{[ip]:name}}, (err:any, prod:any)=>{
+                    repo.update({_id: id},{'$set':{[ip]:name}}, (err:any, prod:any)=>{
                       console.log('updating');
                       console.log(prod);
                     });

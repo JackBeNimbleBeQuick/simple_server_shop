@@ -5,7 +5,7 @@ import Comservices from 'clients/lib/com/Comservices';
 import Types from 'clients/shop/data/types'
 import Tracker from 'clients/shop/data/tracker'
 import Actions from 'clients/shop/data/actions'
-import Validation from 'clients/lib/util/validation';
+import Validation from 'clients/util/validation';
 import * as PWStrength from 'zxcvbn';
 
 interface formLoader{
@@ -14,7 +14,10 @@ interface formLoader{
       'data-hasHandler'?: string
     }
   }
+}
 
+interface serverErrors{
+  [Identifier:string]: Array<string>
 }
 
 interface validateResult{
@@ -60,6 +63,7 @@ class FormLoader extends React.Component <any, any > {
     }
   }
 
+
   constructor(props:any){
     super(props);
     this.state = {
@@ -71,6 +75,8 @@ class FormLoader extends React.Component <any, any > {
       token: null,
       type: null,
       validators: null,
+      validated: {},
+      scrolling: false,
       values: {}
     }
   }
@@ -95,6 +101,7 @@ class FormLoader extends React.Component <any, any > {
   values = ():values => {
     let form = this.state.form;
     let values = {}
+    values['_csrf'] = this.state.token;
 
     if(form){
       for(let name in this.state.validators){
@@ -133,6 +140,15 @@ class FormLoader extends React.Component <any, any > {
     }
   }
 
+  serverErrors = (errors:serverErrors):void => {
+    for(let errKey in errors){
+      let input = this.state.form.querySelector(`[name=${errKey}]`);
+      let field = input.closest('.field');
+      if(field)
+        this.attachErrors(field,errors[errKey])
+    }
+  }
+
   /**
    * inserts the error message into the data's form group
    * @param  {HTMLElement} field
@@ -161,24 +177,31 @@ class FormLoader extends React.Component <any, any > {
    * @return {boolean} validateResult from validator
    * results in isValid booean and interface error states
    */
-  validateEach = (validators) => {
-    console.log('Validators received');
+  validateEach = (validators, cb:Function) => {
+    let validate = new Validation({},{})
+    console.log('VALIDATION VALIDATORS')
     console.log(validators);
+    validate.batch(validators, this.values(), (results) => {
 
-    let results = Validation.batchValidate(validators,this.values());
-    let failed  = results.failed;
-    console.log(results);
+      let failed  = results.failed;
+      console.log('VALIDATION RESULTS')
+      console.log(results);
 
-    for(let name in failed){
-      let input = this.state.form.querySelector(`[name=${name}]`);
-      let field = input.closest('.field');
-      let messages:any = failed[name];
+      for(let name in failed){
+        let input = this.state.form.querySelector(`[name=${name}]`);
+        let field = input.closest('.field');
+        let messages:any = failed[name];
 
-      if(field && messages)
-        this.attachErrors(field, messages);
-    }
+        console.log(field);
+        console.log(messages);
 
-    return results.isValid;
+        if(field && messages)
+          this.attachErrors(field, messages);
+
+      }
+      console.log(cb);
+      return cb(results.isValid);
+    });
   }
 
   /**
@@ -194,30 +217,29 @@ class FormLoader extends React.Component <any, any > {
    */
   submit = (e) => {
     e.preventDefault();
-    let values= this.values();
-    let post:any = this.values();
-
-    //clear errors in the interface
+    e.stopPropagation();
     this.clearErrors();
 
-    let isValid = this.validateEach(this.state.validators);
+    console.log('FORM SUBMIT');
 
-    console.log(isValid);
+    this.validateEach(this.state.validators, (result) => {
+      let post:any = this.values();
 
-    if(isValid){
-
-      post['_csrf'] = this.state.token;
-
-      Comservices.action({
-        type: 'POST',
-        action: (Actions.form as Function),
-        uri: this.state.action,
-        data: post,
-      });
-    }
-    console.log(`Post ${this.state.type}: ${isValid ? 'SENT' : 'CAN NOT BE SENT'} as ${isValid ? 'Valid' : 'it is NOT Valid'}`);
-    console.log(this.state.token);
-    console.log(post);
+      console.log('FORM VALIDATION');
+      console.log(result);
+      if(result.isValid){
+        post['_csrf'] = this.state.token;
+        Comservices.action({
+          type: 'POST',
+          action: (Actions.form as Function),
+          uri: this.state.action,
+          data: post,
+        });
+      }
+      console.log(`Post ${this.state.type}: ${result.isValid ? 'SENT' : 'CAN NOT BE SENT'} as ${result.isValid ? 'Valid' : 'it is NOT Valid'}`);
+    });
+    // console.log(this.state.token);
+    // console.log(post);
   }
 
   /**
@@ -227,18 +249,24 @@ class FormLoader extends React.Component <any, any > {
   handlers = () => {
     if(this.state.form ){
       let form:any = this.state.form;
+
+      //set up scope of this form
       let handled: string | null = this.state.form.getAttribute('data-hashandler')
 
+      //only process those forms that are new to the DOM once
       if( handled===null && handled!=='yes'){
 
-        //@TODO add this under conditional
         form.setAttribute('data-hashandler',true);
+
+        //selectors that could exist
         let submit:HTMLElement = form.querySelector('input[type=submit]');
         let fields = form.getElementsByClassName('field');
         let password:any = form.querySelector('input[name=password]');
         let resetCaptcha = form.querySelector('.captcha button.reset');
         let captchObj:any = document.querySelector('.captcha.field object');
         let formlist:HTMLElement = form.querySelector('.list');
+
+        //setup
         let f_comp:any = getComputedStyle(formlist);
         let f_height:number = parseFloat(f_comp.height) + 115;
         let w_height:number = window.outerHeight;
@@ -250,6 +278,7 @@ class FormLoader extends React.Component <any, any > {
           });
         }
 
+        //setup resize function
         let resize = () => {
           w_height= window.outerHeight;
           console.log(`wh: ${w_height} fh: ${f_height} trigger: ${f_height>w_height}`);
@@ -257,19 +286,23 @@ class FormLoader extends React.Component <any, any > {
             let height = w_height - (.4 * w_height);
             console.log(`window h: ${height}`);
             form.setAttribute('style', `height: ${height}pt;overflow:auto;`);
-            form.className = 'scrolling';
+            this.setState({scrolling: true});
           }else{
+            this.setState({scrolling: false});
             form.setAttribute('style', ``);
             form.className = '';
           }
         }
 
+        //do inititial resize setup
         resize();
+
+        //ensure only one listener for this method
         window.removeEventListener('resize',resize);
         window.addEventListener('resize',resize);
 
-        console.log(fields)
 
+        //loop thru fields in the DOM for this form
         for(let i=0; i < fields.length; i++){
           let field = fields[i];
           let label = fields[i].querySelector('label');
@@ -280,14 +313,15 @@ class FormLoader extends React.Component <any, any > {
               input.select();
             });
           }
-            if(input){
-              input.addEventListener('focus',(e)=>{
-                field.className += ' active';
-              });
+          if(input){
+            input.addEventListener('focus',(e)=>{
+              field.className += ' active';
+            });
             input.addEventListener('blur',(e)=>{
               this.clearErrors();
-              this.validateEach(this.getValidators(e.target.name));
-              this.clearActive(fields);
+              this.validateEach(this.getValidators(e.target.name), (result)=>{
+                this.clearActive(fields);
+              });
             });
           }
         }
@@ -307,7 +341,8 @@ class FormLoader extends React.Component <any, any > {
         }
 
         if(password !==null){
-          let toggle:HTMLElement = form.querySelector('button.toggle');
+
+          let toggle:HTMLElement = form.querySelector('button.toggle.show');
           let confirm:any  = form.querySelector('input[name=confirm_password]');
           let status:HTMLElement = form.querySelector('.meter .status');
 
@@ -322,23 +357,22 @@ class FormLoader extends React.Component <any, any > {
 
           });
 
-          if(toggle !==null){
-            toggle.addEventListener('click', (e)=>{
-              e.preventDefault();
-              let state = toggle.innerHTML
-              console.log(state);
-              if(state=='show'){
-                toggle.innerHTML = 'hide';
-                password.type = 'text'
-                confirm.type = 'text'
-              }else{
-                toggle.innerHTML = 'show'
-                password.type = 'password'
-                confirm.type = 'password'
-              }
-
-            });
-          }
+          console.log('Does this have a toggle for password?');
+          console.log(toggle);
+          toggle.addEventListener('click', (e)=>{
+            e.preventDefault();
+            let state = toggle.innerHTML
+            console.log(state);
+            if(state=='show'){
+              toggle.innerHTML = 'hide';
+              password.type = 'text'
+              confirm.type = 'text'
+            }else{
+              toggle.innerHTML = 'show'
+              password.type = 'password'
+              confirm.type = 'password'
+            }
+          });
         }
       }
     }
@@ -408,8 +442,28 @@ class FormLoader extends React.Component <any, any > {
   }
 
   componentWillReceiveProps (data:any) {
-    if(data.form)
+    let form = data.form ? data.form : null;
+
+    //form chain
+    if(form && form.success){
+      this.setState({form: null, open: false});
+      setTimeout(()=>{
+        let insert:HTMLElement | null  = document.getElementById('form_loader_insert');
+        if(insert) insert.innerHTML = '';
+      },200);
+    } else  if(form && form.errors){
+      this.serverErrors(data.form.errors)
+    }else if(form){
       this.attach(data.form);
+    }
+
+    if(data.validation){
+      let validated = data.validation;
+      console.log(validated);
+      this.setState({
+        validated: validated
+      });
+    }
 
     if(data.tray && data.tray.lastin !== 'form_loader'){
       this.setState({open: false});
@@ -420,6 +474,7 @@ class FormLoader extends React.Component <any, any > {
     let closeState = this.state.form === null ? 'no-data' : 'close';
 
     let panelClass = ['form-loader col-md-12', this.state.open ? 'open' : closeState];
+    if(this.state.scrolling) panelClass.push('scrolling');
 
     let tabClass   = ['down-tab offset-5', this.state.open  ? 'open' : 'close'];
 
@@ -430,6 +485,7 @@ class FormLoader extends React.Component <any, any > {
 
         <div className="loader" id="form_loader_insert"></div>
 
+        <div className="fader"/>
         <div className={tabClass.join(' ')}>
           <button onClick= {e=>this.toggle(e)}>
             {this.props.lang.tab}
@@ -441,8 +497,9 @@ class FormLoader extends React.Component <any, any > {
 }
 
 let mapper = (data:any) => {
-  let form  = data.shopping && data.shopping.form ? data.shopping.form : null;
-  let tray  = data.shopping && data.shopping.trayState ? data.shopping.trayState: null;
+  let form   = data.shopping && data.shopping.form ? data.shopping.form : null;
+  let tray   = data.shopping && data.shopping.trayState ? data.shopping.trayState: null;
+  let validation = data.shopping && data.shopping.validation? data.shopping.validation: null;
   console.log('FORMLoader mapper ');
   console.log(data);
   if(tray){
@@ -450,6 +507,9 @@ let mapper = (data:any) => {
   }
   if(form){
     return {form: form};
+  }
+  if(validation){
+    return {validation: validation}
   }
   return {}
 }

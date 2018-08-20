@@ -12,6 +12,7 @@ import * as http_mocks from 'node-mocks-http';
 import CMSModel from '../../../server/model/cmsModel';
 import DBConnect from '../../../server/db/db_connect';
 import {AccountController} from '../../../server/controllers/accountController';
+import {FormsController} from '../../../server/controllers/formsController';
 import App from '../../../server/app';
 
 
@@ -52,6 +53,7 @@ describe('Schema base form tests', ()=>{
 
   it('Render tests for Pug',()=>{
     let control = new AccountController(App);
+    let forms   = new FormsController(App);
     let res = http_mocks.createResponse();
     let req = http_mocks.createRequest({
       method: 'POST',
@@ -67,7 +69,7 @@ describe('Schema base form tests', ()=>{
       console.log(res);
     });
 
-    let spec = control.forms(req,res, (result:any) => {
+    let spec = forms.forms(req,res, (result:any) => {
       console.log('Result from controller method');
       console.log(result);
       console.log(res);

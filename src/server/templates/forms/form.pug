@@ -17,6 +17,17 @@ form(method="POST" action= action)
           label(for= name)= part.label
           input(type= part.type, name= part.name, autocomplete= part.autocomplete )
         
+      if part.type === 'captcha'
+        label(for= name)= part.label
+        div.captcha.field
+          div.box  
+            div.frame
+              <object data="/sigmond" type="image/svg+xml"></object>
+          div.answer
+            span.space= '='
+            input(type='text',name='sigmond')
+          button.toggle.reset reset 
+      
       if part.type == 'password' && part.name === 'password'
         div.field
           label(for= name)= part.label
@@ -32,16 +43,6 @@ form(method="POST" action= action)
           label(for= name)= part.label
           input(type= part.type, name= part.name, autocomplete= part.autocomplete )
           
-    if captcha      
-      div.captcha.field
-        div.box  
-          div.frame
-            <object data="/sigmond" type="image/svg+xml"></object>
-        div.answer
-          span.space= '='
-          input(type='text',name='sigmond')
-        input(type="submit", name= "submit", value= submitLabel)
-        button.toggle.reset reset 
           
-    else 
-      input(type="submit", name= "submit", value= submitLabel)
+  input(type="submit", name= "submit", value= submitLabel)
+      

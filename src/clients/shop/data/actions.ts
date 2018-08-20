@@ -38,6 +38,13 @@ export class Actions implements Actions {
     });
   }
 
+  validation = (data:any):any => {
+    return  action(Types.VALIDATION,{
+      type: Types.VALIDATION,
+      data,
+    });
+  }
+
   serviceCallMade = (component:string) => {
     return  action(Types.SERVICE_CALL,{
       type: Types.SERVICE_CALL,

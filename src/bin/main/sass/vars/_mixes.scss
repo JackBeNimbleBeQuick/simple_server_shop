@@ -42,7 +42,13 @@
 	-ms-transform: $type($x, $y); /* IE 9 */
 }
 
-@mixin fuzzybottom() {
+@mixin fuzzybottomBlack() {
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+}
+
+@mixin fuzzybottomWhite() {
 	background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
 	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
 	background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);

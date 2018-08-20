@@ -1,0 +1,51 @@
+
+.captcha{
+  position: relative;
+  &.field{
+    margin: 1em auto;
+    width: 70%;
+  }
+  .box{
+  }
+  button.reset{
+    background-color: transparent;
+    border: 1pt solid $white;
+    border-radius: 2pt;
+    color: $white;
+    font-size: 0.25em;
+    left: 0;
+    position: absolute;
+    top: -2.5em;
+  }
+  object{
+    border: 1px solid #fff;
+    border-radius: 3pt;
+    height: 1.75em;
+    padding: 2pt;
+    width: 75pt;
+  }
+  .answer{
+    color: #000;
+    position: absolute;
+    right: 1em;
+    top: 7px;
+    white-space: nowrap;
+    width: calc(100% - 7em);
+    .space{
+      color: $white;
+      margin: 0 0.5em 0 1em;
+    }
+    input[type=text]{
+      background-color: transparent;
+      border: 1pt solid;
+      color: #fff;
+      height: 1.5em;
+      text-align: center;
+      width: 4em;
+    }
+  }
+  input[type=submit]{
+    float: right;
+    margin: 2em 0 0;
+  }
+}

@@ -3,7 +3,6 @@ export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
 export let Mixed = mongoose.Schema.Types.Mixed;
 
-
 export class Repository{
 
   private _model:mongoose.Model<mongoose.Document>;
@@ -20,7 +19,8 @@ export class Repository{
     return this._model.find({}, callback);
   }
 
-  public update = (_id: mongoose.Types.ObjectId, item: any, callback: (error: any, result: any) => void) => {
+  //@NOTE needed to relax as mongoose.Types.ObjectId is problematic
+  public update = (_id: Object, item: any, callback: (error: any, result: any) => void) => {
     this._model.update({ _id: _id }, item, callback);
   }
 

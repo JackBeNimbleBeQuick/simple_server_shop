@@ -4,12 +4,9 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = function(env, argv){
 
   var defaults = {
-
   }
 
   console.log(env);
-
-
 
   return {
 
@@ -19,7 +16,7 @@ module.exports = function(env, argv){
     watch: false,
     module: {
       rules: [
-        { test: /\.tsx?$/, loader: "ts-loader" }
+        { test: /\.tsx?$/, loader: "ts-loader"}
       ]
     },
     resolve: {
@@ -33,14 +30,21 @@ module.exports = function(env, argv){
         'clients': path.resolve(__dirname,'clients/'),
       }
     },
-    devServer: {
-      contentBase: path.join(__dirname, '../clients/'),
-      port: 8093
-    },
+    // devServer: {
+    //   contentBase: path.join(__dirname, '../clients/'),
+    //   port: 8093
+    // },
     output: {
       devtoolLineToLine: true,
       filename: 'app.js',
       path: path.resolve(__dirname, 'server/clients/shop')
-    }
+    },
   }
 };
+
+new webpack.DefinePlugin({
+  env:{
+    APP_ENV: JSON.stringify('browser'),
+    NODE_ENV: JSON.stringify('server')
+  }
+});

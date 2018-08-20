@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Tracker from 'clients/shop/data/tracker';
 import Loading from 'clients/lib/component/loading';
-import DomUtils from 'clients/lib/util/dom';
+import DomUtils from 'clients/util/dom';
 import Store from 'clients/shop/data/store';
 import Session from 'clients/lib/com/session';
 import Actions from 'clients/shop/data/actions';

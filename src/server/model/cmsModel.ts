@@ -4,14 +4,82 @@ import {Response, Request, NextFunction} from 'express';
 import {Repository} from './repository';
 import Validate from './validate';
 import * as https from 'https';
+import * as bcrypt from 'bcrypt';
+import * as promise from 'promise';
 import cnf from '../config/connect.cnf'
+import Filters from '../utils/filters';
 
 
 export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
 export let Mixed = mongoose.Schema.Types.Mixed;
 
-export class CMSModel{
+
+
+interface schemata{
+  [Identifier:string]:entityField
+}
+
+interface entityField{
+  [Identifier:string]: entitySpec
+}
+
+interface entitySpec{
+  type: string,
+  required: boolean | string,
+  meta?: entityMeta
+}
+
+interface entityMeta{
+    form?: entityForm
+}
+
+interface entityForm{
+    validators: Array<string>,
+    filters: Array<string>,
+    name?: string,
+    type: string,
+    label: string,
+    attributes?: Object
+}
+
+interface uniquePost{
+  entity: string,
+  field: string,
+  value: string,
+}
+
+interface loginPost{
+  login: string,
+  pw: string,
+}
+
+interface person{
+  _id: mongoose.Types.ObjectId,
+  fname:string,
+  lname:string,
+  mname:string,
+  logins: Array<string>,
+  reset: boolean,
+  active: boolean,
+  resetKey: string,
+}
+
+interface login{
+  _id: mongoose.Types.ObjectId,
+  login: string,
+  email: string,
+  owner: mongoose.Types.ObjectId,
+  pw: string,
+}
+
+interface loginPerson{
+  person: person,
+  login: login
+}
+
+
+export class CMSModel {
 
   private configs:any;
 
@@ -21,7 +89,13 @@ export class CMSModel{
 
   private repository:any = null;
 
+  private instantiated:any = {};
+
+  private _id: string;
+
   constructor(){
+
+      this._id = 'initial_id_value';
 
       this.configs = {
         Person: {
@@ -60,7 +134,7 @@ export class CMSModel{
             required: false,
             meta:{
               form: {
-                validators:['optional_name'],
+                validators:['optional'],
                 filters:[],
                 label: 'Middle name',
                 type: 'text',
@@ -86,8 +160,9 @@ export class CMSModel{
             }
           },
           resetKey: {
-            type: Number,
-            required: false,
+            type: String,
+            required: true,
+            default: 'initiated_account',
             meta:{
             }
           },
@@ -108,10 +183,14 @@ export class CMSModel{
           },
           login: {
             type:String,
+            required: false
+          },
+          email: {
+            type:String,
             required: 'Login required',
             meta:{
               form: {
-                validators:['name'],
+                validators:['email'],
                 filters:[],
                 label: 'Login',
                 type: 'text',
@@ -210,30 +289,34 @@ export class CMSModel{
   }
 
   public getSchema = (name:string):any|null => {
-    if(this.schema) return this.schema;
+    if(this.instantiated[`${name}_schema`]) return this.instantiated[`${name}_schema`];
+    // if(this.schema) return this.schema;
     let s_object :any = this.configs? this.configs[name] : null;
     if( s_object){
-      this.schema = new mongoose.Schema(s_object);
+      this.instantiated[`${name}_schema`] = new mongoose.Schema(s_object);
+      return this.instantiated[`${name}_schema`]
     }
-    return this.schema
+    throw new RangeError(`Schema for ${name} does not exist`);
   }
 
   public getModel = (name:string):any|null => {
-    if(this.model) return this.model;
+    if(this.instantiated[`${name}_model`]) return this.instantiated[`${name}_model`];
+    // if(this.model) return this.model;
     let schema = this.getSchema(name);
     if(schema){
-      this.model = mongoose.model(name,schema);
+      this.instantiated[`${name}_model`] = mongoose.model(name,schema);
+      return this.instantiated[`${name}_model`]
     }
-    return this.model;
+    throw new RangeError(`Model for ${name} does not exist`);
   }
 
   public repo = (name:string) => {
-    if(this.repository) return this.repository;
+    // if(this.repository) return this.repository;
     let model = this.getModel(name);
     if(model){
-      this.repository = new Repository(model);
+      return new Repository(model);
     }
-    return this.repository;
+    throw new RangeError(`Repo for ${name} does not exist`);
   }
 
   public validators = (name:string) => {
@@ -244,6 +327,147 @@ export class CMSModel{
     return null;
   }
 
+  /** Entity Mothods **/
+
+  public isUnique = (post:uniquePost, respond: Function):boolean|void => {
+    this.repo(post.entity).find({[post.field]: post.value} , (err:any, value:any)=>{
+      let isValid = err || !value || value.length === 0 ? true : false;
+      respond(isValid);
+    });
+  }
+
+  public checkLogin = (post: loginPost, cb:Function) => {
+
+    let _login = post.login ? post.login : null;
+    let _pw    = post.pw    ? post.pw    : null;
+
+    let fail = (msg?: string) => {
+      console.log(msg)
+      return {
+        isValid: false,
+        message: msg ? msg : 'invalid input'
+      }
+    }
+
+    if( !_login || !_pw) fail();
+
+    let checker = new promise( (resolve:any ,reject:any) => {
+      this.repo('Login').find({$or:[{email: _login},{login: _login}]}, (err:any, login: any)=>{
+        if(!login || login.length === 0 ) throw 'no_record';
+        login.length ? resolve(login[0]) : resolve(login);
+      });
+    })
+
+    checker.then( (login:any) => {
+      bcrypt.compare(_pw, login.pw, (err:any, result:any) => {
+        // console.log(`err: ${err} result: ${result}`);
+        let msg =  result===true ? '' : 'bad_password';
+        if(err) msg = 'system_failure';
+        return cb({
+          isValid: result === true,
+          message: msg
+        });
+      });
+    })
+  }
+
+  public login = (key:any, success: Function, error: Function) => {
+
+    if(key === null || key === undefined ) return null;
+
+    let logins = this.repo('Login');
+
+    let loginSearch = new promise( (resolve:any ,reject:any) => {
+      logins.find({$or:[{email: key},{login: key}]}, (err:any, login: any)=>{
+        return err ? error(err) : resolve(login)
+      });
+    })
+
+    loginSearch.then( (login:any) => {
+      if(!login || login.length === 0 ) throw 'no_record';
+      return login.length ? success(login[0]) : success(login);
+    }).catch((err)=>{
+      if(err) console.log(`ERROR login search ${err}`);
+      return null;
+    });
+
+  }
+
+  public personByLogin = (key:string, respond:Function) => {
+    this.login(key, (login:any) => {
+      let people = this.repo('Person');
+      people.findOne({_id: login.owner}, (err:any, person:mongoose.ModelProperties)=>{
+        if(!err && respond){
+          return respond({
+            person: person,
+            login: login
+          });
+        }
+        if(err) console.log(`ERROR personByLogin no person found ${err}`);
+      })
+    }, (err:any)=>{
+      if(err) console.log(`ERROR personByLogin no login found ${err}`);
+    });
+  }
+
+  public setResetKeyByLogin = (key:string, respond:Function) => {
+    this.personByLogin(key, (loginPerson:loginPerson)=>{
+      if(loginPerson && loginPerson.person){
+        let people = this.repo('Person');
+        let person = loginPerson.person;
+        let login  = loginPerson.login;
+        let id = loginPerson.person._id;
+        let range = Filters.randomRange(128,200);
+        let nKey = Filters.generateKey(range);
+        people.update({_id: id},{resetKey: nKey},(err:any, ok:any)=>{
+          if(!err && respond){
+            respond({
+              person: person,
+              login: login,
+              resetKey: nKey
+            });
+          }
+          if(err) console.log(`ERROR setResetKeyByLogin response ${err}`);
+        });
+      }
+    });
+  }
+
+  /**
+   * CreateAccount
+   * @param
+   * @return {message}
+   */
+  public createAccount = (data:any, success: Function, error: Function) => {
+    let phash = null;
+
+    new promise( (resolve:any ,reject:any) => {
+      bcrypt.hash(data.password, 10).then((hash)=>{
+        phash = hash;
+        // console.log(hash);
+        // console.log(data);
+        this.repo('Person').create(data, (err:any, person:any)=>{
+          // console.log(person);
+          if(err) console.log(`ERROR createAccount ${err}`);
+          return err ? reject(err) : resolve(person)
+        })
+      })
+    }).then((person:any)=>{
+      this.repo('Login').create({
+        key: '_primary',
+        email: data.email.trim(),
+        login: data.login ? data.login.trim() : '',
+        owner: person,
+        pw: phash
+      }, (err:any, result:any )=>{
+        // console.log(`Create account login result`)
+        // console.log(result);
+        if(err) console.log(`ERROR createLogin ${err}`);
+        return err ? error(err) : success(result)
+      });
+    })
+
+  }
 
   public cacheable = (name:string, callback: Function) => {
     switch(name){

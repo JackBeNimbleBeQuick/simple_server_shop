@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import Closer from 'clients/lib/component/closer';
 import Image from 'clients/lib/component/image';
-import DomUtils from 'clients/lib/util/dom';
+import DomUtils from 'clients/util/dom';
 import Store from 'clients/shop/data/store';
 
 class DisplayBox extends React.Component <any, any > {

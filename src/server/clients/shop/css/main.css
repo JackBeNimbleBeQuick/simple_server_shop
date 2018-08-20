@@ -272,7 +272,7 @@ each component to maintain full component architecture
   background-color: rgba(0, 0, 0, 0.9);
   color: #fff;
   font-size: 1em;
-  padding: 0 1em 1.25em;
+  padding: 1em 1em 1.25em;
   position: absolute;
   transition: 0.5s all ease-in-out;
   transform: translateY(-100%);
@@ -284,6 +284,23 @@ each component to maintain full component architecture
   .form-loader.open,
   .login.open {
     transform: translateY(0); }
+  .form-loader.scrolling input[type=submit],
+  .login.scrolling input[type=submit] {
+    background-color: rgba(0, 0, 0, 0.3);
+    left: 40%;
+    top: 5px;
+    position: fixed;
+    transition: 1s all ease-in-out; }
+  .form-loader.scrolling .fader,
+  .login.scrolling .fader {
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    bottom: 0;
+    left: 0;
+    height: 3em;
+    position: absolute;
+    width: 100%; }
   .form-loader .links,
   .login .links {
     margin: 1em; }
@@ -314,50 +331,10 @@ each component to maintain full component architecture
     .login .loading.on p {
       color: #000;
       font-size: 2em; }
-  .form-loader .captcha,
-  .login .captcha {
-    position: relative;
-    margin-bottom: 1em;
-    width: 70%; }
-    .form-loader .captcha button.reset,
-    .login .captcha button.reset {
-      background-color: transparent;
-      border: 1pt solid #fff;
-      border-radius: 2pt;
-      color: #fff;
-      font-size: 0.25em;
-      position: absolute;
-      top: -2.5em; }
-    .form-loader .captcha object,
-    .login .captcha object {
-      border: 1px solid #fff;
-      border-radius: 3pt;
-      height: 1.5em;
-      width: 75pt; }
-    .form-loader .captcha .answer,
-    .login .captcha .answer {
-      color: #000;
-      position: absolute;
-      right: 1em;
-      top: 4px;
-      white-space: nowrap;
-      width: calc(100% - 7em); }
-      .form-loader .captcha .answer .space,
-      .login .captcha .answer .space {
-        color: #fff;
-        margin-right: 0.5em; }
-      .form-loader .captcha .answer input[type=text],
-      .login .captcha .answer input[type=text] {
-        background-color: transparent;
-        border: 1pt solid;
-        color: #fff;
-        height: 1.5em;
-        text-align: center;
-        width: 4em; }
-    .form-loader .captcha input[type=submit],
-    .login .captcha input[type=submit] {
-      float: right;
-      margin: 2em 0 0; }
+  .form-loader .captcha.field,
+  .login .captcha.field {
+    margin: 3em auto 2em auto;
+    width: 85%; }
   .form-loader .meter,
   .login .meter {
     bottom: -15px;
@@ -400,11 +377,6 @@ each component to maintain full component architecture
   .login form {
     position: relative;
     overflow: auto; }
-    .form-loader form .scrolling,
-    .login form .scrolling {
-      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
-      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, white 50%, white 100%);
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 50%, white 100%); }
     .form-loader form .field,
     .login form .field {
       margin: 2em 0 1em;
@@ -454,3 +426,204 @@ each component to maintain full component architecture
       color: #fff;
       margin: 0;
       float: left; }
+
+.form-loader,
+.login {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 1em;
+  padding: 1em 1em 1.25em;
+  position: absolute;
+  transition: 0.5s all ease-in-out;
+  transform: translateY(-100%);
+  top: 0;
+  z-index: 5; }
+  .form-loader.no-data,
+  .login.no-data {
+    transform: translateY(-200%); }
+  .form-loader.open,
+  .login.open {
+    transform: translateY(0); }
+  .form-loader.scrolling input[type=submit],
+  .login.scrolling input[type=submit] {
+    background-color: rgba(0, 0, 0, 0.3);
+    left: 40%;
+    top: 5px;
+    position: fixed;
+    transition: 1s all ease-in-out; }
+  .form-loader.scrolling .fader,
+  .login.scrolling .fader {
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 80%, black 80%);
+    bottom: 0;
+    left: 0;
+    height: 3em;
+    position: absolute;
+    width: 100%; }
+  .form-loader .links,
+  .login .links {
+    margin: 1em; }
+    .form-loader .links a,
+    .login .links a {
+      color: #fff;
+      font-size: 0.65em;
+      padding: 0 0.5em; }
+  .form-loader .loading,
+  .login .loading {
+    height: 0;
+    top: 50%;
+    left: 50%;
+    width: 0; }
+    .form-loader .loading.on,
+    .login .loading.on {
+      background-color: rgba(255, 255, 255, 0.6);
+      left: 0;
+      height: 100%;
+      top: 0;
+      width: 100%; }
+    .form-loader .loading p,
+    .login .loading p {
+      font-size: 0;
+      left: -1em;
+      white-space: nowrap; }
+    .form-loader .loading.on p,
+    .login .loading.on p {
+      color: #000;
+      font-size: 2em; }
+  .form-loader .captcha.field,
+  .login .captcha.field {
+    margin: 3em auto 2em auto;
+    width: 85%; }
+  .form-loader .meter,
+  .login .meter {
+    bottom: -15px;
+    border: 1pt solid rgba(169, 169, 169, 0.5);
+    height: 5pt;
+    position: absolute;
+    width: 69%; }
+    .form-loader .meter .status,
+    .login .meter .status {
+      background-color: red;
+      height: 2pt;
+      left: 1pt;
+      position: relative;
+      top: 1pt;
+      transition: 0.75s all ease-in;
+      width: 0.5%; }
+  .form-loader .down-tab,
+  .login .down-tab {
+    background-color: rgba(0, 0, 0, 0.9);
+    bottom: 0;
+    font-size: 0.8em;
+    margin: -2em 0;
+    opacity: 1;
+    position: absolute;
+    left: 0;
+    z-index: 1; }
+    .form-loader .down-tab button,
+    .login .down-tab button {
+      color: #fff;
+      background-color: transparent;
+      border: 0;
+      display: block;
+      height: 3em;
+      min-width: 65pt;
+      outline: 0; }
+    .form-loader .down-tab.offset-5,
+    .login .down-tab.offset-5 {
+      left: 5em; }
+  .form-loader form,
+  .login form {
+    position: relative;
+    overflow: auto; }
+    .form-loader form .field,
+    .login form .field {
+      margin: 2em 0 1em;
+      position: relative; }
+      .form-loader form .field label,
+      .login form .field label {
+        bottom: 0;
+        padding: 3pt 0 3pt 10pt;
+        position: absolute;
+        transition: 0.5s all ease-in-out; }
+      .form-loader form .field .boundary,
+      .login form .field .boundary {
+        position: relative;
+        width: 70%; }
+        .form-loader form .field .boundary input,
+        .login form .field .boundary input {
+          width: 100%; }
+        .form-loader form .field .boundary button,
+        .login form .field .boundary button {
+          color: #fff;
+          background-color: transparent;
+          border: 1pt solid rgba(169, 169, 169, 0.5);
+          font-size: 0.25em;
+          outline: 0;
+          position: absolute;
+          right: 2pt;
+          top: 2pt; }
+      .form-loader form .field input,
+      .login form .field input {
+        color: #fff !important;
+        border: 1pt solid #8f8f8f;
+        border-radius: 1pt;
+        font-size: 0.75em;
+        margin: 0;
+        padding: 5pt;
+        width: 70%; }
+      .form-loader form .field.active label,
+      .login form .field.active label {
+        bottom: 100%;
+        font-size: 0.65em;
+        opacity: 0.5;
+        padding: 3pt 0 3pt 0; }
+    .form-loader form input[type=submit],
+    .login form input[type=submit] {
+      border: 1pt solid #8f8f8f;
+      border-radius: 1pt;
+      color: #fff;
+      margin: 0;
+      float: left; }
+
+.captcha {
+  position: relative; }
+  .captcha.field {
+    margin: 1em auto;
+    width: 70%; }
+  .captcha button.reset {
+    background-color: transparent;
+    border: 1pt solid #fff;
+    border-radius: 2pt;
+    color: #fff;
+    font-size: 0.25em;
+    left: 0;
+    position: absolute;
+    top: -2.5em; }
+  .captcha object {
+    border: 1px solid #fff;
+    border-radius: 3pt;
+    height: 1.75em;
+    padding: 2pt;
+    width: 75pt; }
+  .captcha .answer {
+    color: #000;
+    position: absolute;
+    right: 1em;
+    top: 7px;
+    white-space: nowrap;
+    width: calc(100% - 7em); }
+    .captcha .answer .space {
+      color: #fff;
+      margin: 0 0.5em 0 1em; }
+    .captcha .answer input[type=text] {
+      background-color: transparent;
+      border: 1pt solid;
+      color: #fff;
+      height: 1.5em;
+      text-align: center;
+      width: 4em; }
+  .captcha input[type=submit] {
+    float: right;
+    margin: 2em 0 0; }

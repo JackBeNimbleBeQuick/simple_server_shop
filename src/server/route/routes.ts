@@ -6,6 +6,7 @@ import * as svgCaptcha from 'svg-captcha';
 import {CmsController} from '../controllers/cmsController';
 import {AppController} from '../controllers/appController';
 import {AccountController} from '../controllers/accountController';
+import {FormsController} from '../controllers/formsController';
 import * as path from 'path';
 
 export class Routes{
@@ -14,6 +15,7 @@ export class Routes{
   app: Application;
   apps: AppController;
   acc: AccountController;
+  forms: FormsController;
   server: any;
   expressApp: any;
   csrfTokens: any;
@@ -26,6 +28,7 @@ export class Routes{
     this.cms  = new CmsController(shopApp);
     this.apps = new AppController(shopApp);
     this.acc  = new AccountController(shopApp);
+    this.forms = new FormsController(shopApp);
   }
 
   public gets = () => {
@@ -40,17 +43,18 @@ export class Routes{
       .get(this.cms.shop)
 
     this.app.route('/forms*')
-      .get(this.acc.forms);
+      .get(this.forms.forms);
 
     this.app.route('/app')
       .get(this.apps.getApp)
 
+    //Captcha for registrations
     this.app.route('/sigmond')
       .get( (req: Request,res:Response) =>{
         let sigmond = svgCaptcha.createMathExpr({
-        	background: 'rgba(255,255,255,0.7)',
-          color: false,
-          fontSize: 35,
+        	// background: 'rgba(255,255,255,0.7)',
+          color: true,
+          fontSize: 45,
           height: 25,
           noise: 4,
           width: 100,
@@ -72,6 +76,9 @@ export class Routes{
 
     this.app.route('/reset')
       .post(this.acc.reset)
+
+    this.app.route('/validation')
+      .post(this.acc.validation)
 
   }
 

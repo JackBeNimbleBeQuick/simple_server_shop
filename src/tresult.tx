@@ -1,0 +1,112 @@
+-----------------|----------|----------|----------|----------|-------------------|
+File             |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-----------------|----------|----------|----------|----------|-------------------|
+All files        |    52.02 |     29.9 |    29.17 |    53.66 |                   |
+ server/config   |      100 |    70.83 |      100 |      100 |                   |
+  connect.cnf.ts |      100 |    70.83 |      100 |      100 |... 35,46,47,87,88 |
+  private.cnf.ts |      100 |      100 |      100 |      100 |                   |
+ server/model    |    49.65 |    16.92 |    26.19 |    51.11 |                   |
+  cmsModel.ts    |    48.51 |     19.3 |    29.63 |       50 |... 77,380,382,384 |
+  repository.ts  |       64 |      100 |    18.18 |    66.67 |... 28,32,36,40,48 |
+  validate.ts    |    35.29 |        0 |       25 |    35.29 |... 58,59,60,61,62 |
+ tests           |    54.17 |     12.5 |       50 |    56.52 |                   |
+  db_connect.ts  |    54.17 |     12.5 |       50 |    56.52 |... 37,46,51,52,54 |
+-----------------|----------|----------|----------|----------|-------------------|
+  console.log tests/server/controllers/accounts.spec.ts:64
+    Found: mawellCoffee 
+
+  console.log tests/server/controllers/accounts.spec.ts:65
+    { _id: 5b74b6ddcde26822c34342c1,
+      key: '_primary',
+      email: 'jack@daisyranch.org',
+      login: 'mawellCoffee',
+      owner: 5b74b6dccde26822c34342bd,
+      pw: '$2b$10$SOqkpQNfxbzdbKFxcnSUEeMaX.P9c62hW8NdI82IeUPlvmBDPnhHe',
+      __v: 0 }
+
+  console.log tests/server/controllers/accounts.spec.ts:66
+    5b74b6dccde26822c34342bd
+
+  console.log tests/server/controllers/accounts.spec.ts:68
+    null
+
+  console.log tests/server/controllers/accounts.spec.ts:69
+    [ { logins: [],
+        active: false,
+        reset: false,
+        attempts: 0,
+        _id: 5b74b6dccde26822c34342bd,
+        fname: 'Jack',
+        lname: 'Harrison',
+        mname: '',
+        __v: 0 },
+      { logins: [],
+        active: false,
+        reset: false,
+        attempts: 0,
+        _id: 5b74b6dccde26822c34342be,
+        fname: 'Sally',
+        lname: 'May',
+        mname: 'Francis',
+        __v: 0 },
+      { logins: [],
+        active: false,
+        reset: false,
+        attempts: 0,
+        _id: 5b74b6dccde26822c34342bf,
+        fname: 'George',
+        lname: 'Washingtom',
+        mname: 'Willingtom',
+        __v: 0 },
+      { logins: [],
+        active: false,
+        reset: false,
+        attempts: 0,
+        _id: 5b74b6dccde26822c34342c0,
+        fname: 'Sam',
+        lname: 'Spade',
+        mname: '',
+        __v: 0 } ]
+
+  console.log tests/server/controllers/accounts.spec.ts:64
+    Found: sallyMay 
+
+  console.log tests/server/controllers/accounts.spec.ts:65
+    { _id: 5b74b6ddcde26822c34342c3,
+      key: '_primary',
+      email: 'sally@daisyranch.org',
+      login: 'sallyMay',
+      owner: 5b74b6dccde26822c34342be,
+      pw: '$2b$10$kXl4NDymtJRpG9jCOmGxY.pUkW2Brljeb0OY6Z2P2aaDHvjt5vpDy',
+      __v: 0 }
+
+  console.log tests/server/controllers/accounts.spec.ts:66
+    5b74b6dccde26822c34342be
+
+  console.log tests/server/controllers/accounts.spec.ts:64
+    Found: withoutABoat 
+
+  console.log tests/server/controllers/accounts.spec.ts:65
+    { _id: 5b74b6ddcde26822c34342c4,
+      key: '_primary',
+      email: 'george@daisyranch.org',
+      login: 'withoutABoat',
+      owner: 5b74b6dccde26822c34342bf,
+      pw: '$2b$10$eu1.H9qYtQhi6cOQ7pKdRuwPXKjLjpYGHFvXtmh6GQJSql6MaC3ga',
+      __v: 0 }
+
+  console.log tests/server/controllers/accounts.spec.ts:66
+    5b74b6dccde26822c34342bf
+
+  console.log tests/server/controllers/accounts.spec.ts:68
+    null
+
+  console.log tests/server/controllers/accounts.spec.ts:69
+    []
+
+  console.log tests/server/controllers/accounts.spec.ts:68
+    null
+
+  console.log tests/server/controllers/accounts.spec.ts:69
+    []
+

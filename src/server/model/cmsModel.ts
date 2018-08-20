@@ -1,9 +1,9 @@
 ///<reference path="../server.interface.d.ts" />
+///<reference path="./model.interface.d.ts" />
 import * as mongoose from 'mongoose';
 import {Response, Request, NextFunction} from 'express';
 import {Repository} from './repository';
 import Validate from './validate';
-import * as https from 'https';
 import * as bcrypt from 'bcrypt';
 import * as promise from 'promise';
 import cnf from '../config/connect.cnf'
@@ -13,46 +13,6 @@ import Filters from '../utils/filters';
 export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
 export let Mixed = mongoose.Schema.Types.Mixed;
-
-
-
-interface schemata{
-  [Identifier:string]:entityField
-}
-
-interface entityField{
-  [Identifier:string]: entitySpec
-}
-
-interface entitySpec{
-  type: string,
-  required: boolean | string,
-  meta?: entityMeta
-}
-
-interface entityMeta{
-    form?: entityForm
-}
-
-interface entityForm{
-    validators: Array<string>,
-    filters: Array<string>,
-    name?: string,
-    type: string,
-    label: string,
-    attributes?: Object
-}
-
-interface uniquePost{
-  entity: string,
-  field: string,
-  value: string,
-}
-
-interface loginPost{
-  login: string,
-  pw: string,
-}
 
 interface person{
   _id: mongoose.Types.ObjectId,
@@ -76,6 +36,17 @@ interface login{
 interface loginPerson{
   person: person,
   login: login
+}
+
+interface uniquePost{
+  entity: string,
+  field: string,
+  value: string,
+}
+
+interface loginPost{
+  login: string,
+  pw: string,
 }
 
 

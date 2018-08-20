@@ -5,4 +5,5 @@ _Store
 .Trashes
 node_modules/
 **.pem
+**private*
 dist/

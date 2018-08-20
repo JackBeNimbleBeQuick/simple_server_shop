@@ -91,6 +91,9 @@ export class FormsController{
     };
 
     switch(type){
+      case 'applets':
+
+       break;
       case 'register':
         action = '/register';
         submitLabel = 'Create account';

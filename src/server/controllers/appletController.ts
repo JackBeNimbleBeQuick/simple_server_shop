@@ -41,8 +41,6 @@ export class AppletController{
     //set and run validations
     let validator = new Validation(DBConnect, CMSModel);
     let validators = specs.validators;
-    let captcha = req.session && req.session.captcha;
-    data['captcha'] = captcha;
     validator.batch(validators, data, (result)=>{
 
       // console.log(result);
@@ -67,6 +65,11 @@ export class AppletController{
 
     switch(type){
       case 'register':
+
+        data.validators['name']    = ['name'];
+        data.validators['version'] = ['required'];
+        data.validators['author']  = ['name'];
+        data.validators['applet']  = ['jschema'];
        break;
 
     }

@@ -110,7 +110,7 @@ class FormLoader extends React.Component <any, any > {
         values[name] = input.value ? input.value : '';
       }
     }
-    console.log(values)
+    // console.log(values)
     return values;
   }
 
@@ -131,7 +131,7 @@ class FormLoader extends React.Component <any, any > {
    */
   clearErrors = () => {
     let errors = document.getElementsByClassName('errors');
-    console.log(errors);
+    // console.log(errors);
     if(errors){
       for(let i=0; i< errors.length; i++){
         let parent = errors[i].parentNode;
@@ -179,27 +179,19 @@ class FormLoader extends React.Component <any, any > {
    */
   validateEach = (validators, cb:Function) => {
     let validate = new Validation({},{})
-    console.log('VALIDATION VALIDATORS')
-    console.log(validators);
     validate.batch(validators, this.values(), (results) => {
 
       let failed  = results.failed;
-      console.log('VALIDATION RESULTS')
-      console.log(results);
 
       for(let name in failed){
         let input = this.state.form.querySelector(`[name=${name}]`);
         let field = input.closest('.field');
         let messages:any = failed[name];
 
-        console.log(field);
-        console.log(messages);
-
         if(field && messages)
           this.attachErrors(field, messages);
 
       }
-      console.log(cb);
       return cb(results.isValid);
     });
   }
@@ -220,13 +212,9 @@ class FormLoader extends React.Component <any, any > {
     e.stopPropagation();
     this.clearErrors();
 
-    console.log('FORM SUBMIT');
-
     this.validateEach(this.state.validators, (result) => {
       let post:any = this.values();
 
-      console.log('FORM VALIDATION');
-      console.log(result);
       if(result.isValid){
         post['_csrf'] = this.state.token;
         Comservices.action({
@@ -331,11 +319,9 @@ class FormLoader extends React.Component <any, any > {
             e.preventDefault();
             fetch(captchObj.data)
               .then((response)=>{
-                console.log(response);
                 captchObj.data = response.url
               })
               .catch((err)=>{
-                console.log(err)
               })
           });
         }
@@ -362,7 +348,7 @@ class FormLoader extends React.Component <any, any > {
           toggle.addEventListener('click', (e)=>{
             e.preventDefault();
             let state = toggle.innerHTML
-            console.log(state);
+            // console.log(state);
             if(state=='show'){
               toggle.innerHTML = 'hide';
               password.type = 'text'
@@ -459,7 +445,7 @@ class FormLoader extends React.Component <any, any > {
 
     if(data.validation){
       let validated = data.validation;
-      console.log(validated);
+      // console.log(validated);
       this.setState({
         validated: validated
       });

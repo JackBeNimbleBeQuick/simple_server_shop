@@ -8,6 +8,20 @@ import * as url from 'url';
 import * as csrf from 'csurf';
 import CMSModel from '../model/cmsModel';
 import DBConnect from '../db/db_connect';
+import FormActions from './formactions';
+
+interface templateParts{
+  heading: string,
+  title: string,
+  content: string,
+
+  useForm?: boolean,
+  formSpec?: Object,
+  footer?: string,
+  action?: string,
+  token?: string,
+}
+
 
 export class CmsController{
 
@@ -35,21 +49,45 @@ export class CmsController{
     this.app.set('view engine','pug');
     this.app.set('views', this.basePath);
 
-    //@NOTE provides simplistic rendering scheme using pug
-    this.parts = {
-      title: 'Home',
-      heading: 'Header for Home',
-      body: 'Some introductory notes and words',
-      footer: 'foot notes'
-    }
-
   }
 
   public main = (req: Request, res:Response) => {
-    this.parts['title'] = 'Main page';
-    this.parts['headng'] = 'Welcome to our site';
-    this.parts['content'] = 'Main introductions of app';
+    this.templateParts({
+      title: 'Main page',
+      heading: 'Welcome to our site',
+      content: 'Main introductions of app',
+    });
     res.render('layout',this.parts);
+  }
+
+  public _reset = (req: Request, res:Response) => {
+
+    let path_o:any = req.url ? url.parse(req.url) : "";
+    let key = path_o.path ? path_o.path.replace('/_reset/',''): '';
+
+    CMSModel.getPersonByKey(key, (result) => {
+      
+      if(result.isValid){
+        let token:string = res.locals.token;
+        let form_data = FormActions.formData('resetPassword',token);
+
+        this.templateParts({
+          title: 'Rest account',
+          heading: 'Reset account',
+          content: '',
+
+          useForm: true,
+          formSpec: form_data.form,
+          action: form_data.action,
+          token: form_data.token,
+        });
+
+        res.render('layout', this.parts);
+
+      }else{
+        res.redirect('/');
+      }
+    });
   }
 
   public shop = (req: Request, res:Response) => {
@@ -61,9 +99,11 @@ export class CmsController{
      */
     if(pathName === '/shop'){
 
-      this.parts['title'] = 'Shopping';
-      this.parts['heading'] = 'Time to shop!! 8^)"';
-      this.parts['content'] = 'Shopping page';
+      this.templateParts({
+        title: 'Shopping',
+        heading: 'Time to shop: ',
+        content: '',
+      });
 
       let data = pug.renderFile(template, this.parts);
       res.set('Content-Type', 'text/html');
@@ -87,7 +127,6 @@ export class CmsController{
     }else{
       return pathName ? this.serveServiceWorker(pathName,res) : this.notFound(res);
     }
-
 
   }
 
@@ -131,6 +170,23 @@ export class CmsController{
 
         }
     });
+  }
+
+  private templateParts = (templated: templateParts):void => {
+    //@NOTE provides simplistic rendering scheme using pug
+    this.parts = {
+      title: templated.title,
+      heading: templated.heading,
+      content: templated.content,
+      useForm: templated.useForm ? templated.useForm : false,
+      formSpec: templated.formSpec ? templated.formSpec : null,
+      action: templated.action ? templated.action : null,
+      token: templated.token ? templated.token: null,
+      footer: templated.footer
+        ? templated.footer
+        : 'Standard Footer Content',
+    }
+
 
   }
 }

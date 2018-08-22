@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as validator from 'validator';
 import * as PWStrength from 'zxcvbn';
-import * as Ajv from 'ajv';
 
 interface connect{
   sessionStart():void,
@@ -333,21 +332,6 @@ export class Validation{
       valid   = false;
       message = this.lang.password.strength;
     }
-
-    this.gather({
-      tasker: query.tasker,
-      task: query.task,
-      key: query.key,
-      field: query.field,
-      isValid: valid,
-      message: message
-    });
-  }
-
-  public jschema = (query:validQuery):void => {
-    let message = '';
-    let parse = new Ajv({$data: true});
-    let valid = parse.validate(query.value, query.values );
 
     this.gather({
       tasker: query.tasker,

@@ -86,6 +86,7 @@ each component to maintain full component architecture
         overflow: auto;
         padding: 10pt 0 10pt 10pt;
         position: relative;
+        transition: .5s all ease-in-out;
         top: 0.5em;
         .row{
           white-space: nowrap;
@@ -112,6 +113,7 @@ each component to maintain full component architecture
         font-size: 0.5em;;
       }
       .list{
+        transition: .5s all ease-in-out;
         ul{
           li{
             &.image{

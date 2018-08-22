@@ -1,20 +1,23 @@
+import cnf from '../../../config/connect.cnf'
 
-/*
-reference for replacements as they are created
-  .implementations are found in:
-  .. server/mail/mailer
-*/
+
+let url = cnf.mode === 'dev'
+  ? `${cnf.devUrl}:${cnf.sslPort}/`
+  : `${cnf.prodUrl}/`;
+
 let replacements = [
   '__HOST_PATH__',
   '__NAME__',
 ];
 
 let org = 'Your Org Name';
-let icon =  `<img alt="${org}" src="__HOST_PATH__/public/icons/icon.png" />`;
+let icon =  `<img alt="${org}" src="${url}${cnf.media.icon}" />`;
 
 let defaults ={
   //base
-  link: ``,
+  link: {
+    reset: '_reset/'
+  },
   name: ``,
   org: org,
   tagline: `We get things done...  ${icon}`,
@@ -32,7 +35,7 @@ export default {
     </p>
 
     <p>
-    Your are one step away from enrolling please confirm with this link ${defaults.link}
+    Please confirm with this link ${defaults.link}
     </p>
 
     <blockquote>
@@ -69,14 +72,17 @@ export default {
 
   start_reset: {
     address: [],
-    subject: `A reset request has been received for ${defaults.org}`,
+    subject: `A reset request has been received for your account on ${defaults.org}`,
     body: `
     <p>
     Hello __NAME__,
     </p>
 
     <p>
-    To confirm this reset please use this link ${defaults.link}
+    To confirm this reset please use this link
+      <a href="${url}${defaults.link.reset}__KEY__}">
+        account reset
+      </a>
     </p>
 
     <blockquote>

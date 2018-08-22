@@ -159,17 +159,6 @@ export class CMSModel {
           email: {
             type:String,
             required: 'Login required',
-            meta:{
-              form: {
-                validators:['email'],
-                filters:[],
-                label: 'Login',
-                type: 'text',
-                attributes:{
-                  autocomplete: 'on',
-                },
-              },
-            },
           },
           pw: {
             type:String,
@@ -381,6 +370,17 @@ export class CMSModel {
     });
   }
 
+  public getPersonByKey = (key:string, respond:Function) => {
+    //@NOTE findOne seems to work for _id only not sure on that though
+    this.repo('Person').find({resetKey: key}, (err:any, person: any) => {
+      let pick = person.length == 1 ? person[0] : person;
+      if(!err && pick && pick._id){
+        return respond({isValid: true, person: pick});
+      }
+      return respond({isValid: false, person: null});
+    });
+  }
+
   public setResetKeyByLogin = (key:string, respond:Function) => {
     this.personByLogin(key, (loginPerson:loginPerson)=>{
       if(loginPerson && loginPerson.person){
@@ -410,33 +410,33 @@ export class CMSModel {
    * @return {message}
    */
   public createAccount = (data:any, success: Function, error: Function) => {
-    let phash = null;
+      let phash = null;
 
-    new promise( (resolve:any ,reject:any) => {
-      bcrypt.hash(data.password, 10).then((hash)=>{
-        phash = hash;
-        // console.log(hash);
-        // console.log(data);
-        this.repo('Person').create(data, (err:any, person:any)=>{
-          // console.log(person);
-          if(err) console.log(`ERROR createAccount ${err}`);
-          return err ? reject(err) : resolve(person)
+      new promise( (resolve:any ,reject:any) => {
+        bcrypt.hash(data.password, 10).then((hash)=>{
+          phash = hash;
+          // console.log(hash);
+          // console.log(data);
+          this.repo('Person').create(data, (err:any, person:any)=>{
+            // console.log(person);
+            if(err) console.log(`ERROR createAccount ${err}`);
+            return err ? reject(err) : resolve(person)
+          })
         })
+      }).then((person:any)=>{
+        this.repo('Login').create({
+          key: '_primary',
+          email: data.email.trim(),
+          login: data.login ? data.login.trim() : '',
+          owner: person,
+          pw: phash
+        }, (err:any, result:any )=>{
+          // console.log(`Create account login result`)
+          // console.log(result);
+          if(err) console.log(`ERROR createLogin ${err}`);
+          return err ? error(err) : success(result)
+        });
       })
-    }).then((person:any)=>{
-      this.repo('Login').create({
-        key: '_primary',
-        email: data.email.trim(),
-        login: data.login ? data.login.trim() : '',
-        owner: person,
-        pw: phash
-      }, (err:any, result:any )=>{
-        // console.log(`Create account login result`)
-        // console.log(result);
-        if(err) console.log(`ERROR createLogin ${err}`);
-        return err ? error(err) : success(result)
-      });
-    })
 
   }
 

@@ -16,6 +16,17 @@ interface formLoader{
   }
 }
 
+interface absElement extends HTMLElement{
+  handleSelector?: string,
+  // data?: tSelectDataItem[],
+
+  wrapperEle?: HTMLElement,
+  inputEle?: HTMLElement,
+  listEle?: HTMLElement,
+  resultEle?: HTMLElement,
+  maxVisibleListItems?: number
+}
+
 interface serverErrors{
   [Identifier:string]: Array<string>
 }
@@ -156,8 +167,13 @@ class FormLoader extends React.Component <any, any > {
    * @return {void}  insert error to data items form group
    */
   attachErrors = (field:HTMLElement, msgs: Array<string>) => {
-    let els = document.createElement('span');
+    let els:HTMLElement = document.createElement('span');
     els.className = 'errors';
+
+    els.addEventListener('click', (e)=>{
+      let parent = els.parentNode;
+      if(parent) parent.removeChild(els);
+    });
 
     for(let i=0; i<msgs.length; i++){
       let el = document.createElement('span');
@@ -212,10 +228,11 @@ class FormLoader extends React.Component <any, any > {
     e.stopPropagation();
     this.clearErrors();
 
-    this.validateEach(this.state.validators, (result) => {
+    this.validateEach(this.state.validators, (isValid) => {
       let post:any = this.values();
 
-      if(result.isValid){
+      console.log(isValid);
+      if(isValid){
         post['_csrf'] = this.state.token;
         Comservices.action({
           type: 'POST',
@@ -224,7 +241,7 @@ class FormLoader extends React.Component <any, any > {
           data: post,
         });
       }
-      console.log(`Post ${this.state.type}: ${result.isValid ? 'SENT' : 'CAN NOT BE SENT'} as ${result.isValid ? 'Valid' : 'it is NOT Valid'}`);
+      console.log(`Post ${this.state.type}: ${isValid ? 'SENT' : 'CAN NOT BE SENT'} as ${isValid ? 'Valid' : 'it is NOT Valid'}`);
     });
     // console.log(this.state.token);
     // console.log(post);
@@ -339,7 +356,7 @@ class FormLoader extends React.Component <any, any > {
             let width  = word.length < 5 ? `2%` : `${ ( (rating.score+1) / 5 ) * 100  }%`;
             let color  = colors[rating.score];
             status.setAttribute('style', `width:${width};background-color:${color}`);
-            console.log(rating);
+            // console.log(rating);
 
           });
 

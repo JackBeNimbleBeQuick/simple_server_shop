@@ -48,6 +48,9 @@ export class Routes{
     this.app.route('/app')
       .get(this.apps.getApp)
 
+    this.app.route('/_reset*')
+      .get(this.cms._reset)
+
     //Captcha for registrations
     this.app.route('/sigmond')
       .get( (req: Request,res:Response) =>{

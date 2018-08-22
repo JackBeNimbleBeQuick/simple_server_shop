@@ -21,11 +21,8 @@ export class BaseModel{
   private _id: string;
 
   constructor(){
-
     this._id = 'initial_id_value';
-
-    this.configs = {
-    }
+    this.configs = {}
   }
 
   public config = (name:string):entitySpec | null  => {

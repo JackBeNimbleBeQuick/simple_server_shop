@@ -1,0 +1,18 @@
+div.accounts
+
+  div.response  
+  
+    each part in Spec
+    
+      if part.p
+        p= part.p
+  
+      if part.blockquote
+        blockquote= part.blockquote
+        
+      if part.div
+        blockquote= part.div
+        
+      if part.img
+        img(alt= part.img.alt src= part.img.src )
+  

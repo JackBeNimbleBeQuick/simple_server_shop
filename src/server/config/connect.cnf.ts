@@ -26,6 +26,9 @@ export default {
     // username: 'admints',
     // password: 'eafb0424376b45769ccc4ffeacbd8f48',
   },
+  media: {
+    icon: 'public/imgs/icons/icon.png',
+  },
   mail:{
     returns:{
       mailer_name: site ? site.mail.returns.mailer_name : 'PROVIDE_RETURN_ADDRESS',

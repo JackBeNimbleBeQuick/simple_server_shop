@@ -9,9 +9,13 @@ import * as path from 'path';
 import * as url from 'url';
 import * as pug from 'pug';
 import * as Promise from 'promise';
+import Responder from './boilerplate/responder';
 import CMSModel from '../model/cmsModel';
+import Mailer from '../mail/mailer';
 import DBConnect from '../db/db_connect';
 import Validation from '../utils/validation';
+import {FormsController} from './formsController';
+import cnf from '../config/connect.cnf';
 
 
 //Interfaces needed for this class
@@ -24,6 +28,7 @@ export class AccountController{
 
   private server: Server;
   private template_path: string;
+  // private response: Object;
   private csrfTokens: any;
   private app: any;
 
@@ -31,6 +36,7 @@ export class AccountController{
     this.app = shopApp.get();
     this.server = shopApp ? shopApp.getHttpsServer() : null;
     this.template_path = path.join(__dirname, '../templates');
+    // this.response = require(path.join(__dirname, 'boilerplate', cnf.locale.lang, cnf.locale.region))['default'];
   }
 
   //@NOTE good candidate for using react server side rendering..
@@ -83,14 +89,34 @@ export class AccountController{
     let captcha = req.session && req.session.captcha;
     data['captcha'] = captcha;
     validator.batch(validators, data, (result)=>{
-
-      // console.log(result);
+      //create account if all validations pass
       if(result.isValid){
         CMSModel.createAccount(data , ()=> {this.dataSuccess(res,'registered')}, this.dataError);
+
+        //email reset
+        this.sendMail({
+          type: 'create_enrol',
+          fname: data.fname,
+          lname: data.lname,
+          mname: data.mname,
+          email: data.email,
+        });
+
+        //send http response
+        res.set('Content-Type', 'application/json');
+        res.write(JSON.stringify({
+          type: 'response',
+          message: Responder.render('create_enrol'),
+          token: '',
+          action: 'none',
+          validators: {},
+          filters: {},
+        }));
+        res.end();
       }else{
         //return errors from result
         res.send({
-            errors: result.failed
+          errors: result.failed
         });
       }
 
@@ -101,23 +127,50 @@ export class AccountController{
   public reset = (req: Request, res:Response, next:NextFunction) => {
     let data  = req.body.data;
     if(data.login){
-      let success = (result:any) => {
-        console.log('SUCCESS');
-        console.log(result);
-        if(result.length ===1 ){
-          //process reset functions
-        }else if (result.lenth > 1){
-          //should not happen as logins need to be uniquie
-          //log issue as major conistency failure
+
+      CMSModel.setResetKeyByLogin(data.login, (reset) => {
+
+        // console.log(reset);
+        if(reset.person){
+
+          let person = reset.person;
+          let login  = reset.login;
+          let key    = reset.resetKey;
+
+          let mailer = {
+            type: 'start_reset',
+            fname: person.fname,
+            lname: person.lname,
+            mname: person.mname,
+            email: login.email,
+            key:   key
+          }
+
+          let pkg = Mailer.mailer(mailer, 'start_reset');
+          Mailer.mail(pkg);
         }
-        // error process
-      }
-      let err = (err:any) => {
-        console.log('ERROR');
-        console.log(err);
-      }
-      this.query('Person', {login: data.login }, success, err);
+
+        //send http response
+        res.set('Content-Type', 'application/json');
+        res.write(JSON.stringify({
+          type: 'response',
+          message: Responder.render('start_reset'),
+          token: '',
+          action: 'none',
+          validators: {},
+          filters: {},
+        }));
+        res.end();
+
+      });
     }
+  }
+
+  private sendMail = (mailer) => {
+    //send mail
+    let pkg = Mailer.mailer(mailer , mailer.type);
+    Mailer.mail(pkg);
+    // console.log(pkg);
   }
 
   private validator = (type: string, key:string) => {

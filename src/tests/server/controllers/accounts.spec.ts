@@ -103,6 +103,9 @@ describe('test account reset', ()=>{
     }
   });
 
+  it('account reset form entry process', (done) => {
+    
+  });
 });
 
 

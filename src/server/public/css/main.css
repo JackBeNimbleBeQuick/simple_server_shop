@@ -85,16 +85,19 @@ input {
   border: none;
   outline: none; }
 
-.error {
-  background-color: rgba(169, 169, 169, 0.8);
-  background-color: f;
-  border: 1pt solid #8b0000;
-  font-size: 0.5em;
+.errors {
   left: 0;
-  padding: 5pt;
+  top: -1em;
   position: absolute;
-  top: -3em;
-  width: 65%; }
+  width: 100%; }
+  .errors .error {
+    background-color: rgba(169, 169, 169, 0.8);
+    border: 1pt solid #8b0000;
+    display: inline-block;
+    font-size: 0.5em;
+    left: 0;
+    padding: 3pt;
+    user-select: none; }
 
 .loader {
   overflow: hidden;
@@ -474,3 +477,147 @@ blockquote, q {
     opacity: 0; }
   100% {
     opacity: 1; } }
+
+.bg-block form {
+  min-width: 80%;
+  margin: auto;
+  position: relative;
+  z-index: 1000; }
+
+form {
+  position: relative;
+  overflow: auto; }
+  form .field {
+    margin: 1.5em 0 1em;
+    position: relative;
+    width: 70%; }
+    form .field .errors .error {
+      width: 95%; }
+    form .field label {
+      bottom: 0;
+      padding: 3pt 0 3pt 10pt;
+      position: absolute;
+      transition: 0.5s all ease-in-out; }
+    form .field .boundary {
+      position: relative;
+      width: 100%; }
+      form .field .boundary input {
+        width: 100%; }
+      form .field .boundary button {
+        color: #fff;
+        background-color: transparent;
+        border: 1pt solid rgba(169, 169, 169, 0.5);
+        font-size: 0.25em;
+        outline: 0;
+        position: absolute;
+        right: 2pt;
+        top: 2pt; }
+    form .field input {
+      color: #fff !important;
+      border: 1pt solid #8f8f8f;
+      border-radius: 1pt;
+      font-size: 0.75em;
+      margin: 0;
+      padding: 5pt;
+      width: 100%; }
+    form .field.active label {
+      bottom: 100%;
+      font-size: 0.65em;
+      opacity: 0.5;
+      padding: 3pt 0 3pt 0; }
+  form input[type=submit] {
+    border: 1pt solid #8f8f8f;
+    border-radius: 1pt;
+    color: #fff;
+    margin: 0;
+    float: left; }
+
+/** expander component part styles
+@TODO provide build reference tagging for packageing compile styles into
+each component to maintain full component architecture
+**/
+.bg-block {
+  background-color: rgba(0, 0, 0, 0.8);
+  animation-name: fader;
+  animation-duration: 0.5s;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: 1s all ease-in-out;
+  width: 100%;
+  z-index: 100; }
+  .bg-block .closer {
+    background-color: transparent;
+    border: 0;
+    font-size: 2em;
+    font-weight: 200;
+    outline: 0;
+    position: absolute;
+    text-align: center;
+    top: 5pt;
+    right: 5pt; }
+    .bg-block .closer .icon {
+      color: #8b0000;
+      padding: 3pt; }
+      .bg-block .closer .icon:before {
+        content: ''; }
+      .bg-block .closer .icon:after {
+        content: 'x'; }
+    .bg-block .closer.open .icon {
+      color: #27AE60; }
+  .bg-block .presentation-box {
+    margin: 0 8%;
+    overflow: visible;
+    position: relative;
+    top: 12.5%;
+    width: 75%;
+    z-index: 1; }
+    .bg-block .presentation-box .image-wrap {
+      animation-name: scaler;
+      animation-duration: 1s; }
+    .bg-block .presentation-box .view {
+      position: relative; }
+      .bg-block .presentation-box .view .clickbar {
+        background-color: rgba(255, 255, 255, 0.1);
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 2em;
+        z-index: 2; }
+        .bg-block .presentation-box .view .clickbar.right {
+          right: 0; }
+        .bg-block .presentation-box .view .clickbar.left {
+          left: 0; }
+        .bg-block .presentation-box .view .clickbar .indicate:after {
+          bottom: 2pt;
+          color: #fff;
+          font-size: 1.3em;
+          margin: 5pt;
+          position: absolute;
+          opacity: .8; }
+        .bg-block .presentation-box .view .clickbar .indicate.right:after {
+          content: '->'; }
+        .bg-block .presentation-box .view .clickbar .indicate.left:after {
+          content: '<-'; }
+    .bg-block .presentation-box .slides {
+      background-color: rgba(0, 0, 0, 0.8);
+      position: absolute;
+      right: 1pt;
+      top: 1pt;
+      text-align: center;
+      z-index: 1; }
+      .bg-block .presentation-box .slides ul {
+        border: 1pt solid #8f8f8f;
+        border-radius: 3pt;
+        margin: 0 4pt;
+        position: fixed; }
+        .bg-block .presentation-box .slides ul li {
+          border: transparent 1pt solid;
+          margin: 2pt; }
+          .bg-block .presentation-box .slides ul li.selected {
+            border: #fff 1pt solid; }
+          .bg-block .presentation-box .slides ul li .image-wrap {
+            width: 25pt; }
+            .bg-block .presentation-box .slides ul li .image-wrap img {
+              left: 0; }

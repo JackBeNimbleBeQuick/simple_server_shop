@@ -14,6 +14,7 @@ import DBConnect from '../../../server/db/db_connect';
 import {AccountController} from '../../../server/controllers/accountController';
 import {FormsController} from '../../../server/controllers/formsController';
 import App from '../../../server/app';
+import Responder from '../../../server/controllers/boilerplate/responder';
 
 
 describe('Schema base form tests', ()=>{
@@ -77,5 +78,10 @@ describe('Schema base form tests', ()=>{
 
   });
 
-  //it('',()=>{});
+  it('Test for rendering responses',()=>{
+    console.log('RESPONDER');
+    console.log(Responder.render('create_enrol'));
+
+  });
+
 });

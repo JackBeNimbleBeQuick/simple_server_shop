@@ -7,6 +7,7 @@ import en_bp from './boilerplate/en/us';
 import cnf from '../config/connect.cnf'
 import * as path from 'path';
 import {Buffer} from 'buffer';
+import * as HtmlParse from 'html-to-text';
 
 
 // person: mailerProtocol,
@@ -16,6 +17,7 @@ interface mailer{
   name: string,
   subject: string,
   body: string,
+  key?: string,
   envelope: {
     to: string,
     from: string,
@@ -88,6 +90,7 @@ export class Mailer{
       subject: tmpl.subject,
       body: tmpl.body,
       name: name,
+      key: person.key ? person.key : '',
       envelope: {
         from: from,
         to: to,
@@ -235,7 +238,7 @@ export class Mailer{
    * @param  {mailer}
    * @return {mailer}
    */
-  private prep = (env:mailer):mailer => {
+  public prep = (env:mailer):mailer => {
     let url = cnf.mode === 'dev'
       ? `${cnf.devUrl}:${cnf.sslPort}/`
       : `${cnf.prodUrl}`;
@@ -243,6 +246,7 @@ export class Mailer{
     let replacers = {
       __HOST_PATH__: url,
       __NAME__: env.name,
+      __KEY__: env.key ? env.key : '',
     }
 
     for(let r in replacers){
@@ -259,11 +263,11 @@ export class Mailer{
   }
 
   private extractText = (text:string):any => {
-    let spaced = text.replace('</',' </');
-    let parser = new DOMParser();
-    let doc  = parser.parseFromString(spaced, 'text/html');
-    let string = doc.body.textContent;
-    return string;
+
+    return HtmlParse.fromString(text, {
+      wordwrap: 130
+    });
+
   }
 
 }

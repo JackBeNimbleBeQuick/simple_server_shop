@@ -24,6 +24,7 @@ interface mailerProtocol{
   lname: string,
   mname: string,
   email: string,
+  key?: string,
 }
 
 interface schemata{

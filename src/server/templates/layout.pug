@@ -4,8 +4,8 @@ html
   
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1' )
-    link(rel='icon', href='public/favicon.ico')
-    link(rel='stylesheet', href='public/css/main.css')
+    link(rel='icon', href='/public/favicon.ico')
+    link(rel='stylesheet', href='/public/css/main.css')
     
     block head
     
@@ -19,6 +19,11 @@ html
     block main
       div.container.main
         content= content 
+        
+    if useForm 
+      div.bg-block
+        div.presentation-box
+          include forms/form
           
     footer
       div= footer

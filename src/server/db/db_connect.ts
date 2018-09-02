@@ -27,7 +27,8 @@ export class DBConnect {
     if(this.connection) return this.connection;
 
     let options:Object = cnf.session.options;
-    this.connection = mongoose.connect(cnf.mongoUrl, options, (err:any)=>{
+
+    this.connection = mongoose.connect(cnf.mongoUrl, {}, (err:any)=>{
       if(cb){
         return cb()
       }
@@ -43,7 +44,7 @@ export class DBConnect {
   public sessionStop = ():any => {
     if(this.connection){
       console.log('Attempting to close connection');
-      console.log(this.connection);
+      // console.log(this.connection);
       // this.connection.close();
       this.connection = null;
     }

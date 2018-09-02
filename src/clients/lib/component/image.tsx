@@ -24,8 +24,8 @@ class Image extends React.Component <any, any > {
 
   render() {
 
-    let w = Number.parseFloat(this.props.image.width);
-    let h = Number.parseFloat(this.props.image.height);
+    let w = parseFloat(this.props.image.width);
+    let h = parseFloat(this.props.image.height);
     let p_aspect = {paddingBottom: `w/h%`};
 
     return(

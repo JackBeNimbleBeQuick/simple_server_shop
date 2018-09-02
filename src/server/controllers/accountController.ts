@@ -74,63 +74,50 @@ export class AccountController{
 
   public register = (req: Request, res:Response, next:NextFunction) => {
     console.log('Register post reached');
-    let specs = this.validators('register');
     let data  = req.body.data;
 
-    // console.log(data)
-    if(!data){
-      console.log(`ERROR: no data defined`);
-      res.sendStatus(404);
-    }
+    this.validateAction(req, res, ()=>{
 
-    //set and run validations
-    let validator = new Validation(DBConnect, CMSModel);
-    let validators = specs.validators;
-    let captcha = req.session && req.session.captcha;
-    data['captcha'] = captcha;
-    validator.batch(validators, data, (result)=>{
-      //create account if all validations pass
-      if(result.isValid){
-        CMSModel.createAccount(data , ()=> {this.dataSuccess(res,'registered')}, this.dataError);
+      CMSModel.createAccount(data , ()=> {this.dataSuccess(res,'registered')}, this.dataError);
 
-        //email reset
-        this.sendMail({
-          type: 'create_enrol',
-          fname: data.fname,
-          lname: data.lname,
-          mname: data.mname,
-          email: data.email,
-        });
+      //email reset
+      this.sendMail({
+        type: 'create_enrol',
+        fname: data.fname,
+        lname: data.lname,
+        mname: data.mname,
+        email: data.email,
+      });
 
-        //send http response
-        res.set('Content-Type', 'application/json');
-        res.write(JSON.stringify({
-          type: 'response',
-          message: Responder.render('create_enrol'),
-          token: '',
-          action: 'none',
-          validators: {},
-          filters: {},
-        }));
-        res.end();
-      }else{
+      //send http response
+      res.set('Content-Type', 'application/json');
+      res.write(JSON.stringify({
+        type: 'response',
+        message: Responder.render('create_enrol'),
+        token: '',
+        action: 'none',
+        validators: {},
+        filters: {},
+      }));
+      res.end();
+
+    }, (result:any) => {
         //return errors from result
         res.send({
           errors: result.failed
         });
-      }
-
     });
+
   }
 
   //@TODO abstract out the data queries to db.querieName(ql, success, errro);
   public reset = (req: Request, res:Response, next:NextFunction) => {
     let data  = req.body.data;
+
     if(data.login){
 
       CMSModel.setResetKeyByLogin(data.login, (reset) => {
 
-        // console.log(reset);
         if(reset.person){
 
           let person = reset.person;
@@ -149,21 +136,42 @@ export class AccountController{
           let pkg = Mailer.mailer(mailer, 'start_reset');
           Mailer.mail(pkg);
         }
-
-        //send http response
-        res.set('Content-Type', 'application/json');
-        res.write(JSON.stringify({
-          type: 'response',
-          message: Responder.render('start_reset'),
-          token: '',
-          action: 'none',
-          validators: {},
-          filters: {},
-        }));
-        res.end();
-
       });
     }
+
+    //send http response
+    res.set('Content-Type', 'application/json');
+    res.write(JSON.stringify({
+        type: 'response',
+        message: Responder.render('start_reset'),
+    }));
+
+    res.end();
+
+  }
+
+  public activate = (req: Request, res:Response, next:NextFunction) => {
+    let data  = req.body.data;
+    console.log(data);
+
+    this.validateAction(req, res, (result:any)=>{
+
+      console.log(result);
+
+      res.write(JSON.stringify({
+          type: 'reset_complete',
+          message: Responder.render('reset_complete'),
+      }));
+
+      res.end();
+
+    }, (result: any) => {
+
+      res.send({
+        errors: result.failed
+      });
+
+    });
   }
 
   private sendMail = (mailer) => {
@@ -171,6 +179,41 @@ export class AccountController{
     let pkg = Mailer.mailer(mailer , mailer.type);
     Mailer.mail(pkg);
     // console.log(pkg);
+  }
+
+  /**
+   * Generalized Validation
+   * @param  req.url
+   * @return void Success or Fail Function gets called
+   */
+  private validateAction = (req: Request, res: Response, scs:Function, fail:Function) => {
+
+    let data  = req.body.data;
+    let path_o:any = req.url
+      ? url.parse(req.url).pathname
+      : "";
+
+    let specs = this.validators(path_o.replace('/',''));
+    console.log(`Validating for: ${path_o}`);
+
+    // console.log(data)
+    if(!data){
+      console.log(`ERROR: no data defined`);
+      res.sendStatus(404);
+    }
+
+    let validator = new Validation(DBConnect, CMSModel);
+    let validators = specs.validators;
+    let captcha = req.session && req.session.captcha;
+    data['captcha'] = captcha;
+    validator.batch(validators, data, (result)=>{
+
+      if(result.isValid)
+        return scs(result);
+
+      return fail(result);
+
+    })
   }
 
   private validator = (type: string, key:string) => {
@@ -210,6 +253,10 @@ export class AccountController{
 
         break;
 
+      case 'activate':
+        data.validators['confirm_password'] = ['match.password','required'];
+        break;
+
       case 'reset':
         data.validators['login'] = ['required'];
         data.filters['login'] = [];
@@ -217,7 +264,7 @@ export class AccountController{
 
       case 'login':
         data.validators['login'] = ['required'];
-        data.validators['password'] = ['password_match'];
+        data.validators['confirm_password'] = ['match.password','required'];
         break;
 
     }

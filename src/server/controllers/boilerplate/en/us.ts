@@ -28,5 +28,13 @@ export default {
     {img: {alt:org, src: `${url}${cnf.media.icon}`}},
     {blockquote: `${defaults.tagline}`},
     {div: `${defaults.footer}`},
+  ],
+
+  reset_complete:[
+    {p: `Your password has now been reset`},
+    {img: {alt:org, src: `${url}${cnf.media.icon}`}},
+    {a: {href:'/', label: 'completed', class: 'button'}},
+    {blockquote: `${defaults.tagline}`},
+    {div: `${defaults.footer}`},
   ]
 }

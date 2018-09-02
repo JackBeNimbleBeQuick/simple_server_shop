@@ -43,8 +43,12 @@ class App implements shopApp{
   private start = ():void => {
     let csrfToken = csrf({ cookie: true});
 
+    /*@NOTE mongoose @types are currently not working in this build
+      . until they  can get cleared up to tsc 3.0+ we will live with
+      . deprecation notices
+     */
     let connector = connect(session);
-    mongoose.connect(cnf.mongoUrl,cnf.session.options);
+    mongoose.connect(cnf.mongoUrl,{});
     this.db = mongoose.connection;
 
     let store = new connector({mongooseConnection: this.db});

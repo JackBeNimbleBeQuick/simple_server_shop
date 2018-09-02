@@ -20,6 +20,8 @@ interface templateParts{
   footer?: string,
   action?: string,
   token?: string,
+  result?: string,
+  validators?: Array<string>,
 }
 
 
@@ -66,22 +68,27 @@ export class CmsController{
     let key = path_o.path ? path_o.path.replace('/_reset/',''): '';
 
     CMSModel.getPersonByKey(key, (result) => {
-      
+
+      // console.log(key);
+      // console.log(result);
       if(result.isValid){
         let token:string = res.locals.token;
         let form_data = FormActions.formData('resetPassword',token);
 
+        form_data.form['validators'] = form_data.validators;
+
         this.templateParts({
-          title: 'Rest account',
+          title: 'Reset account',
           heading: 'Reset account',
           content: '',
 
           useForm: true,
           formSpec: form_data.form,
           action: form_data.action,
-          token: form_data.token,
+          token: token,
         });
 
+        // console.log(this.parts);
         res.render('layout', this.parts);
 
       }else{
@@ -114,7 +121,7 @@ export class CmsController{
     }else if(pathName === '/shop/data'){
       let repo = CMSModel.repo('products');
       // DBConnect.sessionStart();
-      console.log('Getting shop data')
+      // console.log('Getting shop data')
       repo.retrieve((err:any, data:any)=>{
         if(err===null){
           res.set('Content-Type', 'application/json');
@@ -182,6 +189,7 @@ export class CmsController{
       formSpec: templated.formSpec ? templated.formSpec : null,
       action: templated.action ? templated.action : null,
       token: templated.token ? templated.token: null,
+      result: templated.result ? templated.result : null,
       footer: templated.footer
         ? templated.footer
         : 'Standard Footer Content',

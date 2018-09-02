@@ -33,7 +33,7 @@ each component to maintain full component architecture
     .sidepanel .view .heading form input[type=submit] {
       color: #fff;
       margin: 0.5em;
-      padding: 0.5em 0;
+      padding: 0.25em 0.5em;
       position: absolute;
       right: 2.5em;
       top: 0;
@@ -270,22 +270,6 @@ each component to maintain full component architecture
       .form-loader .captcha.field .errors .error,
       .login .captcha.field .errors .error {
         padding: 4pt 0; }
-  .form-loader .meter,
-  .login .meter {
-    bottom: -15px;
-    border: 1pt solid rgba(169, 169, 169, 0.5);
-    height: 5pt;
-    position: absolute;
-    width: 69%; }
-    .form-loader .meter .status,
-    .login .meter .status {
-      background-color: red;
-      height: 2pt;
-      left: 1pt;
-      position: relative;
-      top: 1pt;
-      transition: 0.75s all ease-in;
-      width: 0.5%; }
   .form-loader .down-tab,
   .login .down-tab {
     background-color: rgba(0, 0, 0, 0.9);
@@ -308,6 +292,10 @@ each component to maintain full component architecture
     .form-loader .down-tab.offset-5,
     .login .down-tab.offset-5 {
       left: 5em; }
+  .form-loader form,
+  .login form {
+    width: 160pt;
+    padding: 0 1em 0 0; }
 
 .form-loader,
 .login {
@@ -399,22 +387,6 @@ each component to maintain full component architecture
       .form-loader .captcha.field .errors .error,
       .login .captcha.field .errors .error {
         padding: 4pt 0; }
-  .form-loader .meter,
-  .login .meter {
-    bottom: -15px;
-    border: 1pt solid rgba(169, 169, 169, 0.5);
-    height: 5pt;
-    position: absolute;
-    width: 69%; }
-    .form-loader .meter .status,
-    .login .meter .status {
-      background-color: red;
-      height: 2pt;
-      left: 1pt;
-      position: relative;
-      top: 1pt;
-      transition: 0.75s all ease-in;
-      width: 0.5%; }
   .form-loader .down-tab,
   .login .down-tab {
     background-color: rgba(0, 0, 0, 0.9);
@@ -437,6 +409,10 @@ each component to maintain full component architecture
     .form-loader .down-tab.offset-5,
     .login .down-tab.offset-5 {
       left: 5em; }
+  .form-loader form,
+  .login form {
+    width: 160pt;
+    padding: 0 1em 0 0; }
 
 .captcha {
   position: relative; }

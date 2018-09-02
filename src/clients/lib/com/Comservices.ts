@@ -4,6 +4,7 @@
 /// <reference path="../../lib/interfaces/react.interface.d.ts"/>
 import {Connected} from 'clients/lib/com/Connected';
 import {Session} from 'clients/lib/com/Session';
+import Validation from 'clients/util/validation';
 import Config from 'clients/lib/com/Coms.config';
 import Mock from 'clients/lib/mocking/shopping';
 import Actions from 'clients/shop/data/actions';
@@ -47,13 +48,13 @@ export class Comservices{
 
     let success = (response:any) =>{
       console.log('ComService: success');
-      console.log(response);
+      // console.log(response);
       Store.dispatchAction(act,response);
     }
 
     let error = (response:any) => {
       console.log('ComService: error');
-      console.log(response);
+      // console.log(response);
       let message = response ? response : {
         error: 'request_error',
         message: req.uri + ' failed to load'
@@ -69,9 +70,7 @@ export class Comservices{
       this.get(
         postage.url, success, this.errors
       );
-
     }
-
   }
 
   //POST | PUT | DELETE @NOTE Build out others as needed
@@ -104,7 +103,7 @@ export class Comservices{
     this.connect.send({
       url: url,
       type: 'GET',
-      data: null, // 8^) looking into this
+      data: null,
       header_type: 'json'
     },this.packager, error);
   }
@@ -120,8 +119,8 @@ export class Comservices{
    * @return
    */
   private packager = (data:any) => {
-    // console.log(data);
-    let boxed = typeof data === 'object' ? data : JSON.parse(data);
+    let validate = new Validation({},{})
+    let boxed = validate.isJson(data) ? JSON.parse(data) : data;
     return this.forward(boxed);
   }
 

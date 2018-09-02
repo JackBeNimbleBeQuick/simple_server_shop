@@ -1,7 +1,10 @@
 
-import {readFileSync} from 'fs';
 import * as path from 'path';
+import {readFileSync} from 'fs';
 import site from './private.cnf';
+
+console.log(path);
+
 
 //dump objec to support context usage
 let account = {

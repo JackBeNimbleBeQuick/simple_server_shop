@@ -74,7 +74,6 @@ class FormLoader extends React.Component <any, any > {
     }
   }
 
-
   constructor(props:any){
     super(props);
     this.state = {

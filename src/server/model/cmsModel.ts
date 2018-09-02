@@ -163,17 +163,6 @@ export class CMSModel {
           pw: {
             type:String,
             required: 'Password required',
-            meta:{
-              form: {
-                validators:['password','required'],
-                filters:[],
-                label: 'Password',
-                type: 'password',
-                attributes:{
-                  autocomplete: 'on',
-                },
-              },
-            },
           },
         },
 
@@ -313,7 +302,7 @@ export class CMSModel {
 
     let checker = new promise( (resolve:any ,reject:any) => {
       this.repo('Login').find({$or:[{email: _login},{login: _login}]}, (err:any, login: any)=>{
-        if(!login || login.length === 0 ) throw 'no_record';
+        // if(!login || login.length === 0 ) throw 'no_record';
         login.length ? resolve(login[0]) : resolve(login);
       });
     })
@@ -344,7 +333,7 @@ export class CMSModel {
     })
 
     loginSearch.then( (login:any) => {
-      if(!login || login.length === 0 ) throw 'no_record';
+      // if(!login || login.length === 0 ) throw 'no_record';
       return login.length ? success(login[0]) : success(login);
     }).catch((err)=>{
       if(err) console.log(`ERROR login search ${err}`);
@@ -390,7 +379,7 @@ export class CMSModel {
         let id = loginPerson.person._id;
         let range = Filters.randomRange(128,200);
         let nKey = Filters.generateKey(range);
-        people.update({_id: id},{resetKey: nKey},(err:any, ok:any)=>{
+        people.updateOne({_id: id},{resetKey: nKey},(err:any, ok:any)=>{
           if(!err && respond){
             respond({
               person: person,

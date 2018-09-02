@@ -42,7 +42,7 @@ export class AppController{
   }
 
   public getApp = (req: Request, res:Response) => {
-    console.log(req);
+    // console.log(req);
   }
 
   public getShopData = (req: Request, res:Response) => {

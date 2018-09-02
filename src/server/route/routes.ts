@@ -80,6 +80,9 @@ export class Routes{
     this.app.route('/reset')
       .post(this.acc.reset)
 
+    this.app.route('/activate')
+      .post(this.acc.activate)
+
     this.app.route('/validation')
       .post(this.acc.validation)
 

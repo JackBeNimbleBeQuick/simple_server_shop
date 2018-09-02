@@ -16,6 +16,7 @@ let icon =  `<img alt="${org}" src="${url}${cnf.media.icon}" />`;
 let defaults ={
   //base
   link: {
+    email: '_reset/',
     reset: '_reset/'
   },
   name: ``,
@@ -35,7 +36,10 @@ export default {
     </p>
 
     <p>
-    Please confirm with this link ${defaults.link}
+    Please confirm with this link&nbsp;
+      <a href="${url}${defaults.link.email}__KEY__">
+       confirm email
+      </a>
     </p>
 
     <blockquote>
@@ -79,8 +83,8 @@ export default {
     </p>
 
     <p>
-    To confirm this reset please use this link
-      <a href="${url}${defaults.link.reset}__KEY__}">
+    To confirm this reset please use this link&nbsp;&nbsp;
+      <a href="${url}${defaults.link.reset}__KEY__">
         account reset
       </a>
     </p>

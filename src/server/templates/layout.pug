@@ -28,26 +28,26 @@ html
     footer
       div= footer
       
-      script.
+    script.
+    
+      //@NOTE there is a Chrome bug where this does not always
+      // hold true :. this will be moved into a component
+      window.addEventListener('online', status);
+      window.addEventListener('offline', status);
+      window.addEventListener('error', status);
       
-        //@NOTE there is a Chrome bug where this does not always
-        // hold true :. this will be moved into a component
-        window.addEventListener('online', status);
-        window.addEventListener('offline', status);
-        window.addEventListener('error', status);
+      var button = document.createElement('button');
+      document.body.prepend(button);
+      status();
+      
+      function status(){
+        button.setAttribute('class', 'online on');
+        button.innerHTML = 'on line';
         
-        var button = document.createElement('button');
-        document.body.prepend(button);
-        status();
-        
-        function status(){
-          button.setAttribute('class', 'online on');
-          button.innerHTML = 'on line';
-          
-          if (navigator && navigator.onLine===false){
-            button.setAttribute('class', 'online off');
-            button.innerHTML = 'off line';
-          }
+        if (navigator && navigator.onLine===false){
+          button.setAttribute('class', 'online off');
+          button.innerHTML = 'off line';
         }
+      }
       
     block scripts

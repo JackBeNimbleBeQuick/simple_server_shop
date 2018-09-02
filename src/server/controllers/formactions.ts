@@ -78,21 +78,17 @@ export class FormActions{
   public formData = (type:string, token?: string) => {
     let submitLabel = 'Submit';
 
-    let action:string = '/register';
-
     //NOTE determine request type on GET
     //NOTE initialize data object
     let data:any = {};
     data.hasData = false;
 
     switch(type){
-      case 'applets':
-
-       break;
       case 'register':
+        data = this.extractForm('Person');
         data.action = '/register';
         data.submitLabel = 'Create account';
-        data = this.extractForm('Person');
+        data.token = token;
         data.form.push({
           name: 'email',
           type: 'email',
@@ -141,18 +137,33 @@ export class FormActions{
         break;
 
       case 'login':
+        data = this.extractForm('Login');
         data.action = '/login';
         data.submitLabel = 'Login';
-        data = this.extractForm('Login');
+
+        data.form.push({
+          name: 'login',
+          type: 'text',
+          label: 'Login (optional)',
+          autocomplete: 'additional-name',
+        });
+
+        data.form.push({
+          name: 'password',
+          type: 'password',
+          label: 'Password',
+          autocomplete: 'off',
+        });
+
         data.validators['login'] = ['required'];
         data.filters['login'] = [];
         data.hasData = true;
         break;
 
       case 'resetPassword':
-        data.action = '/reset_password';
-        data.submitLabel = 'Reset';
         data = this.extractForm('Login');
+        data.action = '/activate';
+        data.submitLabel = 'Reset';
 
         data.form.push({
           name: 'password',
@@ -171,15 +182,14 @@ export class FormActions{
         data.validators['password'] = ['required','password'];
         data.validators['confirm_password'] = ['match.password','required'];
 
-        data.filters['login'] = [];
+        data.filters['password'] = [];
         data.hasData = true;
         break;
 
       case 'reset':
+        data = this.extractForm('Login',/(pw)/);
         data.action = '/reset';
         data.submitLabel = 'Reset account';
-        data = this.extractForm('Login',/(pw)/);
-
 
         data.form.push({
           name: 'login',
@@ -187,7 +197,6 @@ export class FormActions{
           label: 'Login',
           autocomplete: 'off',
         });
-
 
         data.validators['login'] = ['required'];
         data.filters['login'] = [];

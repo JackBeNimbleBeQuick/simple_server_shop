@@ -91,22 +91,6 @@
       }
     }
   }
-  .meter{
-    bottom: -15px;
-    border: 1pt solid rgba(169,169,169, .5);
-    height: 5pt;
-    position: absolute;
-    width: 69%;
-    .status{
-      background-color: red;
-      height: 2pt;
-      left: 1pt;
-      position: relative;
-      top: 1pt;
-      transition: 0.75s all ease-in;
-      width: 0.5%;
-    }
-  }
   .down-tab{
     @include fadedBG(0,0.9);
     bottom: 0;
@@ -128,5 +112,9 @@
     &.offset-5{
       left: 5em;
     }
+  }
+  form{
+    width: 160pt;
+    padding: 0 1em 0 0;
   }
 }

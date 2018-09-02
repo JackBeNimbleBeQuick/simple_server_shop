@@ -20,8 +20,8 @@ export class Repository{
   }
 
   //@NOTE needed to relax as mongoose.Types.ObjectId is problematic
-  public update = (_id: Object, item: any, callback: (error: any, result: any) => void) => {
-    this._model.update({ _id: _id }, item, callback);
+  public updateOne = (_id: Object, item: any, callback: (error: any, result: any) => void) => {
+    this._model.updateOne({ _id: _id }, item, callback);
   }
 
   public delete = (_id: string, callback: (error: any, result: any) => void) => {

@@ -64,6 +64,18 @@ html {
 ul.row li {
   display: inline-table; }
 
+a.button {
+  border: 1px solid #8f8f8f;
+  border-radius: 5pt;
+  background-color: rgba(169, 169, 169, 0.2);
+  color: #fff;
+  display: inline-block;
+  float: left;
+  font-size: 0.8em;
+  margin: 0.5em;
+  padding: 0.15em 0.5em;
+  width: auto; }
+
 button {
   cursor: pointer;
   user-select: none; }
@@ -479,22 +491,42 @@ blockquote, q {
     opacity: 1; } }
 
 .bg-block form {
-  min-width: 80%;
   margin: auto;
   position: relative;
   z-index: 1000; }
 
 form {
   position: relative;
-  overflow: auto; }
+  overflow: auto;
+  width: 200pt; }
   form .field {
     margin: 1.5em 0 1em;
     position: relative;
-    width: 70%; }
+    transition: 0.5s all ease-in-out; }
+    form .field:focus label, form .field:hover label {
+      bottom: 100%;
+      font-size: 0.65em;
+      opacity: 0.5;
+      padding: 3pt 0 3pt 0; }
     form .field .errors .error {
       width: 95%; }
+    form .field .meter {
+      bottom: -15px;
+      border: 1pt solid rgba(169, 169, 169, 0.5);
+      height: 5pt;
+      position: absolute;
+      width: 69%; }
+      form .field .meter .status {
+        background-color: red;
+        height: 2pt;
+        left: 1pt;
+        position: relative;
+        top: 1pt;
+        transition: 0.75s all ease-in;
+        width: 0.5%; }
     form .field label {
       bottom: 0;
+      color: #fff;
       padding: 3pt 0 3pt 10pt;
       position: absolute;
       transition: 0.5s all ease-in-out; }
@@ -532,6 +564,19 @@ form {
     margin: 0;
     float: left; }
 
+.accounts .response {
+  background-color: #fff;
+  border: 1px solid #8f8f8f;
+  border-radius: 3pt;
+  padding: 0.5em; }
+  .accounts .response a {
+    color: #8f8f8f; }
+  .accounts .response img {
+    float: right;
+    width: 50pt; }
+  .accounts .response blockquote {
+    margin: 0.5em; }
+
 /** expander component part styles
 @TODO provide build reference tagging for packageing compile styles into
 each component to maintain full component architecture
@@ -567,7 +612,7 @@ each component to maintain full component architecture
     .bg-block .closer.open .icon {
       color: #27AE60; }
   .bg-block .presentation-box {
-    margin: 0 8%;
+    margin: 0 auto;
     overflow: visible;
     position: relative;
     top: 12.5%;

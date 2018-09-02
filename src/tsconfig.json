@@ -12,10 +12,14 @@
     "allowJs": true,
     "sourceMap": true,
     "baseUrl": "",
-    "typeRoots": ["server/server.interface.d.ts"],
+    "typeRoots": [
+      "server/server.interface.d.ts",
+      "clients/lib/interfaces/shop.interface.d.ts",
+      "clients/public/lib/handlers/index.d.ts"
+    ],
     "paths":{
-      "clients/*": ["clients/*"],
-      "server/*": ["server/*"]
+      "clients": ["clients/*"],
+      "server": ["server/*"]
     },
   },
   "files" : [

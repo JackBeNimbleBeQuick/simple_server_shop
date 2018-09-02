@@ -6,6 +6,9 @@ div.accounts
     
       if part.p
         p= part.p
+        
+      if part.a
+        a(href= part.a.href ari-label= part.a.label class= part.a.class)= part.a.label
   
       if part.blockquote
         blockquote= part.blockquote

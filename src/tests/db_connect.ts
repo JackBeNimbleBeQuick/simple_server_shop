@@ -7,6 +7,7 @@ import cnf from '../server/config/connect.cnf';
 import CMSModel from '../server/model/cmsModel';
 import {Repository} from '../server/model/repository';
 
+
 export class DBConnect {
 
   //@TODO provide correct typings for these as needed
@@ -29,7 +30,7 @@ export class DBConnect {
   public sessionStart = (cb?:Function):any => {
     if(this.connection) return this.connection;
 
-      return mongoose.connect(cnf.tests.mongoUrl, cnf.tests.mongoOptions, (err:any)=>{
+      return mongoose.connect(cnf.tests.mongoUrl, {}, (err:any)=>{
         if(cb){
           // return this.connection;
           return cb()

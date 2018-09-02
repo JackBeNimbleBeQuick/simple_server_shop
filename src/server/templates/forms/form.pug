@@ -1,10 +1,11 @@
 
 
-form(method="POST" action= action)
+form(method="POST" action= action data-validators= JSON.stringify(formSpec.validators)  data-result= result)
 
   div.list
 
     input(type="hidden" name="_csrf" value= token )
+    
     each part in formSpec
       
       if part.type == 'text'
@@ -46,3 +47,6 @@ form(method="POST" action= action)
           
   input(type="submit", name= "submit", value= submitLabel)
       
+
+block scripts
+  script(src="/public/js/app.js", async='async')

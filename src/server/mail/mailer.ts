@@ -257,6 +257,7 @@ export class Mailer{
 
       env.subject = env.subject.replace(needle, replacement);
       env.body    = env.body.replace(needle, replacement);
+      // console.log(env);
     }
 
     return env;

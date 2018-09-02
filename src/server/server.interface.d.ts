@@ -1,5 +1,5 @@
-declare module MemoryStore{
 
+declare module MemoryStore{
 }
 
 interface shopApp{

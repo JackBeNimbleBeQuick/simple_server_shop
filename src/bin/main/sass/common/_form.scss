@@ -1,7 +1,6 @@
 
 .bg-block{
   form{
-    min-width: 80%;
     margin: auto;
     position: relative;
     z-index: 1000;
@@ -11,21 +10,49 @@
 form{
   position: relative;
   overflow: auto;
+  width: 200pt;
 
   .field{
     margin: 1.5em 0 1em;
     position: relative;
-    width: 70%;
+    transition: 0.5s all ease-in-out;
+    &:focus,
+    &:hover{
+      label{
+        bottom:100%;
+        font-size: 0.65em;
+        opacity: 0.5;
+        padding: 3pt 0 3pt 0;
+      }
+    }
     .errors{
       .error{
         width: 95%;
       }
     }
+    .meter{
+      bottom: -15px;
+      border: 1pt solid rgba(169,169,169, .5);
+      height: 5pt;
+      position: absolute;
+      width: 69%;
+      .status{
+        background-color: red;
+        height: 2pt;
+        left: 1pt;
+        position: relative;
+        top: 1pt;
+        transition: 0.75s all ease-in;
+        width: 0.5%;
+      }
+    }
     label{
       bottom:0;
+      color: $white;
       padding: 3pt 0 3pt 10pt;
       position: absolute;
       transition: 0.5s all ease-in-out;
+
     }
     .boundary{
       position: relative;
@@ -69,5 +96,23 @@ form{
     color: $white;
     margin: 0;
     float: left;
+  }
+}
+.accounts{
+  .response{
+    background-color: $white;
+    border: 1px solid $grey;
+    border-radius: 3pt;
+    padding: 0.5em;
+    a{
+      color: $grey;
+    }
+    img{
+      float: right;
+      width: 50pt;
+    }
+    blockquote{
+      margin: 0.5em;
+    }
   }
 }

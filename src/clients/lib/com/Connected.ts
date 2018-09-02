@@ -33,6 +33,8 @@ export class Connected{
 
   public send = (postage:postage, success:Function, failure:Function) => {
 
+    let data = postage.data ? postage.data : '';
+
     this.xhr.timeout = postage.wait ? postage.wait : 500;
 
     this.xhr.open(this.getType(postage), postage.url , true);
@@ -51,7 +53,7 @@ export class Connected{
 				}
       }
     }
-    xhr_.send(postage.data);
+    xhr_.send(data);
   }
 
   /**
@@ -77,8 +79,9 @@ export class Connected{
 
     let csrf = data && data.data &&  data.data._csrf;
 
-    let type = post['header_type'] ? post['header_type'] : '';
+    let type = post['header_type'] ? post['header_type'] : 'json';
 
+    // console.log(`Connected: settting csrf: ${csrf}`);
     if(csrf){
     	this.xhr.setRequestHeader("csrf-token",csrf);
     }

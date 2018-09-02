@@ -53,7 +53,7 @@ export class Validate{
 
 
   public validators = (schema:mongoose.Schema) => {
-    console.log(schema);
+    // console.log(schema);
     for(let name in schema){
       if(schema[name].meta){
         let meta = schema[name].meta;

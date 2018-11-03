@@ -500,7 +500,7 @@ form {
   overflow: auto;
   width: 200pt; }
   form .field {
-    margin: 1.5em 0 1em;
+    margin: 2em 0 1em;
     position: relative;
     transition: 0.5s all ease-in-out; }
     form .field:focus label, form .field:hover label {

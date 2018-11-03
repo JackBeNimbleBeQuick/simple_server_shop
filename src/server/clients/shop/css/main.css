@@ -196,9 +196,10 @@ each component to maintain full component architecture
     transform: translateY(-200%); }
   .form-loader .response,
   .login .response {
+    color: #8f8f8f;
     font-size: 0.75em;
-    margin: 1em;
-    width: 80%; }
+    margin: 1em 0;
+    width: 75%; }
     .form-loader .response div,
     .form-loader .response p,
     .login .response div,
@@ -313,9 +314,10 @@ each component to maintain full component architecture
     transform: translateY(-200%); }
   .form-loader .response,
   .login .response {
+    color: #8f8f8f;
     font-size: 0.75em;
-    margin: 1em;
-    width: 80%; }
+    margin: 1em 0;
+    width: 75%; }
     .form-loader .response div,
     .form-loader .response p,
     .login .response div,

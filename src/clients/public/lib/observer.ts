@@ -1,5 +1,5 @@
 
-///<reference path="../interface/class.d.ts" />
+///<reference path="../interface/index.d.ts" />
 
 /**
  * Class to act as agregator of Subjects and Observers
@@ -10,12 +10,17 @@
  */
 export class Observer implements observer{
 
-  construtor(){}
+  private name: string;
 
-  public update = (subject:any) =>{
+  constructor(name:string){
+    this.name = name;
   }
 
+  public update = (subject:subject, state:any) =>{
+  }
+
+  public getName = () => {
+    return this.name;
+  }
 
 }
-
-export default new Observer();

@@ -13,9 +13,10 @@
     transform: translateY(-200%);
   }
   .response{
+    color: $grey;
     font-size: 0.75em;
-    margin: 1em;
-    width: 80%;
+    margin: 1em 0;
+    width: 75%;
     div,
     p{
       margin: 3pt 0;

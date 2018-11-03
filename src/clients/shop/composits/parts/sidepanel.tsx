@@ -84,7 +84,7 @@ export class SidePanel extends React.Component<any,any>{
     console.log(e);
   }
 
-  selectFromShoping = (e:any) => {
+  selectFromShopping = (e:any) => {
     console.log(e);
   }
   /** Stubs for future functionality END**/

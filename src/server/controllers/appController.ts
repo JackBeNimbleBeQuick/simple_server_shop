@@ -39,6 +39,7 @@ export class AppController{
         console.log('Client requesting news');
         break;
     }
+
   }
 
   public getApp = (req: Request, res:Response) => {

@@ -40,7 +40,6 @@ export class FormsController{
 
     //@NOTE annoying unable use method for common Response settings
     res.set('Content-Type', 'application/json');
-    res.set('Service-Worker-Allowed', '/');
     res.write(JSON.stringify(boxed));
     res.end();
 

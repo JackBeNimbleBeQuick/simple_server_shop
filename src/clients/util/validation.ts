@@ -111,9 +111,11 @@ export class Validation{
 
   }
 
-  constructor(connector:any , repo: any){
-    this.connector = connector;
-    this.repo = repo;
+  constructor(connector?:any , repo?: any){
+    if(connector && repo){
+      this.connector = connector;
+      this.repo = repo;
+    }
   }
 
   public isJson = (json:string | Object) => {

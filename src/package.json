@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ts-node server/server.ts",
     "inspect": "node --inspect -r ts-node/register server/server.ts",
-    "preinstall": "sudo npm install --unsafe-perm -g ts-node ts-node-dev node-sass cpx webpack webpack-cli",
+    "preinstall": "npm install --unsafe-perm -g ts-node ts-node-dev node-sass cpx webpack webpack-cli",
     "build_db": "ts-node build_local_db_image_support.ts",
     "sw": "ts-node create_cache.ts &",
     "css_main": "node-sass ./bin/main/sass/main.scss -o server/public/css",
@@ -99,7 +99,7 @@
     "svg-captcha": "^1.3.11",
     "ts-node": "^7.0.1",
     "typesafe-actions": "^2.0.4",
-    "typescript": "^3.0.1",
+    "typescript": "^3.1.4",
     "validator": "^10.6.0",
     "zxcvbn": "^4.4.2"
   },

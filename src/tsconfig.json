@@ -20,11 +20,11 @@
     "paths":{
       "clients": ["clients/*"],
       "server": ["server/*"]
-    },
+    }
   },
   "files" : [
     "clients/shop/main.tsx",
-    "server/server.ts",
+    "server/server.ts"
   ],
   "filesGlob":[
     "**/*.js",
@@ -41,6 +41,6 @@
   ],
   "include" : [
     "clients/**/*",
-    "server/**/*",
+    "server/**/*"
   ]
 }

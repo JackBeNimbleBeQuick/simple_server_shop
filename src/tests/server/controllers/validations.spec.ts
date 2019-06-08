@@ -166,7 +166,6 @@ describe('validators: test batch processing', ()=>{
       let _expect = reg.expect;
       let _tag = `${reg.fname}: login: ${reg.login} email: ${reg.email}`
 
-
       validate.batch(validators, reg, (result) => {
         console.log(_tag);
         console.log(`Expected isValid: ${result.isValid}`);

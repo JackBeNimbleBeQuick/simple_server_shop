@@ -65,7 +65,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/validator": "^9.4.1",
     "@types/webappsec-credential-management": "^0.3.5",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",

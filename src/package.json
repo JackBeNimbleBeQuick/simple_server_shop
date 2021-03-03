@@ -85,7 +85,7 @@
     "node-ts": "^2.1.2",
     "nodemailer": "^4.6.8",
     "path": "^0.12.7",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "react-redux": "^5.0.7",
     "request-promise-core": "^1.1.1",
     "requirejs": "^2.3.6",

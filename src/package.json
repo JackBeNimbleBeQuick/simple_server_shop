@@ -91,7 +91,7 @@
     "requirejs": "^2.3.6",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
-    "sanitize-html": "^1.18.4",
+    "sanitize-html": "^2.3.2",
     "serve-favicon": "^2.5.0",
     "smtp-connection": "^4.0.2",
     "socket.io": "^2.4.0",

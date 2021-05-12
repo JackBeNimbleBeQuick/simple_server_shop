@@ -83,7 +83,7 @@
     "mongoose": "^5.7.5",
     "mongoose-validator": "^2.1.0",
     "node-ts": "^2.1.2",
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^6.4.16",
     "path": "^0.12.7",
     "pug": "^3.0.1",
     "react-redux": "^5.0.7",

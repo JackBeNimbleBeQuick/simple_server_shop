@@ -78,7 +78,7 @@
     "fs": "0.0.1-security",
     "helmet": "^3.13.0",
     "html-react-parser": "^0.4.6",
-    "html-to-text": "^4.0.0",
+    "html-to-text": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^5.7.5",
     "mongoose-validator": "^2.1.0",

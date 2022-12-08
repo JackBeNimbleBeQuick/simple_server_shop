@@ -122,7 +122,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-test-renderer": "^16.14.0",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "sass-loader": "^7.1.0",
     "should": "^13.2.3",
     "source-map-loader": "^0.2.4",
